@@ -7,6 +7,7 @@ use AppBundle\Form\DataTransformer\PrayerTransformer;
 use AppBundle\Service\PrayerTime;
 use Meezaan\PrayerTimes\PrayerTimes;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -28,11 +29,6 @@ class ConfigurationType extends AbstractType
 {
 
     /**
-     * @var Translator
-     */
-    private $translator;
-
-    /**
      * @var Array
      */
     private static $DST = [
@@ -40,14 +36,16 @@ class ConfigurationType extends AbstractType
         "dst-disabled" => 0,
         "dst-enabled" => 1
     ];
-
     /**
      * @var Array
      */
     private static $THEMES = [
-        "mawaqit", "spring", "summer", "autumn", "winter"
+        "mawaqit",
+        "spring",
+        "summer",
+        "autumn",
+        "winter"
     ];
-
     /**
      * @var Array
      */
@@ -58,6 +56,10 @@ class ConfigurationType extends AbstractType
         "asr-maghrib" => "2-3",
         "maghrib-isha" => "3-4"
     ];
+    /**
+     * @var Translator
+     */
+    private $translator;
 
     public function __construct(TranslatorInterface $translator)
     {
@@ -408,9 +410,7 @@ class ConfigurationType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary',
                 ]
-            ])
-
-            /*->addEventListener(FormEvents::SUBMIT, array($this, 'onPostSetData'))*/
+            ])/*->addEventListener(FormEvents::SUBMIT, array($this, 'onPostSetData'))*/
         ;
 
         /*$builder->get('calendar')->addModelTransformer(new JsonTransformer());
@@ -421,6 +421,31 @@ class ConfigurationType extends AbstractType
         $builder->get('fixedTimes')->addModelTransformer(new PrayerTransformer());
         $builder->get('fixedIqama')->addModelTransformer(new PrayerTransformer());
         $builder->get('duaAfterPrayerShowTimes')->addModelTransformer(new PrayerTransformer());
+
+        $builder->get('calendar')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($tagsAsArray) {
+                    // transform the array to a string
+                    return json_encode($tagsAsArray);
+                },
+                function ($tagsAsString) {
+                    // transform the string back to an array
+                    return json_decode($tagsAsString, true);
+                }
+            ));
+
+        $builder->get('iqamaCalendar')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($tagsAsArray) {
+                    // transform the array to a string
+                    return json_encode($tagsAsArray);
+                },
+                function ($tagsAsString) {
+                    // transform the string back to an array
+                    return json_decode($tagsAsString, true);
+                }
+            ));
+
     }
 
     /**

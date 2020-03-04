@@ -878,9 +878,9 @@ class Configuration
      * Get calendar
      * @return array
      */
-    public function getCalendar(): array
+    public function getCalendar()
     {
-        return $this->calendar;
+        return json_decode($this->calendar, true);
     }
 
     /**
@@ -890,7 +890,7 @@ class Configuration
      *
      * @return Configuration
      */
-    public function setCalendar(array $calendar)
+    public function setCalendar($calendar)
     {
         $this->calendar = $calendar;
 
@@ -900,15 +900,15 @@ class Configuration
     /**
      * @return array
      */
-    public function getIqamaCalendar(): array
+    public function getIqamaCalendar()
     {
-        return $this->iqamaCalendar;
+        return json_decode($this->iqamaCalendar, true);
     }
 
     /**
      * @param array $iqamaCalendar
      */
-    public function setIqamaCalendar(array $iqamaCalendar): void
+    public function setIqamaCalendar($iqamaCalendar): void
     {
         $this->iqamaCalendar = $iqamaCalendar;
     }
