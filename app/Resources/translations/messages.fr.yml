@@ -869,9 +869,11 @@ selectLanguage: Sélectionner une langue
 language: Langue
 languages: Langues
 
+error403: Hum! vous essayez d'accéder sur une page dont vous n'avez pas les droits
 error404: La page que vous cherchez n'existe pas!
 error500: Désolé, une erreur est survenue!
-error403: Hum! vous essayez d'accéder sur une page dont vous n'avez pas les droits
+error503: Désolé, cette mosquée n'est pas accessible pour le moment
+
 goHome: Page d'accueil
 contactUs: Contactez-nous
 type: Type

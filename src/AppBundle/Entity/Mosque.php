@@ -52,6 +52,11 @@ class Mosque
         self::STATUS_WATCHED
     ];
 
+    const RESTRICTED_STATUSES = [
+        self::STATUS_VALIDATED,
+        self::STATUS_WATCHED
+    ];
+
     const SUSPENSION_REASON_MOSQUE_CLOSED = "mosque_closed";
     const SUSPENSION_REASON_MOSQUE_PRAYER_TIMES_INCORRECT = "prayer_times_not_correct";
     const SUSPENSION_REASON_MISSING_PHOTO = "missing_photo";
@@ -1106,6 +1111,27 @@ class Mosque
     public function isAccessible()
     {
         return in_array($this->status, self::ACCESSIBLE_STATUSES);
+    }
+
+    /**
+     * Check if not accessible for mobile ans widget
+     * @return bool
+     */
+    public function isMobileBlocked()
+    {
+        if (!$this->isMosque()){
+            return false;
+        }
+
+        if ($this->getCreated()->format("Y-m-d") < Mosque::STARTDATE_CHECKING_PHOTO) {
+            return false;
+        }
+
+        if (empty($this->getImage3())) {
+            return true;
+        }
+
+        return false;
     }
 
     public function isValidated()

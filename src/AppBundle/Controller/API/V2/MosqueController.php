@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\API\V2;
 
 use AppBundle\Entity\Mosque;
+use AppBundle\Exception\MobileBlockedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
@@ -74,6 +75,10 @@ class MosqueController extends Controller
 
         if (!$mosque->isMosque()) {
             throw new NotFoundHttpException();
+        }
+
+        if ($mosque->isMobileBlocked()) {
+            throw new MobileBlockedException();
         }
 
         if ($request->query->has('updatedAt')) {

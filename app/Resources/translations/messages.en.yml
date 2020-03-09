@@ -818,9 +818,11 @@ selectLanguage: Select a language
 language: Language
 languages: Languages
 
+error403: Hum! you are trying to access a page that you do not have rights to
 error404: The requested page is not found!
 error500: Sorry, an error has occured !
-error403: Hum! you are trying to access a page that you do not have rights to
+error503: Sorry, this mosque is unavailable for the moment
+
 goHome: Go home
 contactUs: Conact-us
 type: Type
