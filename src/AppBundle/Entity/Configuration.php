@@ -283,7 +283,7 @@ class Configuration
      * @var string
      * @Groups({"screen"})
      */
-    private $backgroundColor = "#000000";
+    private $backgroundColor = "#151515";
 
     /**
      * @var string
