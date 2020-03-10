@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Mosque;
-use AppBundle\Exception\MobileBlockedException;
 use AppBundle\Form\MosqueSyncType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
@@ -118,12 +117,11 @@ class MosqueController extends Controller
      * @param Mosque                 $mosque
      *
      * @return Response
-     * @throws MobileBlockedException
      */
     public function mosqueMobileAction(EntityManagerInterface $em, Request $request, Mosque $mosque)
     {
         if ($mosque->isMobileBlocked()) {
-            throw new MobileBlockedException();
+            return $this->forward("AppBundle:Mosque:blocked");
         }
 
         $response = new Response();
@@ -152,18 +150,22 @@ class MosqueController extends Controller
      * @param Mosque $mosque
      *
      * @return Response
-     * @throws MobileBlockedException
      */
     public function mosqueWidgetAction(Mosque $mosque)
     {
         if ($mosque->isMobileBlocked()) {
-            throw new MobileBlockedException();
+            return $this->forward("AppBundle:Mosque:blocked");
         }
 
         return $this->render("mosque/widget.html.twig", [
             'mawaqitApiAccessToken' => $this->getParameter("mawaqit_api_access_token"),
             'mosque' => $mosque
         ]);
+    }
+
+    public function blockedAction()
+    {
+        return $this->render("mosque/blocked.html.twig");
     }
 
     /**

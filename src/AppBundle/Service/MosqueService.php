@@ -230,7 +230,7 @@ class MosqueService
 
     public function elasticDelete(Mosque $mosque)
     {
-        if (!$mosque->isElasticIndexable()) {
+        if (!$mosque->isMosque()) {
             return;
         }
 
