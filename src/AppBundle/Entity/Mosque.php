@@ -290,7 +290,7 @@ class Mosque
     /**
      * @var array
      */
-    private $similar;
+    private $similar = [];
 
     public function __construct()
     {
