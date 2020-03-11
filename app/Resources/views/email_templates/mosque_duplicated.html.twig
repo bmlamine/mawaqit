@@ -3,22 +3,35 @@
     <div>
         <p>
             Essalamu alaykum wa rahmatu allahi wa barakatuh<br/>
-            Vous avez récemment ajouté la mosquée "<strong>{{ mosque.title }}</strong>" située au {{ mosque.localisation }}<br/>
+            Vous avez récemment ajouté la mosquée "<strong>{{ mosque.title }}</strong>" située
+            au {{ mosque.localisation }}<br/>
             Après vérification, nous constatons que cette mosquée existe déjà sur mawaqit<br/>
         </p>
         <p>
             Pourriez-vous svp nous préciser s'il s'agît d'une installation à domicile ou d'une vraie mosquée,
             auquel cas nous vous invitons à nous donner plus d'informations sur la mosquée
             (une facture d'électricité/eau/tél...)<br/>
+        </p>
+        <p>
+            Veuillez nous contacter au plus vite par message whatsapp au <b>0033612972467</b> (indiquez l'id
+            <b>{{ mosque.id }}</b> de votre mosquée)
+        </p>
+        <p>
             Sans réponse de votre part dans un délai de deux semaines, la mosquée sera automatiquement supprimée.<br/>
             Barak Allahu fik et merci pour votre compréhension <br/>
         </p>
+
         <hr>
         <p>
-             Essalamu alaykum wa rahmatu allahi wa barakatuh <br/>
-             You recently added the "<strong>{{ mosque.title }}</strong>" mosque located at {{ mosque.localisation }}<br/>
-             After checking, we find that this mosque already exists on mawaqit
-         </p>
+            Essalamu alaykum wa rahmatu allahi wa barakatuh <br/>
+            You recently added the "<strong>{{ mosque.title }}</strong>" mosque located at {{ mosque.localisation }}
+            <br/>
+            After checking, we find that this mosque already exists on mawaqit
+        </p>
+        <p>
+            Please contact us as soon as possible by whatsapp message at <b>0033612972467</b> (indicate the id
+            <b>{{ mosque.id }}</b> of your mosque)
+        </p>
         <p>Could you please tell us if it is a home installation or a real mosque, in which case we invite you to
             give us more information about the mosque (an electricity/water/phone bill...)<br/>
             If you do not answer within 2 weeks, the mosque will be automatically deleted.<br/>
@@ -37,6 +50,12 @@
         <p>
             لذا الرجاء مدنا
             في هذه الحالة بالمزيد من المعلومات عن المسجد، فاطورة كهرباء/ماء/هاتف...
+        </p>
+        <p>
+            يرجى الاتصال بنا في أقرب وقت ممكن عن طريق الواتساب على الرقم
+            <b>0033612972467</b>
+            عرِّف بِ id مسجدك
+            <b>{{ mosque.id }}</b>
         </p>
         <p>
             إذا لم يصلنا رد في غضون أسبوعين، يتم حذف المسجد تلقائيا.
