@@ -1113,25 +1113,38 @@ class Mosque
         return in_array($this->status, self::ACCESSIBLE_STATUSES);
     }
 
+    public function isElasticIndexable()
+    {
+        return $this->isMosque() && $this->isAccessibleForMobile();
+    }
+
     /**
-     * Check if not accessible for mobile ans widget
+     * Check if accessible for mobile ans widget
+     * Cond 1 : Must be a mosque
+     * Cond 2 : Must be validated
+     * Cond 3 : Created after Mosque::STARTDATE_CHECKING_PHOTO
+     * Cond 4 : The screen picture must be uploaded
      * @return bool
      */
-    public function isMobileBlocked()
+    public function isAccessibleForMobile()
     {
         if (!$this->isMosque()){
+            return true;
+        }
+
+        if(!$this->isValidated()){
             return false;
         }
 
         if ($this->getCreated()->format("Y-m-d") < Mosque::STARTDATE_CHECKING_PHOTO) {
-            return false;
-        }
-
-        if (empty($this->getImage3())) {
             return true;
         }
 
-        return false;
+        if (empty($this->getImage3())) {
+            return false;
+        }
+
+        return true;
     }
 
     public function isValidated()
@@ -1561,11 +1574,6 @@ class Mosque
     public function isMosque()
     {
         return $this->type === self::TYPE_MOSQUE;
-    }
-
-    public function isElasticIndexable()
-    {
-        return $this->isMosque() && $this->isValidated();
     }
 
     /**

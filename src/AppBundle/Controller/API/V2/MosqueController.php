@@ -72,11 +72,7 @@ class MosqueController extends Controller
     public function prayTimesAction(Request $request, Mosque $mosque)
     {
 
-        if (!$mosque->isAccessible()) {
-            throw new NotFoundHttpException();
-        }
-
-        if ($mosque->isMobileBlocked()) {
+        if (!$mosque->isAccessibleForMobile()) {
             throw new NotFoundHttpException();
         }
 

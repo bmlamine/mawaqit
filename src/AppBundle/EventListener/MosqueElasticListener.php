@@ -32,7 +32,8 @@ class MosqueElasticListener implements EventSubscriber
         MosqueService $mosqueService,
         EntityManagerInterface $em,
         RequestService $requestService
-    ) {
+    )
+    {
         $this->mosqueService = $mosqueService;
         $this->em = $em;
         $this->requestService = $requestService;
@@ -83,7 +84,14 @@ class MosqueElasticListener implements EventSubscriber
             }
         }
 
+        // Remove the mosque from ES if no longer indexable
+        if (!$entity->isElasticIndexable()) {
+            $this->mosqueService->elasticDelete($entity);
+            return;
+        }
+
         $this->mosqueService->elasticCreate($entity);
+
     }
 
 }
