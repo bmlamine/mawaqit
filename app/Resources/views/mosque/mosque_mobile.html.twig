@@ -146,6 +146,8 @@
                 {% if mosque.configuration.jumuaTime2 is not null %}
                     <div class="joumouaa2-id"></div>
                 {% endif %}
+            {% else %}
+                <div class="name">{{ 'noJumua'|trans|raw }}</div>
             {% endif %}
         </div>
         <div class="other">
