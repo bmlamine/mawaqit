@@ -58,8 +58,7 @@ class MosqueService
         PrayerTime $prayerTime,
         Client $elasticClient,
         LoggerInterface $logger
-    )
-    {
+    ) {
         $this->em = $em;
         $this->serializer = $serializer;
         $this->vichUploadHandler = $vichUploadHandler;
@@ -96,15 +95,16 @@ class MosqueService
      * @param string $word
      * @param string $lat
      * @param string $lon
-     * @param int $page
-     * @param int $size
-     * @param bool $stringify
+     * @param int    $page
+     * @param int    $size
+     * @param bool   $stringify
      *
      * @return array
      */
     public function search($word, $lat, $lon, int $page, int $size = 20, bool $stringify = false)
     {
-        $word = trim($word);
+        $word = $this->escapeElasticReservedChars(trim($word));
+
         if (strlen($word) < 2 && (empty($lat) || empty($lon))) {
             return [];
         }
@@ -379,6 +379,15 @@ class MosqueService
         }
 
         return [];
+    }
+
+    private function escapeElasticReservedChars($query)
+    {
+        return preg_replace(
+            '/[\\+\\-\\=\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\<\\>\\?\\:\\\\\\/]/',
+            addslashes('\\$0'),
+            $query
+        );
     }
 
     private function stringify(&$mosque)

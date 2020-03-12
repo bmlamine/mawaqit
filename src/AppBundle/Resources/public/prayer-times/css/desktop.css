@@ -89,6 +89,7 @@ small {
 .joumouaa, .custom-time {
     margin: 50px auto;
     font-size: 6vh;
+    width: 80%;
 }
 
 .joumouaa .prayer{

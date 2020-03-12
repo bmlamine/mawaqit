@@ -694,6 +694,7 @@ asr: العصر
 maghrib: المغرب
 isha: العشاء
 jumua: الجمعة
+noJumua: لا جمعة
 jumuaPrayer: صلاة الجمعة
 aid: صلاة العيد
 imsak: الإمساك

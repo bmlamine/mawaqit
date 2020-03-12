@@ -116,7 +116,8 @@
                 {% if isLocal() %}
                     {% if mosque.synchronized %}
                         <div class="settings" title="{{ 'form.configure.action'|trans }}">
-                            <a href="{{ path('mosque_index', {id: mosque.id}) }}"> <i class="glyphicon glyphicon-cog"></i></a>
+                            <a href="{{ path('mosque_index', {id: mosque.id}) }}"> <i
+                                        class="glyphicon glyphicon-cog"></i></a>
                         </div>
                     {% endif %}
 
@@ -217,6 +218,8 @@
                                 {% endif %}
                             </div>
                         </div>
+                    {% else %}
+                        <div class="joumouaa">{{ 'noJumua'|trans }}</div>
                     {% endif %}
                 </div>
 
@@ -311,7 +314,8 @@
 </div>
 
 {% if isLocal() and not mosque.synchronized %}
-    <div class="modal show text-{{ app.request.locale == 'ar' ? 'right' : 'left' }}" role="dialog" style="color: #000000">
+    <div class="modal show text-{{ app.request.locale == 'ar' ? 'right' : 'left' }}" role="dialog"
+         style="color: #000000">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form action="{{ path('mosque_sync', {id: mosque.id}) }}" method="post">

@@ -723,6 +723,7 @@ asr: '`Asr'
 maghrib: Maghrib
 isha: '`Isha'
 jumua: 'Jumu`a'
+noJumua: 'No jumu`a'
 jumuaPrayer: 'Salât al-Jumu`a'
 aid: 'Salât al-Aïd'
 imsak: Imsak
