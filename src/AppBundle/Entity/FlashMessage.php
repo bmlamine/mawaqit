@@ -69,7 +69,7 @@ class FlashMessage
      */
     public function setContent($content): FlashMessage
     {
-        $this->content = $content;
+        $this->content = preg_replace("/[\s\n]+/"," ", $content);
         return $this;
     }
 
