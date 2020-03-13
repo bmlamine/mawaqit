@@ -10,6 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * @Route("/api/1.0.0", options={"i18n"="false"})
@@ -50,6 +54,62 @@ class MosqueController extends Controller
             "uuid" => $mosque->getUuid(),
             "request" => $request,
         ]);
+    }
+
+    /**
+     * Get all data of mosque
+     * @Route("/mosque/{id}", name="mosque_data")
+     * @Method("GET")
+     *
+     * @param Mosque $mosque
+     *
+     * @return Response
+     * @deprecated to be removed after uploding the new image system
+     */
+    public function dataAction(Mosque $mosque)
+    {
+        if (!$mosque->isValidated()) {
+            throw new NotFoundHttpException();
+        }
+
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setIgnoredAttributes([
+            'user',
+            'id',
+            'uuid',
+            'created',
+            'updated',
+            'image1',
+            'image2',
+            'image3',
+            'localisation',
+            'justificatory',
+            'location',
+            "conf",
+            "enabledMessages",
+            "comments",
+            'nbOfEnabledMessages',
+            'calendarCompleted',
+            'gpsCoordinates',
+            'title',
+            'types',
+            'synchronized',
+            'slug',
+            'locale',
+            'status',
+            'url',
+            'flashMessage',
+            'messages',
+        ]);
+
+        $normalizer->setCircularReferenceHandler(function ($mosque) {
+            return $mosque->getId();
+        });
+
+        $serializer = new Serializer([new DateTimeNormalizer(), $normalizer], [new JsonEncoder()]);
+        $mosque->setSite($mosque->getUrl());
+        $result = $serializer->serialize($mosque, 'json');
+        return new Response($result, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
 
 }

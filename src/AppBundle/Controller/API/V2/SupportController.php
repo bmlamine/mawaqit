@@ -26,7 +26,7 @@ class SupportController extends Controller
      *
      * @return Response
      */
-    public function randomAction(Request $request, YamlLoader $yamlLoader)
+    public function supportAction(Request $request, YamlLoader $yamlLoader)
     {
         $country = $request->query->get("country", "OC");
 
@@ -39,8 +39,7 @@ class SupportController extends Controller
         $phone = array_rand($support[$country]);
 
         return new JsonResponse([
-
-            "mobileApp" => [
+            "mobile" => [
                 "whatsapp" => "whatsapp://send?phone=$phone",
             ],
             "web" => [
