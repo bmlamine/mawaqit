@@ -171,38 +171,21 @@
                                 <div class="col-md-4 form-group mt-1">
                                     <select id="whatsapp-select" class="form-control">
                                         <option value="">{{ 'home.text.contactUsSelectNumber'|trans }}</option>
-                                        <optgroup label="{{ 'FR'|country(app.request.locale) }}">
-                                            {#<option value="0033651061498">Mohammed</option>#}
-                                            <option value="0033629111641">Ibrahim</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'DZ'|country(app.request.locale) }}">
-                                            <option value="00213551720574">Mohammed</option>
-                                            <option value="00213559702939">Nabil</option>
-                                            <option value="00213559510662">Abd Elhak</option>
-                                            <option value="00213771365933">Djamel</option>
-                                            <option value="00213550282964">Mustapaha</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'MA'|country(app.request.locale) }}">
-                                            <option value="0033638159980">Yassine</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'DE'|country(app.request.locale) }}">
-                                            <option value="004917664781538">Salahaldeen</option>
-                                            <option value="004917683229377">Abdelatif</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'NL'|country(app.request.locale) }}">
-                                            <option value="0031624203464">Hichem</option>
-                                            <option value="0031622564650">Elhadi</option>
-                                            <option value="0031625300317">Mohammed</option>                                            
-                                        </optgroup>
-                                        <optgroup label="{{ 'IT'|country(app.request.locale) }}">
-                                            <option value="00393207729274">Youssef</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'ES'|country(app.request.locale) }}">
-                                            <option value="0034632059111">Khalifa</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'home.text.contactUsOtherCountry'|trans }}">
-                                            <option value="0033638159980">Yassine</option>
-                                        </optgroup>
+                                        {% for countryCode, phones in yamlLoader.support %}
+                                            {% if countryCode == 'OC' %}
+                                                <optgroup label="{{ 'home.text.contactUsOtherCountry'|trans }}">
+                                                    {% for phone, name in phones %}
+                                                        <option value="{{ phone }}">{{ name }}</option>
+                                                    {% endfor %}
+                                                </optgroup>
+                                            {% else %}
+                                                <optgroup label="{{ countryCode|country(app.request.locale) }}">
+                                                    {% for phone, name in phones %}
+                                                        <option value="{{ phone }}">{{ name }}</option>
+                                                    {% endfor %}
+                                                </optgroup>
+                                            {% endif %}
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>

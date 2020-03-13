@@ -11,6 +11,10 @@ services:
         resource: '../../src/AppBundle/Controller'
         tags: ['controller.service_arguments']
 
+    AppBundle\Service\YamlLoader:
+        arguments:
+            - "%kernel.root_dir%"
+
     AppBundle\EventListener\CommentListener:
         arguments:
             - "@security.token_storage"

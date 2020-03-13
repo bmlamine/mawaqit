@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @Route("/app")
  * @return JsonResponse
  */
-class AppController extends Controller
+class MobileAppController extends Controller
 {
     /**
      * @Route("/android/{mosque}/manifest", name="manifest", options={"i18n"="false"})
