@@ -164,37 +164,23 @@
                 </li>
                 <li>
                     {{ 'home.text.contactUsText2'|trans }}
-                    <ol>
-                        <li>
-                            <i class="fab fa-whatsapp"></i> {{ 'home.text.contactUsText3'|trans }}<br>
-                            <div class="row">
-                                <div class="col-md-4 form-group mt-1">
-                                    <select id="whatsapp-select" class="form-control">
-                                        <option value="">{{ 'home.text.contactUsSelectNumber'|trans }}</option>
-                                        {% for countryCode, phones in yamlLoader.support %}
-                                            {% if countryCode == 'OC' %}
-                                                <optgroup label="{{ 'home.text.contactUsOtherCountry'|trans }}">
-                                                    {% for phone, name in phones %}
-                                                        <option value="{{ phone }}">{{ name }}</option>
-                                                    {% endfor %}
-                                                </optgroup>
-                                            {% else %}
-                                                <optgroup label="{{ countryCode|country(app.request.locale) }}">
-                                                    {% for phone, name in phones %}
-                                                        <option value="{{ phone }}">{{ name }}</option>
-                                                    {% endfor %}
-                                                </optgroup>
-                                            {% endif %}
+
+                    <i class="fab fa-whatsapp"></i> {{ 'home.text.contactUsText3'|trans }}<br>
+                    <div class="row">
+                        <div class="col-md-4 form-group mt-1">
+                            <select id="whatsapp-select" class="form-control">
+                                <option value="">{{ 'home.text.contactUsSelectNumber'|trans }}</option>
+                                {% for countryCode, phones in yamlLoader.support %}
+                                    <optgroup label="{{ countryCode == 'OC' ? 'home.text.contactUsOtherCountry'|trans : countryCode|country(app.request.locale) }}">
+                                        {% for phone, name in phones %}
+                                            <option value="{{ phone }}">{{ name }}</option>
                                         {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div><a href="" id="whatsapp-phone"></a></div>
-                        </li>
-                        <li class="mt-2">
-                            <i class="fab fa-facebook-messenger"></i> {{ 'home.text.contactUsText4'|trans }}
-                        </li>
-                    </ol>
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div><a href="" id="whatsapp-phone" style="font-size: 2rem"></a></div>
                 </li>
             </ul>
         </div>
