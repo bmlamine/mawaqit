@@ -284,6 +284,7 @@ class PrayerTime
             'id' => $mosque->getId(),
             'name' => $mosque->getTitle(),
             'localisation' => $mosque->getLocalisation(),
+            'countryCode' => $mosque->getCountry(),
             'phone' => $mosque->getPhone(),
             'email' => $mosque->getEmail(),
             'site' => $mosque->getSite(),
