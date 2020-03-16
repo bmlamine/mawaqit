@@ -104,13 +104,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-8">
-                                {{ form_label(form.justificatoryFile) }}
-                                <div style="margin-bottom: 1rem">
+                                {{ form_row(form.justificatoryFile) }}
+                                <div style="margin-bottom: 2rem">
                                     <a href="/static/Arabic-mosque-letter.pdf" target="_blank">
                                         {{ 'mosque.form.justificatoryFile.model'|trans }}
                                     </a>
                                 </div>
-                                {{ form_widget(form.justificatoryFile) }}
                             </div>
                         </div>
                     </div>
