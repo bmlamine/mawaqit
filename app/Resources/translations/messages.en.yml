@@ -337,14 +337,15 @@ mosque:
         Add a document justifying the existence of the mosque (an electricity / water / telephone bill or other) this makes it easy for us to validate your mosque quickly
     file1:
       label: A photo of the mosque
-      help: A photo of good quality in landscape format (800x450 px minimum)
+      help: A photo of good quality in landscape format (800x450 px minimum). No face should appear on the photo.
     file2:
       label: An interior photo of the mosque
+      help: A photo of good quality in landscape format (800x450 px minimum). No face should appear on the photo.
     file3:
       label: A photo of the mawaqit screen
       help: |
-        The photo must be taken in the mosque in landscape format, we must be able to identify the name and the city
-        on the screen as well as part of the mosque, such as the minbar or the mihrab
+        The photo must be taken in the mosque in landscape format (800x450 px minimum), we must be able to identify the name and the city
+        on the screen as well as part of the mosque, such as the minbar or the mihrab. No face should appear on the photo.
     womenSpace:
       label: Space for women
     janazaPrayer:

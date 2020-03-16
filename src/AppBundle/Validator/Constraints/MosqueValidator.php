@@ -12,11 +12,11 @@ use Symfony\Component\Validator\ConstraintValidator;
 class MosqueValidator extends ConstraintValidator
 {
 
+    const MAX_DEFAULT_MOSQUE_QUOTA = 10;
     /**
      * @var TokenStorageInterface
      */
     private $tokenStorage;
-
     /**
      * @var AuthorizationChecker
      */
@@ -28,10 +28,8 @@ class MosqueValidator extends ConstraintValidator
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    const MAX_DEFAULT_MOSQUE_QUOTA = 10;
-
     /**
-     * @param Mosque $mosque
+     * @param Mosque     $mosque
      * @param Constraint $constraint
      */
     public function validate($mosque, Constraint $constraint)
@@ -43,7 +41,7 @@ class MosqueValidator extends ConstraintValidator
 
         // validate max authorized mosques
         $quota = self::MAX_DEFAULT_MOSQUE_QUOTA;
-        if($user->getMosqueQuota() !== null){
+        if ($user->getMosqueQuota() !== null) {
             $quota = $user->getMosqueQuota();
         }
 
@@ -58,8 +56,8 @@ class MosqueValidator extends ConstraintValidator
             }
 
             // validate main photo
-            if (!$mosque->getFile1()) {
-                $this->context->buildViolation($constraint->mainImageMandatory)->addViolation();
+            if (!$mosque->getFile1() || !$mosque->getFile2()) {
+                $this->context->buildViolation($constraint->imageMandatory)->addViolation();
             }
         }
     }

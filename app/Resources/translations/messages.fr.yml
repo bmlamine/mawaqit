@@ -364,14 +364,15 @@ mosque:
         Ajouter un document justifiant l'existance de la mosquée (une facture d'éléctricité / eau / téléphone) cela facilite à mawaqit la validation de votre mosquée rapidement
     file1:
       label: Photo extérieur de la mosquée
-      help: Photo de bonne qualité au format paysage (800x450 px minimum)
+      help: Photo de bonne qualité au format paysage (800x450 px minimum). Aucun visage ne doit apparaître sur la photo.
     file2:
       label: Photo intérieur de la mosquée
+      help: Photo de bonne qualité au format paysage (800x450 px minimum). Aucun visage ne doit apparaître sur la photo.
     file3:
       label: Photo de l'écran mawaqit
       help: |
         La photo doit être prise dans la mosquée au format paysage, on doit pouvoir identifier le nom et la ville sur
-        l'écran ainsi qu'une partie de la mosquée, comme le minbar ou le mihrab
+        l'écran ainsi qu'une partie de la mosquée, comme le minbar ou le mihrab. Aucun visage ne doit apparaître sur la photo.
     womenSpace:
       label: Espace pour femmes
     janazaPrayer:

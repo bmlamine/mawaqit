@@ -3,7 +3,7 @@ form:
     address_mandatory: The address is mandatory for mosques.
     max_reached: You have reached the maximum number of installations, please contact us by email contact@mawaqit.net to unlock your quota.
     justificatoryMandatory: The supporting document is mandatory
-    mainImageMandatory: The mosque picture is mandatory
+    imageMandatory: The mosque pictures are mandatory
   configuration:
     mandatory: This field is required
     custom_prayer_method: The fields "Degree of fajr" and "Degree of `isha" must be completed
