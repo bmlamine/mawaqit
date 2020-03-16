@@ -335,6 +335,7 @@ mosque:
       label: A supporting document (.pdf .jpg .png .doc .ppt)
       help: |
         Add a document justifying the existence of the mosque (an electricity / water / telephone bill or other) this makes it easy for us to validate your mosque quickly
+      model: Application template for Muslim countries
     file1:
       label: A photo of the mosque
       help: A photo of good quality in landscape format (800x450 px minimum). No face should appear on the photo.
