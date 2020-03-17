@@ -38,6 +38,10 @@ class MessageController extends Controller
             if ($user !== $mosque->getUser()) {
                 throw new AccessDeniedException;
             }
+
+            if (!$mosque->isFullyValidated()) {
+                throw new AccessDeniedException;
+            }
         }
 
         $em = $this->getDoctrine()->getManager();

@@ -307,6 +307,12 @@ class MosqueController extends Controller
      */
     public function qrCodeAction(Mosque $mosque)
     {
+        if (!$this->isGranted("ROLE_ADMIN")) {
+            if (!$mosque->isFullyValidated()) {
+                throw new AccessDeniedException;
+            }
+        }
+
         return $this->render('mosque/qrcode.html.twig', [
             'mosque' => $mosque
         ]);

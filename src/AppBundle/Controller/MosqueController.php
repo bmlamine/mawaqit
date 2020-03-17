@@ -120,7 +120,7 @@ class MosqueController extends Controller
      */
     public function mosqueMobileAction(EntityManagerInterface $em, Request $request, Mosque $mosque)
     {
-        if (!$mosque->isAccessibleForMobile()) {
+        if (!$mosque->isFullyValidated()) {
             return $this->forward("AppBundle:Mosque:blocked");
         }
 
@@ -153,7 +153,7 @@ class MosqueController extends Controller
      */
     public function mosqueWidgetAction(Mosque $mosque)
     {
-        if (!$mosque->isAccessibleForMobile()) {
+        if (!$mosque->isFullyValidated()) {
             return $this->forward("AppBundle:Mosque:blocked");
         }
 

@@ -1115,18 +1115,17 @@ class Mosque
 
     public function isElasticIndexable()
     {
-        return $this->isMosque() && $this->isAccessibleForMobile();
+        return $this->isMosque() && $this->isFullyValidated();
     }
 
     /**
-     * Check if accessible for mobile ans widget
-     * Cond 1 : Must be a mosque
+     * Cond 1 : Mosques only
      * Cond 2 : Must be validated
      * Cond 3 : Created after Mosque::STARTDATE_CHECKING_PHOTO
      * Cond 4 : The screen picture must be uploaded
      * @return bool
      */
-    public function isAccessibleForMobile()
+    public function isFullyValidated()
     {
         if (!$this->isMosque()){
             return true;
