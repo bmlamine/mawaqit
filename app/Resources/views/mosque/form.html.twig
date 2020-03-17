@@ -117,9 +117,6 @@
                 <div class="block-image col-md-4">
                     {{ form_row(form.file1) }}
                 </div>
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') or mosque is not defined or mosque.isCheckingInProgress %}
                 <div class="block-image col-md-4">
                     {{ form_row(form.file2) }}
                 </div>
