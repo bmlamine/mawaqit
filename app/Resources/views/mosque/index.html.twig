@@ -351,10 +351,35 @@
     <div class="navigation text-center">
         {{ knp_pagination_render(mosques) }}
     </div>
+
+    {% if not is_granted("ROLE_ADMIN") %}
+        {% for mosque in mosques %}
+            {% if mosque.isMosque and mosque.isValidated and not mosque.fullyValidated %}
+                <div class="modal" role="dialog" style="color: #000000" id="photo-reminder-modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">{{ "mosqueList.screenPhotoModalreminder.title"|trans }}</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{ 'mosqueList.screenPhotoModalreminder.content'|trans({"%mosque%": mosque.title}) }}
+                            </div>
+                            <br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{{ "mosqueList.screenPhotoModalreminder.button"|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
 {% endblock %}
 
 {% block additional_javascripts %}
     {% javascripts
+        '@AppBundle/Resources/public/js/tools.js'
         '@AppBundle/Resources/public/js/mosque_index.js'
         '@AppBundle/Resources/public/js/iframe_modal.js'
         '@AppBundle/Resources/public/js/delete_modal.js' %}

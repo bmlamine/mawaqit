@@ -709,6 +709,10 @@ motif: Motif
 color: Couleur
 
 mosqueList:
+  screenPhotoModalreminder:
+    title: Photo de l'écran manquante :(
+    content: Nous attendons toujours la photo de l'écran pour la mosquée "%mosque%"
+    button: J'ai compris
   iframeCopyText: Pour afficher le widget ci-dessous dans votre site il suffit de copier/coller ce code html
   iframeAddTitle: Ajouter le widget à votre site
   widgetForYourSite: Widget pour votre site internet
