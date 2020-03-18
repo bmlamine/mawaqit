@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Backoffice;
 
+use AppBundle\Entity\Message;
 use AppBundle\Entity\Mosque;
 use AppBundle\Entity\User;
 use AppBundle\Exception\GooglePositionException;
@@ -27,6 +28,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -130,15 +132,37 @@ class MosqueController extends Controller
                         ['auth' => [$form->getData()['login'], $form->getData()['password']]]
                     );
                     $normalizer = new ObjectNormalizer(null, null, null, new ReflectionExtractor());
-                    $serializer = new Serializer([new DateTimeNormalizer(), new ArrayDenormalizer(), $normalizer],
-                        [new JsonEncoder()]);
-                    $serializer->deserialize($res->getBody()->getContents(), Mosque::class, 'json',
-                        ['object_to_populate' => $mosque]);
+                    $serializer = new Serializer([new DateTimeNormalizer(), new ArrayDenormalizer(), $normalizer], [new JsonEncoder()]);
+                    $json = json_decode($res->getBody()->getContents(), true);
+                    $messages = $json["messages"];
+                    unset($json["messages"]);
+
+                    $serializer->denormalize($json, Mosque::class, 'json', ['object_to_populate' => $mosque]);
+                    $serializer = new Serializer([new GetSetMethodNormalizer(), new ArrayDenormalizer()], [new JsonEncoder()]);
+                    $messages = $serializer->denormalize($messages, Message::class.'[]', 'json');
+                    $mosque->setMessages($messages);
                     $mosque->setSynchronized(true);
 
                     // download images
-                    $uploadDir = $this->getParameter("kernel.root_dir")."/../web/upload";
-                    array_map( 'unlink', array_filter((array) glob("$uploadDir/*") ) );
+                    $uploadDir = $this->getParameter("kernel.root_dir") . "/../web/upload";
+                    array_map('unlink', array_filter((array)glob("$uploadDir/*"), function ($file) {
+                        return is_file($file);
+                    }));
+
+                    $site = $this->getParameter("site");
+                    if ($mosque->getImage1()) {
+                        file_put_contents("$uploadDir/{$mosque->getImage1()}", fopen("$site/upload/{$mosque->getImage1()}", 'r'));
+                    }
+
+                    if ($mosque->getImage2()) {
+                        file_put_contents("$uploadDir/{$mosque->getImage2()}", fopen("$site/upload/{$mosque->getImage2()}", 'r'));
+                    }
+
+                    foreach ($mosque->getMessages() as $message){
+                        if ($message->getImage()) {
+                            file_put_contents("$uploadDir/{$message->getImage()}", fopen("$site/upload/{$message->getImage()}", 'r'));
+                        }
+                    }
 
                 } catch (ConnectException $e) {
                     $this->addFlash("danger", "mosqueScreen.noInternetConnection");

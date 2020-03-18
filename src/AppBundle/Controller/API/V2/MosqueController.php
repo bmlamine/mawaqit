@@ -127,7 +127,6 @@ class MosqueController extends Controller
             "comments",
             'calendarCompleted',
             'gpsCoordinates',
-            'title',
             'types',
             'synchronized',
             'slug',

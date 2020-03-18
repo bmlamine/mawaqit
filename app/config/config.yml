@@ -1,6 +1,6 @@
 imports:
-  - { resource: parameters.yml }
   - { resource: _parameters.yml }
+  - { resource: parameters.yml }
   - { resource: security.yml }
   - { resource: services.yml }
   - { resource: easyadmin/ }

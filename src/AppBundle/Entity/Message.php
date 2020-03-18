@@ -190,7 +190,7 @@ class Message
         return $this->mosque;
     }
 
-    function setMosque(Mosque $mosque)
+    function setMosque($mosque)
     {
         $this->mosque = $mosque;
     }

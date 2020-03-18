@@ -950,9 +950,17 @@ class Mosque
         $this->setUpdated(new \DateTime());
     }
 
+    public function setMessages(array $messages)
+    {
+        $this->clearMessages();
+        foreach ($messages as $message) {
+            $this->addMessage($message);
+        }
+    }
+
     public function clearMessages()
     {
-        $this->messages = null;
+        $this->messages = new ArrayCollection();
     }
 
     /**

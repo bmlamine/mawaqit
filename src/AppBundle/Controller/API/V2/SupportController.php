@@ -36,14 +36,14 @@ class SupportController extends Controller
             $country = "OC";
         }
 
-        $phone = array_rand($support[$country]);
+        $phone = substr(array_rand($support[$country]), 2);
 
         return new JsonResponse([
             "mobile" => [
                 "whatsapp" => "whatsapp://send?phone=$phone",
             ],
             "web" => [
-                "whatsapp" => "https://api.whatsapp.com/send?phone=$phone",
+                "whatsapp" => "https://wa.me/$phone",
             ]
         ]);
     }
