@@ -212,7 +212,7 @@ form:
     success:  The edition has been successfully completed.
     action: Edit
   sync:
-    action: Sync with online mosque
+    action: Synchronize
   delete:
     success:  Removing has been successfully completed.
     action: Remove

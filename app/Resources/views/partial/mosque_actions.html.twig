@@ -7,17 +7,15 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-{{ app.request.locale == 'ar' ? 'left' : 'right' }}">
 
-            {% if is_granted('ROLE_ADMIN') or mosque.isEditAllowed %}
+            {% if (is_granted('ROLE_ADMIN') or mosque.isEditAllowed) and isNotLocal() %}
                 <li><a href="{{ path('mosque_edit', {id: mosque.id}) }}"><i class="fas fa-pen-square"></i> {{ 'form.edit.action'|trans }}</a></li>
             {% endif %}
 
             {% if is_granted('ROLE_ADMIN') or mosque.configurationAllowed %}
-                <li><a href="{{ path('mosque_configure', {id: mosque.id}) }}"><i class="fas fa-cog"></i> {{ 'form.configure.action'|trans }}</a></li>
-                {% if isLocal() %}
-                    <li><a href="{{ path('mosque_reset_sync', {id: mosque.id}) }}"><i class="fas fa-sync"></i> {{ 'form.sync.action'|trans }}</a></li>
-                {% endif %}
-                <li><a href="{{ path('message_index', {mosque: mosque.id}) }}" class="{{ disabled }}"><i class="fas fa-envelope"></i> {{ 'message.manage'|trans }}</a></li>
+
                 {% if isNotLocal() %}
+                    <li><a href="{{ path('mosque_configure', {id: mosque.id}) }}"><i class="fas fa-cog"></i> {{ 'form.configure.action'|trans }}</a></li>
+                    <li><a href="{{ path('message_index', {mosque: mosque.id}) }}" class="{{ disabled }}"><i class="fas fa-envelope"></i> {{ 'message.manage'|trans }}</a></li>
                     <li><a href="#" data-url="{{ path('mosque_refresh', {id: mosque.id}) }}" class="btn-refresh {{ disabled }}" title="{{ 'mosque.refresh'|trans }}"><i class="fas fa-sync"></i> {{ 'refresh'|trans }} </a></li>
                     <li><a href="{{ path('calendar_csv', {id: mosque.id}) }}" target="_blank" class="{{ disabled }}"><i class="fa fa-file-csv"></i> {{ 'configuration.list.download_csv_files'|trans }}</a></li>
                     {% if mosque.isMosque %}
@@ -25,12 +23,15 @@
                         <li><a href="{{ path('mosque_qr_code', {id: mosque.id}) }}" target="_blank" title=" {{ 'mosqueList.qrcodeTitle'|trans }}" class="{{ disabled }}"><i class="fa fa-qrcode"></i> Qr Code</a></li>
                     {% endif %}
                 {% endif %}
+
+                {% if isLocal() %}
+                    <li><a href="{{ path('mosque_reset_sync', {id: mosque.id}) }}"><i class="fas fa-sync"></i> {{ 'form.sync.action'|trans }}</a></li>
+                {% endif %}
+
             {% endif %}
 
-            {% if isNotLocal() %}
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="{{ path('mosque_clone', {id: mosque.id}) }}"><i class="fas fa-copy"></i> {{ 'form.clone.action'|trans }}</a></li>
-                {% endif %}
+            {% if isNotLocal() and is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('mosque_clone', {id: mosque.id}) }}"><i class="fas fa-copy"></i> {{ 'form.clone.action'|trans }}</a></li>
             {% endif %}
 
             {% if isNotLocal() and is_granted('ROLE_SUPER_ADMIN') %}

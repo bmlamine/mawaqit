@@ -120,14 +120,12 @@ class MosqueController extends Controller
             'updated',
             'image1',
             'image2',
-            'image3',
             'localisation',
             'justificatory',
             'location',
             "conf",
             "enabledMessages",
             "comments",
-            'nbOfEnabledMessages',
             'calendarCompleted',
             'gpsCoordinates',
             'title',
@@ -136,9 +134,7 @@ class MosqueController extends Controller
             'slug',
             'locale',
             'status',
-            'url',
-            'flashMessage',
-            'messages',
+            'url'
         ]);
 
         $normalizer->setCircularReferenceHandler(function ($mosque) {

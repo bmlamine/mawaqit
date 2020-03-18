@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -62,7 +63,7 @@ class MosqueController extends Controller
 
         if ($this->isGranted("ROLE_SUPER_ADMIN")) {
             foreach ($mosques as $mosque) {
-                if($mosque->isNew()){
+                if ($mosque->isNew()) {
                     $mosque->setSimilar($this->get("app.mosque_service")->getSimilarByLocalization($mosque));
                 }
             }
@@ -134,6 +135,11 @@ class MosqueController extends Controller
                     $serializer->deserialize($res->getBody()->getContents(), Mosque::class, 'json',
                         ['object_to_populate' => $mosque]);
                     $mosque->setSynchronized(true);
+
+                    // download images
+                    $uploadDir = $this->getParameter("kernel.root_dir")."/../web/upload";
+                    array_map( 'unlink', array_filter((array) glob("$uploadDir/*") ) );
+
                 } catch (ConnectException $e) {
                     $this->addFlash("danger", "mosqueScreen.noInternetConnection");
                 } catch (ClientException $e) {
@@ -159,10 +165,14 @@ class MosqueController extends Controller
 
     /**
      * @Route("/create", name="mosque_create")
-     * @throws GooglePositionException
      */
     public function createAction(Request $request)
     {
+
+        if ($this->get('app.request_service')->isLocal()) {
+            throw new AccessDeniedHttpException();
+        }
+
         $mosque = new Mosque();
         $form = $this->createForm(MosqueType::class, $mosque);
 
@@ -203,6 +213,9 @@ class MosqueController extends Controller
      */
     public function editAction(Request $request, Mosque $mosque)
     {
+        if ($this->get('app.request_service')->isLocal()) {
+            throw new AccessDeniedHttpException();
+        }
 
         $user = $this->getUser();
         if (!$this->isGranted("ROLE_ADMIN") && ($user !== $mosque->getUser() || !$mosque->isEditAllowed())) {
@@ -276,6 +289,10 @@ class MosqueController extends Controller
      */
     public function configureAction(Request $request, Mosque $mosque)
     {
+
+        if ($this->get('app.request_service')->isLocal()) {
+            throw new AccessDeniedHttpException();
+        }
 
         $user = $this->getUser();
         if (!$this->isGranted("ROLE_ADMIN") && $user !== $mosque->getUser()) {

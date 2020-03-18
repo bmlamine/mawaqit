@@ -220,7 +220,7 @@ form:
     success:  L'édition a été réalisée avec succès.
     action: Éditer
   sync:
-    action: Synchroniser avec la mosquée en ligne
+    action: Synchroniser
   delete:
     success:  La suppression a été réalisée avec succès.
     action: Supprimer
