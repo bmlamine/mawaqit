@@ -115,7 +115,6 @@ class MosqueController extends Controller
         $normalizer->setIgnoredAttributes([
             'user',
             'id',
-            'uuid',
             'created',
             'updated',
             'image3',
