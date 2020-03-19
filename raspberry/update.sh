@@ -11,16 +11,15 @@ fi
 
 {
     echo 5
-    git fetch
+    git fetch > /dev/null 2>&1
     latesttag=$(git tag | sort -V | tail -1)
     git checkout ${latesttag} > /dev/null 2>&1
     version=`echo $latesttag | sed 's/-.*//'`
     echo 10
     sed -i "s/version: .*/version: $version/" app/config/parameters.yml
-    sudo rm -rf /tmp/* var/cache/* var/logs/*
+    sudo rm -rf var/cache/* var/logs/*
     docker-compose run mawaqit_composer sh -c "export SYMFONY_ENV=raspberry; composer install -o -n --no-dev --no-suggest --prefer-dist --no-progress" /dev/null 2>&1
     echo 40
-    sudo rm -rf var/cache/* var/logs/*
     docker-compose exec mawaqit_php bin/console assets:install --env=raspberry --no-debug /dev/null 2>&1
     echo 60
     docker-compose exec mawaqit_php bin/console assetic:dump --env=raspberry --no-debug /dev/null 2>&1
