@@ -15,7 +15,7 @@ latesttag=$(git tag | sort -V | tail -1)
 
 if [[ "$currenttag" != "$latesttag" ]]; then
   {
-    echo 10
+    echo 5
     git checkout ${latesttag} > /dev/null 2>&1
     version=`echo $latesttag | sed 's/-.*//'`
     sed -i "s/version: .*/version: $version/" app/config/parameters.yml
