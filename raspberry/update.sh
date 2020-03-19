@@ -18,14 +18,14 @@ fi
     echo 10
     sed -i "s/version: .*/version: $version/" app/config/parameters.yml
     sudo rm -rf /tmp/* var/cache/* var/logs/*
-    docker-compose run mawaqit_composer sh -c "export SYMFONY_ENV=raspberry; composer install -o -n --no-dev --no-suggest --prefer-dist --no-progress"
+    docker-compose run mawaqit_composer sh -c "export SYMFONY_ENV=raspberry; composer install -o -n --no-dev --no-suggest --prefer-dist --no-progress" /dev/null 2>&1
     echo 40
     sudo rm -rf var/cache/* var/logs/*
-    docker-compose exec mawaqit_php bin/console assets:install --env=raspberry --no-debug
+    docker-compose exec mawaqit_php bin/console assets:install --env=raspberry --no-debug /dev/null 2>&1
     echo 60
-    docker-compose exec mawaqit_php bin/console assetic:dump --env=raspberry --no-debug
+    docker-compose exec mawaqit_php bin/console assetic:dump --env=raspberry --no-debug /dev/null 2>&1
     echo 80
-    docker-compose exec mawaqit_php sh -c "export SYMFONY_ENV=raspberry; bin/console doc:mig:mig -n --allow-no-migration"
+    docker-compose exec mawaqit_php sh -c "export SYMFONY_ENV=raspberry; bin/console doc:mig:mig -n --allow-no-migration" /dev/null 2>&1
     echo 90
     sudo rm -rf var/cache/* var/logs/*
     echo 100
