@@ -29,4 +29,4 @@ fi
     echo 90
     sudo rm -rf var/cache/* var/logs/*
     echo 100
-} | whiptail --gauge "Please wait for upgrading, this may take a fiew minutes..." 10 60 0
+} | whiptail --gauge "Updating in progress, this may take a few minutes... please wait" 10 60 0

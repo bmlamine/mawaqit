@@ -47,5 +47,5 @@ if echo "$answer" | grep -iq "^y" ;then
         git push origin $tag
     fi
 
-    ssh -p $port mawaqit@$server 'bash -s' < deploy/install.sh $target $tag
+    #ssh -p $port mawaqit@$server 'bash -s' < deploy/install.sh $target $tag
 fi
