@@ -7,8 +7,8 @@ if [[ -f ~/Desktop/online_site.txt ]]; then
     url=`cat ~/Desktop/online_site.txt`
 fi
 
-if [[ -f ~/pi/mawaqit/docker/data/online_url.txt ]]; then
-    url=`cat ~/pi/mawaqit/docker/data/online_url.txt`
+if [[ -f ~/mawaqit/docker/data/online_url.txt ]]; then
+    url=`cat ~/mawaqit/docker/data/online_url.txt`
 fi
 
 i=0
