@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -111,20 +112,23 @@ class MosqueController extends Controller
     }
 
     /**
-     * Sync mosque data
-     * This is useful for raspberry env
+     * Sync mosque data, Only for raspberry env
+     *
      * @Route("/sync/{id}", name="mosque_sync")
+     *
+     * @param Request         $request
+     * @param Client          $client
+     * @param Mosque          $mosque
+     * @param LoggerInterface $logger
+     *
+     * @return Response
      */
-    public function syncAction(Request $request, Client $client, Mosque $mosque)
+    public function syncAction(Request $request, Client $client, Mosque $mosque, LoggerInterface $logger)
     {
         $form = $this->createForm(MosqueSyncType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            if ($request->request->has('later')) {
-                $mosque->setSynchronized(true);
-            }
 
             if ($request->request->has('validate')) {
                 try {
@@ -141,31 +145,39 @@ class MosqueController extends Controller
                     $serializer = new Serializer([new GetSetMethodNormalizer(), new ArrayDenormalizer()], [new JsonEncoder()]);
                     $messages = $serializer->denormalize($messages, Message::class.'[]', 'json');
                     $mosque->setMessages($messages);
-                    $mosque->setSynchronized(true);
+
+                    $rootDir = $this->getParameter("kernel.root_dir");
+
+                    // Set online mosque url
+                    $site = $this->getParameter("site");
+                    $url = "$site/{$form->getData()['language']}/id/{$form->getData()['id']}";
+                    file_put_contents("$rootDir/../docker/data/online_url.txt", $url);
 
                     // download images
-                    $uploadDir = $this->getParameter("kernel.root_dir") . "/../web/upload";
+                    $uploadDir = "$rootDir/../web/upload";
                     array_map('unlink', array_filter((array)glob("$uploadDir/*"), function ($file) {
                         return is_file($file);
                     }));
 
-                    $site = $this->getParameter("site");
                     if ($mosque->getImage1()) {
-                        file_put_contents("$uploadDir/{$mosque->getImage1()}", fopen("$site/upload/{$mosque->getImage1()}", 'r'));
+                        @file_put_contents("$uploadDir/{$mosque->getImage1()}", @fopen("$site/upload/{$mosque->getImage1()}", 'r'));
                     }
 
                     if ($mosque->getImage2()) {
-                        file_put_contents("$uploadDir/{$mosque->getImage2()}", fopen("$site/upload/{$mosque->getImage2()}", 'r'));
+                        @file_put_contents("$uploadDir/{$mosque->getImage2()}", @fopen("$site/upload/{$mosque->getImage2()}", 'r'));
                     }
 
                     foreach ($mosque->getMessages() as $message){
                         if ($message->getImage()) {
-                            file_put_contents("$uploadDir/{$message->getImage()}", fopen("$site/upload/{$message->getImage()}", 'r'));
+                            @file_put_contents("$uploadDir/{$message->getImage()}", @fopen("$site/upload/{$message->getImage()}", 'r'));
                         }
                     }
 
+                    $mosque->setSynchronized(true);
+
                 } catch (ConnectException $e) {
                     $this->addFlash("danger", "mosqueScreen.noInternetConnection");
+                    $logger->critical($e->getMessage());
                 } catch (ClientException $e) {
                     if ($e->getResponse()->getStatusCode() === Response::HTTP_UNAUTHORIZED) {
                         $this->addFlash("danger", "mosqueScreen.badCredentials");
@@ -176,7 +188,9 @@ class MosqueController extends Controller
                     } else {
                         $this->addFlash("danger", "mosqueScreen.otherPb");
                     }
+                    $logger->critical($e->getMessage());
                 } catch (\Exception $e) {
+                    $logger->critical($e->getMessage());
                     $this->addFlash("danger", "mosqueScreen.otherPb");
                 }
             }

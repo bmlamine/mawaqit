@@ -184,6 +184,13 @@ services:
         tags:
             - { name: form.type }
 
+    app.form_mosque_sync:
+        class: AppBundle\Form\MosqueSyncType
+        arguments:
+            - "%languages%"
+        tags:
+            - { name: form.type }
+
     app.form_message:
         class: AppBundle\Form\MessageType
         arguments:

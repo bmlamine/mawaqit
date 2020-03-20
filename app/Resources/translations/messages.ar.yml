@@ -15,6 +15,9 @@ mosqueScreen:
   loginHelp: بريدك الإلكتروني على mawaqit.net
   password: كلمه السر
   passwordHelp:  كلمة السر الخاصة بك على mawaqit.net
+  Language:
+    label: اللغة
+    placeholder: إختر اللغة
 
 home:
   menu:

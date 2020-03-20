@@ -3,8 +3,12 @@
 # online site
 url=http://mawaqit.local/mosquee
 
-if [ -f ~/Desktop/online_site.txt ]; then
+if [[ -f ~/Desktop/online_site.txt ]]; then
     url=`cat ~/Desktop/online_site.txt`
+fi
+
+if [[ -f ~/pi/mawaqit/docker/data/online_url.txt ]]; then
+    url=`cat ~/pi/mawaqit/docker/data/online_url.txt`
 fi
 
 i=0

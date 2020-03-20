@@ -18,47 +18,17 @@ class MosqueController extends Controller
 {
 
     /**
-     * @Route("/mosque/{slug}/{_locale}", options={"i18n"="false"}, requirements={"_locale"= "en|fr|ar|tr"})
-     * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     * @param Mosque $mosque
+     * @Route("/id/{id}", name="mosque_id")
+     * @param Request                $request
+     * @param Mosque                 $mosque
      *
      * @return Response
      */
-    public function mosqueDeprected1Action(Mosque $mosque)
+    public function mosqueByIdAction(Request $request, Mosque $mosque)
     {
-        return $this->redirectToRoute("mosque", ["slug" => $mosque->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
-    }
-
-    /**
-     * @Route("/{slug}/{_locale}", options={"i18n"="false"}, requirements={"_locale"= "en|fr|ar|tr"})
-     * @param Mosque $mosque
-     * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     *
-     * @return Response
-     */
-    public function mosqueDeprected2Action(Mosque $mosque)
-    {
-        return $this->redirectToRoute("mosque", ["slug" => $mosque->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
-    }
-
-    /**
-     * @Route("/{slug}", options={"i18n"="false"})
-     * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     * @param Mosque $mosque
-     *
-     * @return Response
-     */
-    public function mosqueWithoutLocalAction(Mosque $mosque)
-    {
-        $locale = 'fr';
-        $savedLocale = $mosque->getLocale();
-        if ($savedLocale) {
-            $locale = $savedLocale;
-        }
-
         return $this->forward("AppBundle:Mosque:mosque", [
+            "request" => $request,
             "slug" => $mosque->getSlug(),
-            "_locale" => $locale
         ]);
     }
 
@@ -181,5 +151,50 @@ class MosqueController extends Controller
 
         $hasBeenUpdated = $this->get("app.prayer_times")->mosqueHasBeenUpdated($mosque, $lastUpdatedDate);
         return new JsonResponse(["hasBeenUpdated" => $hasBeenUpdated]);
+    }
+
+    /**
+     * @Route("/{slug}", options={"i18n"="false"})
+     * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
+     * @param Mosque $mosque
+     *
+     * @return Response
+     */
+    public function mosqueWithoutLocalAction(Mosque $mosque)
+    {
+        $locale = 'fr';
+        $savedLocale = $mosque->getLocale();
+        if ($savedLocale) {
+            $locale = $savedLocale;
+        }
+
+        return $this->forward("AppBundle:Mosque:mosque", [
+            "slug" => $mosque->getSlug(),
+            "_locale" => $locale
+        ]);
+    }
+
+    /**
+     * @Route("/mosque/{slug}/{_locale}", options={"i18n"="false"}, requirements={"_locale"= "en|fr|ar|tr"})
+     * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
+     * @param Mosque $mosque
+     *
+     * @return Response
+     */
+    public function mosqueDeprected1Action(Mosque $mosque)
+    {
+        return $this->redirectToRoute("mosque", ["slug" => $mosque->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+    }
+
+    /**
+     * @Route("/{slug}/{_locale}", options={"i18n"="false"}, requirements={"_locale"= "en|fr|ar|tr"})
+     * @param Mosque $mosque
+     * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
+     *
+     * @return Response
+     */
+    public function mosqueDeprected2Action(Mosque $mosque)
+    {
+        return $this->redirectToRoute("mosque", ["slug" => $mosque->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
     }
 }
