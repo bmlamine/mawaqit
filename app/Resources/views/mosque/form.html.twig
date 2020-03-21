@@ -106,9 +106,10 @@
                             <div class="col-md-8">
                                 {{ form_row(form.justificatoryFile) }}
                                 <div style="margin-bottom: 2rem">
-                                    <a href="/static/Arabic-mosque-letter.pdf" target="_blank">
-                                        {{ 'mosque.form.justificatoryFile.model'|trans }}
-                                    </a>
+                                    {{ 'mosque.form.justificatoryFile.model'|trans }}
+                                    <a href="/static/Arabic-mosque-letter.pdf" target="_blank">{{ 'ar'|trans }}</a> |
+                                    <a href="/static/English-mosque-letter.pdf" target="_blank">{{ 'en'|trans }}</a> | 
+                                    <a href="/static/French-mosque-letter.pdf" target="_blank">{{ 'fr'|trans }}</a>
                                 </div>
                             </div>
                         </div>
