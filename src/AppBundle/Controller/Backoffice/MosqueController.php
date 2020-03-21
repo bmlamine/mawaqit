@@ -113,7 +113,6 @@ class MosqueController extends Controller
 
     /**
      * Sync mosque data, Only for raspberry env
-     *
      * @Route("/sync/{id}", name="mosque_sync")
      *
      * @param Request         $request
@@ -132,44 +131,54 @@ class MosqueController extends Controller
 
             if ($request->request->has('validate')) {
                 try {
+
+                    // pomulate mosque from online
                     $res = $client->get(sprintf("/api/2.0/mosque/%s/data", $form->getData()['id']),
                         ['auth' => [$form->getData()['login'], $form->getData()['password']]]
                     );
                     $normalizer = new ObjectNormalizer(null, null, null, new ReflectionExtractor());
-                    $serializer = new Serializer([new DateTimeNormalizer(), new ArrayDenormalizer(), $normalizer], [new JsonEncoder()]);
+                    $serializer = new Serializer([new DateTimeNormalizer(), new ArrayDenormalizer(), $normalizer],
+                        [new JsonEncoder()]);
                     $json = json_decode($res->getBody()->getContents(), true);
                     $messages = $json["messages"];
                     unset($json["messages"]);
 
+                    // poplulate messages
                     $serializer->denormalize($json, Mosque::class, 'json', ['object_to_populate' => $mosque]);
-                    $serializer = new Serializer([new GetSetMethodNormalizer(), new ArrayDenormalizer()], [new JsonEncoder()]);
-                    $messages = $serializer->denormalize($messages, Message::class.'[]', 'json');
+                    $mosque->setLocale($form->getData()['language']);
+
+                    $serializer = new Serializer([new GetSetMethodNormalizer(), new ArrayDenormalizer()],
+                        [new JsonEncoder()]);
+                    $messages = $serializer->denormalize($messages, Message::class . '[]', 'json');
                     $mosque->setMessages($messages);
 
                     $rootDir = $this->getParameter("kernel.root_dir");
 
-                    // Set online mosque url
+                    // Set online mosque url in online_url.txt file
                     $site = $this->getParameter("site");
                     $url = "$site/{$form->getData()['language']}/id/{$form->getData()['id']}";
                     file_put_contents("$rootDir/../docker/data/online_url.txt", $url);
 
-                    // download images
+                    // download mosque and messages photos
                     $uploadDir = "$rootDir/../web/upload";
                     array_map('unlink', array_filter((array)glob("$uploadDir/*"), function ($file) {
                         return is_file($file);
                     }));
 
                     if ($mosque->getImage1()) {
-                        @file_put_contents("$uploadDir/{$mosque->getImage1()}", @fopen("$site/upload/{$mosque->getImage1()}", 'r'));
+                        @file_put_contents("$uploadDir/{$mosque->getImage1()}",
+                            @fopen("$site/upload/{$mosque->getImage1()}", 'r'));
                     }
 
                     if ($mosque->getImage2()) {
-                        @file_put_contents("$uploadDir/{$mosque->getImage2()}", @fopen("$site/upload/{$mosque->getImage2()}", 'r'));
+                        @file_put_contents("$uploadDir/{$mosque->getImage2()}",
+                            @fopen("$site/upload/{$mosque->getImage2()}", 'r'));
                     }
 
-                    foreach ($mosque->getMessages() as $message){
+                    foreach ($mosque->getMessages() as $message) {
                         if ($message->getImage()) {
-                            @file_put_contents("$uploadDir/{$message->getImage()}", @fopen("$site/upload/{$message->getImage()}", 'r'));
+                            @file_put_contents("$uploadDir/{$message->getImage()}",
+                                @fopen("$site/upload/{$message->getImage()}", 'r'));
                         }
                     }
 
@@ -198,7 +207,10 @@ class MosqueController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('mosque', ['slug' => $mosque->getSlug()]);
+        return $this->redirectToRoute('mosque', [
+            'slug' => $mosque->getSlug(),
+            '_locale' => $mosque->getLocale()
+        ]);
     }
 
     /**

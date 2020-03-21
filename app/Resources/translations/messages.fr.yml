@@ -144,7 +144,8 @@ home:
     install_sub_title:  étapes
     install1_1:  Inscrivez-vous <a href="registerUrl" target="_blank">ici</a>
     install1_2:  |
-      Ajoutez la mosquée depuis votre espace utilisateur, munissez-vous d'un justificatif de domicialiation de la mosquée
+      Ajoutez la mosquée depuis votre espace utilisateur, munissez-vous de deux photos de la mosquée (extérieur/intérieur) et
+      d'un justificatif de domicialiation de la mosquée
       (comme une facture d'éléctricité, pas besoin pour les domiciles et autres types d'installation)
     install2:  Téléchargez l'image système pré configurée ici
     install3:  Vous devez être connecté pour télécharger l'image système
@@ -180,18 +181,15 @@ home:
     install7: |
       <ol>
         <li>Démarrez le raspberry et branchez un clavier et une souris usb</li>
+        <li>Réduire la fenêtre mawaqit avec la touche F11 de votre clavier</li>
         <li>Connectez-le à internet (WIFI ou câble Ethernet)</li>
-        <li>
-            Ouvrez le fichier <code>online_site.txt</code> présent sur le bureau et remplacez son
-            contenu par le lien généré dans votre compte, exemple: <br>
-            <code>mosqueUrl<br></code>
-        </li>
-        <li>Sauvegardez et quittez</li>
-        <li>Lancez Mawaqit depuis le bureau</li>
-        <li>Au lancement, le raspberry vérifie si une connexion internet est disponible,
-            dans ce cas il lance la version en ligne, sinon il bascule sur la version offline
-        </li>
+        <li>Synchronisez, laissez-vous guider sur la fenêtre mawaqit</li>
+        <li>Appuyez sur la touche F11 pour agrandir la fenêtre mawaqit</li>
       </ol>
+      <p>
+        NB: À chaque démarrage, le système vérifie si une connexion internet est disponible,
+        dans ce cas il lance la version online, sinon il bascule sur la version offline
+      </p>
       <br>
       <p><strong>OPTION 2: </strong>
            Utilisez la version offline, il suffit de brancher le raspberry sur l'écran, le logiciel se lancera tout seul. <br>

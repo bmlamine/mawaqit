@@ -140,8 +140,8 @@ home:
     install_sub_title:  steps
     install1_1:  Sign-up <a href="registerUrl" target="_blank">here</a>
     install1_2:  |
-      Add the mosque on our account, have a proof of domiciliation of the mosque
-      (like an electric bill, no need for homes and other types of installation)
+      Add the mosque from your user space, bring two photos of the mosque (exterior / interior) and
+      proof of domiciliation of the mosque (like an electric bill, no need for homes and other types of installation)
     install2:  Download the pre-configured system image here
     install3:  You must be logged in to download the system image
     install4: |
@@ -172,20 +172,16 @@ home:
       </p>
     install7: |
       <ol>
-        <li>Start the raspberry and connect a usb keyboard and mouse</li>
+        <li>Start the raspberry and connect an usb keyboard and mouse</li>
+        <li>Minimize the mawaqit window with the F11 key on your keyboard</li>
         <li>Connect it to the internet (WIFI or Ethernet cable)</li>
-        <li>
-            Open the file <code>online_site.txt</code> present on the desktop and replace its content with the link
-            generated in your account, example: <br>
-            <code>mosqueUrl<br></code>
-        </li>
-        <li>Save and exit</li>
-        <li>Launch Mawaqit from the desktop</li>
-        <li>
-          At launch, the raspberry check if an internet connection is available,
-          in this case it launches the online version, otherwise it switches to the offline version
-        </li>
+        <li>Synchronize, let yourself be guided on the mawaqit window</li>
+        <li>Press F11 key to maximize the mawaqit window</li>
       </ol>
+      <p>
+        NB: At launch, the system checks if an internet connection is available,
+        in this case it launches the online version, otherwise it switches to the offline version
+      </p>
       <br>
       <p><strong>OPTION 2: </strong>
           Use the offline version, just plug the raspberry on the screen, the software will launch itself.<br>
