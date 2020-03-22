@@ -18,6 +18,10 @@ AppBundle\Entity\Mosque:
     name:
       type: string
       length: 1024
+    streamUrl:
+      type: string
+      length: 1024
+      nullable: true
     associationName:
       type: string
       length: 255

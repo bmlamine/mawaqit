@@ -82,6 +82,10 @@ class Mosque
     /**
      * @var string
      */
+    private $streamUrl;
+    /**
+     * @var string
+     */
     private $type = "MOSQUE";
     /**
      * @var string
@@ -395,6 +399,25 @@ class Mosque
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreamUrl(): ?string
+    {
+        return $this->streamUrl;
+    }
+
+    /**
+     * @param string $streamUrl
+     *
+     * @return Mosque
+     */
+    public function setStreamUrl(?string $streamUrl): Mosque
+    {
+        $this->streamUrl = $streamUrl;
         return $this;
     }
 
@@ -1135,11 +1158,11 @@ class Mosque
      */
     public function isFullyValidated()
     {
-        if (!$this->isMosque()){
+        if (!$this->isMosque()) {
             return true;
         }
 
-        if(!$this->isValidated()){
+        if (!$this->isValidated()) {
             return false;
         }
 

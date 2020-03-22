@@ -19,8 +19,7 @@ class TestController extends Controller
      */
     public function testAction(EntityManagerInterface $em, Mosque $mosque)
     {
-        $this->get("app.mosque_service")->index($mosque);
-        return new Response('ok', 200);
+        return $this->render(":tools:test.html.twig", []);
     }
 
     /**

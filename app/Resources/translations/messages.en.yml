@@ -306,6 +306,16 @@ mosque:
       placeholder: Select a type
     name:
       placeholder: "Ex. Essunna mosque, My home"
+    streamUrl:
+      title: Ajouter un flux vidéo
+      subTitle: |
+        A l'heure du jumua, l'écran mawaqit affiche automatiquement le flux de la caméra
+        et ce jusqu'à la fin de la prière (délai choisi dans les paramètres de la jumua)
+      label: Lien du flux vidéo
+      placeholder: https://rtsp.me/embed/XXXXXXX/
+      info: |
+        Pour le moment mawqit gère uniquement le flux http fourni par le site
+        <a href="https://rtsp.me/#create" target="_blanc">https://rtsp.me</a>
     slug:
       label: "Change the website url"
     city:

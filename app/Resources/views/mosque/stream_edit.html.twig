@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>{{ 'mosque.form.streamUrl.title'|trans }}</h3>
+            <h4>{{ 'mosque.form.streamUrl.subTitle'|trans }}</h4>
+            <form method="post">
+                {{ form_row(form.streamUrl) }}
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-primary">{{ 'validate'|trans }}</button>
+            </form>
+            <p class="text-muted mt-2">{{ 'mosque.form.streamUrl.info'|trans|raw }}</p>
+            <div>
+                <img src="{{ asset('bundles/app/img/rtsp.me.png') }}" alt="">
+            </div>
+        </div>
+    </div>
+{% endblock %}

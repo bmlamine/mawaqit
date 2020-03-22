@@ -21,6 +21,7 @@
                     {% if mosque.isMosque %}
                         <li><a href="{{ path('calendar_pdf', {id: mosque.id}) }}" target="_blank" class="{{ disabled }}"><i class="fa fa-file-pdf"></i> {{ 'configuration.list.download_pdf_files'|trans }}</a></li>
                         <li><a href="{{ path('mosque_qr_code', {id: mosque.id}) }}" target="_blank" title=" {{ 'mosqueList.qrcodeTitle'|trans }}" class="{{ disabled }}"><i class="fa fa-qrcode"></i> Qr Code</a></li>
+                        <li><a href="{{ path('stream_edit', {id: mosque.id}) }}" class="{{ disabled }}"><i class="fas fa-video"></i> {{ 'form.stream.action'|trans }}</a></li>
                     {% endif %}
                 {% endif %}
 
