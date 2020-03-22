@@ -283,6 +283,7 @@ class PrayerTime
         $result = [
             'id' => $mosque->getId(),
             'name' => $mosque->getTitle(),
+            'streamUrl' => $mosque->getStreamUrl(),
             'localisation' => $mosque->getLocalisation(),
             'countryCode' => $mosque->getCountry(),
             'phone' => $mosque->getPhone(),

@@ -266,13 +266,13 @@ tou:
 
 mosque:
   streamUrl:
-    title: Ajouter un flux vidéo
+    title: Ajouter un flux vidéo (béta)
     subTitle: |
       A l'heure du jumua, l'écran mawaqit affiche automatiquement le flux de la caméra
-      et ce jusqu'à la fin de la prière (délai choisi dans les paramètres de la jumua)
+      et ce, jusqu'à la fin de la prière (délai choisi dans les paramètres de la jumua)
     label: Lien du flux vidéo
     placeholder: https://rtsp.me/embed/XXXXXXX/
-    info: Pour le moment mawqit gère uniquement le flux http fourni par le site https://rtsp.me/#create
+    info: Pour le moment mawaqit gère uniquement le flux http fourni par le site https://rtsp.me/#create
   title:
     HOME: Mawaqit %city% - Domicile
     SCHOOL: Mawaqit %city% - École

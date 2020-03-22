@@ -70,7 +70,6 @@ class MosqueController extends Controller
             'confData' => array_merge($confData, $this->get('app.prayer_times')->prayTimes($mosque, true)),
             'languages' => $this->getParameter('languages'),
             'version' => $this->getParameter('version'),
-            "support_email" => $this->getParameter("support_email"),
             "postmasterAddress" => $this->getParameter("postmaster_address"),
             "mawaqitApiAccessToken" => $this->getParameter("mawaqit_api_access_token"),
             'form' => $this->createForm(MosqueSyncType::class)->createView()

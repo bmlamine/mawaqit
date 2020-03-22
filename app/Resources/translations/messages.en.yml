@@ -212,6 +212,8 @@ form:
     action: Edit
   sync:
     action: Synchronize
+  stream:
+    action: Camera stream (jumua)
   delete:
     success:  Removing has been successfully completed.
     action: Remove
@@ -307,14 +309,14 @@ mosque:
     name:
       placeholder: "Ex. Essunna mosque, My home"
     streamUrl:
-      title: Ajouter un flux vidéo
+      title: Add a video stream (béta)
       subTitle: |
-        A l'heure du jumua, l'écran mawaqit affiche automatiquement le flux de la caméra
-        et ce jusqu'à la fin de la prière (délai choisi dans les paramètres de la jumua)
-      label: Lien du flux vidéo
+        At the time of the jumu'a, the mawaqit screen automatically displays the stream vidéo of the camera until
+        the end of the prayer (time chosen in the jumua settings)
+      label: Video stream link
       placeholder: https://rtsp.me/embed/XXXXXXX/
       info: |
-        Pour le moment mawqit gère uniquement le flux http fourni par le site
+        For the moment mawaqit only manages the http stream provided by the site
         <a href="https://rtsp.me/#create" target="_blanc">https://rtsp.me</a>
     slug:
       label: "Change the website url"

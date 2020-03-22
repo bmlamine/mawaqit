@@ -528,46 +528,33 @@ var prayer = {
                             // hilight asr
                             prayer.setNextTimeHilight(1);
 
-                            if (prayer.confData.jumuaDhikrReminderEnabled === true) {
-                                prayer.jumuaHandler.showReminder();
-                                setTimeout(function () {
-                                    prayer.jumuaHandler.hideReminder();
-                                }, prayer.confData.jumuaTimeout * prayer.oneMinute);
+                            if (prayer.confData.streamUrl) {
+                                $("#streamer").attr("src", prayer.confData.streamUrl);
+                                prayer.jumuaHandler.showFrame("#streamer");
+                            }
+                            else if (prayer.confData.jumuaDhikrReminderEnabled === true) {
+                                fixFontSize('.jumua-dhikr-reminder');
+                                prayer.jumuaHandler.showFrame(".jumua-dhikr-reminder");
                             } else if (prayer.confData.jumuaBlackScreenEnabled === true) {
-                                prayer.jumuaHandler.showBlackScreen();
-                                setTimeout(function () {
-                                    prayer.jumuaHandler.hideBlackScreen();
-                                }, prayer.confData.jumuaTimeout * prayer.oneMinute);
+                                prayer.jumuaHandler.showFrame("#black-screen");
                             }
                         }
                     }
                 }, prayer.oneMinute);
             }
         },
-        showReminder: function () {
-            fixFontSize('.jumua-dhikr-reminder');
+        showFrame: function (frame) {
             $(".main").fadeOut(0, function () {
-                $(".jumua-dhikr-reminder").fadeIn(500);
+                $(frame).fadeIn(500);
             });
-        },
-        hideReminder: function () {
-            $(".jumua-dhikr-reminder").fadeOut(0, function () {
-                $(".main").fadeIn(500, function () {
-                    messageInfoSlider.run();
+            setTimeout(function () {
+                $("#streamer").attr("src", "");
+                $(frame).fadeOut(0, function () {
+                    $(".main").fadeIn(500, function () {
+                        messageInfoSlider.run();
+                    });
                 });
-            });
-        },
-        showBlackScreen: function () {
-            $(".main").fadeOut(0, function () {
-                $("#black-screen").fadeIn(500);
-            });
-        },
-        hideBlackScreen: function () {
-            $("#black-screen").fadeOut(0, function () {
-                $(".main").fadeIn(500, function () {
-                    messageInfoSlider.run();
-                });
-            });
+            }, prayer.confData.jumuaTimeout * prayer.oneMinute);
         }
     },
     /**
