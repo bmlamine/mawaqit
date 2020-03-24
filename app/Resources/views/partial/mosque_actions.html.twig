@@ -17,8 +17,8 @@
                     <li><a href="{{ path('mosque_configure', {id: mosque.id}) }}"><i class="fas fa-cog"></i> {{ 'form.configure.action'|trans }}</a></li>
                     <li><a href="{{ path('message_index', {mosque: mosque.id}) }}" class="{{ disabled }}"><i class="fas fa-envelope"></i> {{ 'message.manage'|trans }}</a></li>
                     <li><a href="#" data-url="{{ path('mosque_refresh', {id: mosque.id}) }}" class="btn-refresh {{ disabled }}" title="{{ 'mosque.refresh'|trans }}"><i class="fas fa-sync"></i> {{ 'refresh'|trans }} </a></li>
-                    <li><a href="{{ path('calendar_csv', {id: mosque.id}) }}" target="_blank" class="{{ disabled }}"><i class="fa fa-file-csv"></i> {{ 'configuration.list.download_csv_files'|trans }}</a></li>
                     <li><a href="{{ path('stream_edit', {id: mosque.id}) }}" class="{{ disabled }}"><i class="fas fa-video"></i> {{ 'form.stream.action'|trans }}</a></li>
+                    <li><a href="{{ path('calendar_csv', {id: mosque.id}) }}" target="_blank" class="{{ disabled }}"><i class="fa fa-file-csv"></i> {{ 'configuration.list.download_csv_files'|trans }}</a></li>
                     {% if mosque.isMosque %}
                         <li><a href="{{ path('calendar_pdf', {id: mosque.id}) }}" target="_blank" class="{{ disabled }}"><i class="fa fa-file-pdf"></i> {{ 'configuration.list.download_pdf_files'|trans }}</a></li>
                         <li><a href="{{ path('mosque_qr_code', {id: mosque.id}) }}" target="_blank" title=" {{ 'mosqueList.qrcodeTitle'|trans }}" class="{{ disabled }}"><i class="fa fa-qrcode"></i> Qr Code</a></li>

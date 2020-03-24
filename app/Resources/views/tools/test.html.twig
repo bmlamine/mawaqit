@@ -6,46 +6,45 @@
 </head>
 
 <body>
-{#<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org"#}
+
+<video autoplay controls id="streamer" width="500" height="300">
+    <source src="http://192.168.1.35:8080/" type="video/mp4">
+</video>
+
+<script>
+    // setInterval(function () {
+    //     var elem = document.getElementById("streamer");
+    //     if (elem.requestFullscreen) {
+    //         elem.requestFullscreen();
+    //     } else if (elem.mozRequestFullScreen) {
+    //         elem.mozRequestFullScreen();
+    //     } else if (elem.webkitRequestFullscreen) {
+    //         elem.webkitRequestFullscreen();
+    //     } else if (elem.msRequestFullscreen) {
+    //         elem.msRequestFullscreen();
+    //     }
+    // }, 1000);
+</script>
+
+{#<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" name="vlc"#}
 {#       target="rtsp://cam:cam@izf.freeboxos.fr:35000/cam/realmonitor?channel=1&subtype=0"#}
-{#       id="vlc"#}
-{#       style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"/>#}
+{#       width="100%"#}
+{#       height="100%"#}
+{#/>#}
 
-{#<script type="text/javascript">#}
-{#    document.getElementById("vlc").audio.toggleMute();#}
-{#</script>#}
-
-<iframe id="streamer" src="https://rtsp.me/embed/5eia5hn2/" allowfullscreen style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>
+{#<iframe id="streamer" onload="window.pLaY()" src="https://rtsp.me/embed/5eia5hn2/" allowfullscreen style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>#}
 {#<script>#}
-{#    setInterval(function () {#}
-{#        document.getElementById('streamer').contentWindow.document.getElementsByClassName("button_play_big")[0].click();#}
-{#    },3000);#}
+{#    function myFunction(){#}
+{#        document.getElementsByClassName("button_play_big")[0].click();#}
+{#        //$(".button_play_big").click()#}
+{#    }#}
+{#    // setInterval(function () {#}
+{#    //     document.getElementById('streamer').contentWindow.document.getElementsByClassName("button_play_big")[0].click();#}
+{#    // },3000);#}
 {#</script>#}
 
-
-{#<video src="https://rtsp.me/embed/5eia5hn2/" autoplay="autoplay" width="500" height="300" style="border: 1px black solid">#}
-{#</video>#}
-
-{#<video src="rtsp://cam:cam@izf.freeboxos.fr:35000/cam/realmonitor?channel=1&subtype=0"#}
-{#       style="width: 500px; height: 300px; border: black 1px solid">#}
-{#</video>#}
-
-{#<object#}
-{#        classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921"#}
-{#        codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab"#}
-{#        id="vlc"#}
-{#        name="vlc"#}
-{#        class="vlcPlayer"#}
-{#        events="True">#}
-{#    <param name="Src" value="rtsp://admin:admin@192.168.1.36:554/cam/realmonitor?channel=1&subtype=0"/> <!-- ie -->#}
-{#    <param name="ShowDisplay" value="True"/>#}
-{#    <param name="AutoLoop" value="True"/>#}
-{#    <param name="AutoPlay" value="True"/>#}
-{#    <!-- win chrome and firefox-->#}
-{#    <embed id="vlcEmb" type="application/x-google-vlc-plugin" version="VideoLAN.VLCPlugin.2" autoplay="yes" loop="no"#}
-{#           width="640" height="480"#}
-{#           target="rtsp://admin:admin@192.168.1.36:554/cam/realmonitor?channel=1&subtype=0"></embed>#}
-{#</object>#}
+{#<video src="https://rtsp.me/embed/5eia5hn2/" autoplay="autoplay" width="500" height="300" style="border: 1px black solid"></video>#}
+{#<video controls autoplay src="rtsp://cam:cam@izf.freeboxos.fr:35000/cam/realmonitor?channel=1&subtype=0"></video>#}
 
 </body>
 </html>
