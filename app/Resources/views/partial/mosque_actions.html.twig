@@ -9,8 +9,8 @@
             {% if isLocal() %}
                 <li><a href="{{ path('mosque_reset_sync', {id: mosque.id}) }}"><i class="fas fa-sync"></i> {{ 'form.sync.action'|trans }}</a></li>
             {% else %}
-                {% if (is_granted('ROLE_ADMIN')   %}
-                    {% if mosque.isEditAllowed)  %}
+                {% if is_granted('ROLE_ADMIN')   %}
+                    {% if mosque.isEditAllowed  %}
                         <li><a href="{{ path('mosque_edit', {id: mosque.id}) }}"><i class="fas fa-pen-square"></i> {{ 'form.edit.action'|trans }}</a></li>
                     {% endif %}
                     {% if mosque.configurationAllowed %}
