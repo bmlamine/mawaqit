@@ -1,5 +1,6 @@
 <?php
 
+
 namespace AppBundle\Controller\Backoffice;
 
 use AppBundle\Entity\Mosque;
@@ -7,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Process\Process;
 
 /**
  * @Route("/backoffice/admin/test", options={"i18n"="false"})
@@ -15,12 +17,15 @@ class TestController extends Controller
 {
 
     /**
-     * @Route("/{id}")
+     * @Route("")
      */
-    public function testAction(EntityManagerInterface $em, Mosque $mosque)
+    public function testAction()
     {
-        $this->get("app.mosque_service")->index($mosque);
-        return new Response('ok', 200);
+
+        $process = new Process("ssh pi@192.168.1.48 'bash -s' rtsp://admin:admin@192.168.1.36:554/cam/realmonitor?channel=1 0</application/raspberry/omxplayer.sh 10");
+        $process->run();
+
+        return new Response($process->getOutput());
     }
 
     /**
