@@ -108,7 +108,6 @@ class MosqueController extends Controller
         });
 
         $serializer = new Serializer([new DateTimeNormalizer(), $normalizer], [new JsonEncoder()]);
-        $mosque->setSite($mosque->getUrl());
         $result = $serializer->serialize($mosque, 'json');
         return new Response($result, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
