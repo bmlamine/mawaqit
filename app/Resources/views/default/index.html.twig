@@ -173,7 +173,8 @@
                         <div class="form-group">
                             <input class="form-control input-lg center-placeholder" id="find-mosque"
                                    placeholder="{{ 'home.text.findMosque'|trans }}"
-                                   data-remote="{{ path('public_mosque_search_ajax') }}">
+                                   data-remote="{{ path('app_api_v2_mosque_search') }}"
+                                   data-api-access-token="{{ mawaqitApiAccessToken }}">
                         </div>
                         <p class="text-muted">
                             {{ 'home.text.equipedMosques2'|trans|raw }}
@@ -286,6 +287,8 @@
         <script src="http://github.hubspot.com/odometer/odometer.js"></script>
 
         <script>
+            var lang = '{{ app.request.locale }}';
+
             var map = L.map('map', {
                 scrollWheelZoom: false,
                 center: [28.033886, 1.659626],

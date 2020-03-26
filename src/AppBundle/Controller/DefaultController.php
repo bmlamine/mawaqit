@@ -55,6 +55,7 @@ class DefaultController extends Controller
             "mosquesWithImage" => $mosquesWithImage,
             "mosqueNumberByCountry" => $mosqueNumberByCountry,
             "nextPage" => ++$page,
+            "mawaqitApiAccessToken" => $this->getParameter("mawaqit_api_access_token"),
             "faqs" => $em->getRepository('AppBundle:Faq')->getPublicFaq()
         ]);
     }
@@ -90,30 +91,6 @@ class DefaultController extends Controller
     public function legalNoticeAction()
     {
         return $this->render('default/legal_notice.html.twig');
-    }
-
-    /**
-     * get users by search term
-     *
-     * @param Request $request
-     * @Route("/search-ajax", name="public_mosque_search_ajax")
-     *
-     * @return JsonResponse
-     */
-    public function searchAjaxAction(Request $request)
-    {
-        $mosques = [];
-        $query = $request->query->get("term");
-        if (!empty($query)) {
-            $em = $this->getDoctrine()->getManager();
-            $mosques = $em->getRepository("AppBundle:Mosque")
-                ->publicSearch($query)
-                ->select("m.id, CONCAT(m.name, ' - ', m.city,' ', m.zipcode, ' ', m.countryFullName) AS label, m.slug")
-                ->getQuery()
-                ->getArrayResult();
-        }
-
-        return new JsonResponse($mosques);
     }
 
     /**

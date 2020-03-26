@@ -50,7 +50,9 @@
 {% include 'partial/dua-between-adhan-and-iqama.html.twig' %}
 {% include 'partial/jumua-dhikr-reminder.html.twig' %}
 
-<div id="main" class="main mobile display-none" data-remote="{{ path('mosque_has_been_updated', {slug: mosque.slug}) }}">
+<div id="main" class="main mobile display-none"
+     data-remote="{{ path('mosque_has_been_updated', {slug: mosque.slug}) }}"
+     data-api-access-token="{{ mawaqitApiAccessToken }}">
 
     {% if mosque.isMosque %}
         <div class="toggle"><i class="fa fa-bell"></i></div>
@@ -73,7 +75,7 @@
         </div>
     {% endif %}
 
-    <input type="text" id="search" placeholder="{{ 'searchOtherMosque'|trans }}" data-remote="{{ path('public_mosque_search_ajax') }}">
+    <input type="text" id="search" placeholder="{{ 'searchOtherMosque'|trans }}" data-remote="{{ path('app_api_v2_mosque_search') }}">
 
     <div class="header">{{ mosque.isMosque ? mosque.title : mosque.title|trans({'%city%': mosque.city}) }}</div>
 

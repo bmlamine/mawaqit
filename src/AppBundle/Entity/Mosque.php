@@ -84,6 +84,7 @@ class Mosque
      */
     private $type = "MOSQUE";
     /**
+     * @Groups({"elastic"})
      * @var string
      */
     private $slug;
@@ -352,6 +353,17 @@ class Mosque
             $name .= " - " . $this->getCity();
         }
         return $name;
+    }
+
+    /**
+     * Label for web search autocomplete
+     *
+     * @Groups({"elastic"})
+     * @return string
+     */
+    function getLabel()
+    {
+        return $this->getTitle();
     }
 
     /**
@@ -1084,15 +1096,6 @@ class Mosque
     }
 
     /**
-     * @Groups({"elastic"})
-     * @return string
-     */
-    public function getUrl()
-    {
-        return "https://mawaqit.net/ar/" . $this->slug;
-    }
-
-    /**
      * @return string
      */
     public function getStatus(): string
@@ -1135,11 +1138,11 @@ class Mosque
      */
     public function isFullyValidated()
     {
-        if (!$this->isMosque()){
+        if (!$this->isMosque()) {
             return true;
         }
 
-        if(!$this->isValidated()){
+        if (!$this->isValidated()) {
             return false;
         }
 
