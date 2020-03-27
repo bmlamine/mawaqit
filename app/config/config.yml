@@ -179,6 +179,13 @@ csa_guzzle:
     elastic:
       config:
         base_uri: '%app_elasticsearch_url%'
+    cloudflare:
+      config:
+        base_uri: 'https://api.cloudflare.com/client/'
+        timeout: 3
+        headers:
+          X-Auth-Key: '%cloudflare_api_token%'
+          X-Auth-Email: '%cloudflare_api_email%'
   default_client: 'api'
 
 ewz_recaptcha:
