@@ -121,4 +121,18 @@ class DefaultController extends Controller
         return new JsonResponse($mosquesForMap);
     }
 
+    /**
+     * @deprecated
+     * @param Request $request
+     * @Route("/search-ajax")
+     *
+     * @return Response
+     */
+    public function searchAjaxAction(Request $request)
+    {
+        $request->query->set("word", $request->query->get("term"));
+        return $this->forward("AppBundle:API\V2\Mosque:search", [
+            "request" => $request
+        ]);
+    }
 }
