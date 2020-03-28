@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MobileAppController extends Controller
 {
     /**
-     * @Route("/android/{mosque}/manifest", name="manifest", options={"i18n"="false"})
+     * @Route("/android/{mosque}/manifest.json", name="manifest", options={"i18n"="false"})
      * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * @return JsonResponse
      */
