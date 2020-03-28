@@ -8,26 +8,25 @@ use AppBundle\Service\YamlLoader;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Yaml\Yaml;
 
 class DefaultController extends Controller
 {
+
     /**
      * @Route("", name="homepage")
      * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
-     * @param Request $request
+     * @param Request                $request
      * @param EntityManagerInterface $em
-     * @param YamlLoader $yamlLoader
+     * @param YamlLoader             $yamlLoader
      *
      * @return Response
+     * @throws NonUniqueResultException
      */
     public function indexAction(Request $request, EntityManagerInterface $em, YamlLoader $yamlLoader)
     {
@@ -94,22 +93,8 @@ class DefaultController extends Controller
     }
 
     /**
-     * get cities by country
-     *
-     * @param $country
-     * @Route("/cities/{country}", name="cities_country_ajax", options={"i18n"="false"})
-     *
-     * @return JsonResponse
-     */
-    public function citiesByCountryAjaxAction($country)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $cities = $em->getRepository("AppBundle:Mosque")->getCitiesByCountry($country);
-        return new JsonResponse($cities);
-    }
-
-    /**
      * @Route("/map/mosques/{countryCode}", name="mosques_map_ajax", options={"i18n"="false"})
+     * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * @param string                 $countryCode
      * @param EntityManagerInterface $em
      *
@@ -122,11 +107,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @deprecated
      * @param Request $request
      * @Route("/search-ajax")
      *
      * @return Response
+     * @deprecated
      */
     public function searchAjaxAction(Request $request)
     {
