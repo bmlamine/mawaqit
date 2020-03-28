@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Mosque;
 use AppBundle\Form\MosqueSyncType;
+use AppBundle\Service\RequestService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -38,12 +39,13 @@ class MosqueController extends Controller
      * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
      * @param Request                $request
-     * @param EntityManagerInterface $em ,
+     * @param EntityManagerInterface $em
+     * @param RequestService         $requestService
      * @param Mosque                 $mosque
      *
      * @return Response
      */
-    public function mosqueAction(Request $request, EntityManagerInterface $em, Mosque $mosque)
+    public function mosqueAction(Request $request, EntityManagerInterface $em, RequestService $requestService, Mosque $mosque)
     {
 
         if (!$mosque->isAccessible()) {
@@ -67,6 +69,11 @@ class MosqueController extends Controller
 
         $confData = $this->get('serializer')->normalize($mosque->getConfiguration(), 'json', ["groups" => ["screen"]]);
 
+        $form = null;
+        if($requestService->isLocal()){
+            $form = $this->createForm(MosqueSyncType::class)->createView();
+        }
+
         return $this->render("mosque/mosque.html.twig", [
             'mosque' => $mosque,
             'confData' => array_merge($confData, $this->get('app.prayer_times')->prayTimes($mosque, true)),
@@ -75,7 +82,7 @@ class MosqueController extends Controller
             "support_email" => $this->getParameter("support_email"),
             "postmasterAddress" => $this->getParameter("postmaster_address"),
             "mawaqitApiAccessToken" => $this->getParameter("mawaqit_api_access_token"),
-            'form' => $this->createForm(MosqueSyncType::class)->createView()
+            'form' => $form,
         ], new Response(null, Response::HTTP_OK, ["X-Frame-Options" => "deny"]));
     }
 
