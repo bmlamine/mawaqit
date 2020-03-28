@@ -53,7 +53,7 @@ class MosqueController extends Controller
 
         // if mobile device request
         if (($view !== "desktop" && $mobileDetect->isMobile() && !$mobileDetect->isTablet()) || $view === "mobile") {
-            return $this->redirectToRoute("mosque_mobile", ['slug' => $mosque->getSlug()]);
+            return $this->redirectToRoute("mosque_mobile", ['slug' => $mosque->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
         }
 
         // saving locale
