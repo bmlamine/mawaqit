@@ -20,8 +20,8 @@ class MosqueController extends Controller
     /**
      * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Route("/id/{id}", name="mosque_id")
-     * @param Request                $request
-     * @param Mosque                 $mosque
+     * @param Request $request
+     * @param Mosque  $mosque
      *
      * @return Response
      */
@@ -76,7 +76,7 @@ class MosqueController extends Controller
             "postmasterAddress" => $this->getParameter("postmaster_address"),
             "mawaqitApiAccessToken" => $this->getParameter("mawaqit_api_access_token"),
             'form' => $this->createForm(MosqueSyncType::class)->createView()
-        ]);
+        ], new Response(null, Response::HTTP_OK, ["X-Frame-Options" => "deny"]));
     }
 
     /**
