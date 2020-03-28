@@ -9,14 +9,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/app")
- * @return JsonResponse
- */
 class MobileAppController extends Controller
 {
     /**
-     * @Route("/android/{mosque}/manifest.json", name="manifest", options={"i18n"="false"})
+     * @Route("/static/mobile/android/{mosque}/manifest", name="manifest", options={"i18n"="false"})
      * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * @return JsonResponse
      */
@@ -53,7 +49,7 @@ class MobileAppController extends Controller
     }
 
     /**
-     * @Route("/store-url", name="store_url", options={"i18n"="false"})
+     * @Route("/mobile/store-url", name="store_url", options={"i18n"="false"})
      * @return Response
      */
     public function getStoreUrlAction(\Mobile_Detect $mobileDretect)
