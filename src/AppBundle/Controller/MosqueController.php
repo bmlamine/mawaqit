@@ -95,6 +95,7 @@ class MosqueController extends Controller
      * @param Mosque                 $mosque
      *
      * @return Response
+     * @throws \Exception
      */
     public function mosqueMobileAction(EntityManagerInterface $em, Request $request, Mosque $mosque)
     {

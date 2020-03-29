@@ -7,6 +7,7 @@ use AppBundle\Service\Cloudflare;
 use AppBundle\Service\RequestService;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 
 class MosqueCacheListener implements EventSubscriber
@@ -37,26 +38,36 @@ class MosqueCacheListener implements EventSubscriber
 
     public function postRemove(LifecycleEventArgs $args)
     {
-        $this->purgeCloudFlareCache($args);
-    }
-
-    public function preUpdate(LifecycleEventArgs $args)
-    {
-        $this->purgeCloudFlareCache($args);
-    }
-
-    private function purgeCloudFlareCache(LifecycleEventArgs $args)
-    {
-        if ($this->requestService->isLocal()) {
-            return;
-        }
-
         $mosque = $args->getObject();
         if (!$mosque instanceof Mosque) {
             return;
         }
 
-        $this->cloudflare->purgeCache($mosque);
+        $this->purgeCloudFlareCache($mosque, $mosque->getUpdated());
+    }
+
+    public function preUpdate(PreUpdateEventArgs $args)
+    {
+        $mosque = $args->getObject();
+        if (!$mosque instanceof Mosque) {
+            return;
+        }
+
+        $updated = $args->getOldValue("updated");
+        $this->purgeCloudFlareCache($mosque, $updated);
+    }
+
+    /**
+     * @param Mosque    $mosque
+     * @param \DateTime $updated
+     */
+    private function purgeCloudFlareCache(Mosque $mosque, \DateTime $updated)
+    {
+        if ($this->requestService->isLocal()) {
+            return;
+        }
+
+        $this->cloudflare->purgeCache($mosque, $updated);
     }
 
 }

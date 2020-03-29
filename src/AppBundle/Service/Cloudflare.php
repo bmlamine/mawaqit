@@ -40,7 +40,11 @@ class Cloudflare
         $this->languages = $languages;
     }
 
-    public function purgeCache(Mosque $mosque)
+    /**
+     * @param Mosque    $mosque
+     * @param \DateTime $updatedDate
+     */
+    public function purgeCache(Mosque $mosque, \DateTime $updatedDate)
     {
         if(!$mosque->isMosque()){
             return;
@@ -58,11 +62,11 @@ class Cloudflare
         }
 
         // https://mawaqit.net/api/1.0.0/mosque/3175/prayer-times?calendar&updatedAt=1585396469
-        $files[] = sprintf("%s/api/1.0.0/mosque/%s/prayer-times?calendar&updatedAt=%s", $this->site, $mosque->getId(), $mosque->getUpdated()->getTimestamp());
+        $files[] = sprintf("%s/api/1.0.0/mosque/%s/prayer-times?calendar&updatedAt=%s", $this->site, $mosque->getId(), $updatedDate->getTimestamp());
+        // https://mawaqit.net/api/2.0/mosque/7c0554c4-219b-4955-993c-1ac20941e0d2/prayer-times?calendar&updatedAt=1585396469
+        $files[] = sprintf("%s/api/2.0/mosque/%s/prayer-times?calendar&updatedAt=%s", $this->site, $mosque->getUuid(), $updatedDate->getTimestamp());
         // https://mawaqit.net/api/2.0/mosque/7c0554c4-219b-4955-993c-1ac20941e0d2/prayer-times
         $files[] = sprintf("%s/api/2.0/mosque/%s/prayer-times", $this->site, $mosque->getUuid());
-        // https://mawaqit.net/api/2.0/mosque/7c0554c4-219b-4955-993c-1ac20941e0d2/prayer-times?calendar&updatedAt=1585396469
-        $files[] = sprintf("%s/api/2.0/mosque/%s/prayer-times?calendar&updatedAt=%s", $this->site, $mosque->getUuid(), $mosque->getUpdated()->getTimestamp());
 
         try {
             $this->cloudflareClient->post("v4/zones/{$this->zoneId}/purge_cache", [
