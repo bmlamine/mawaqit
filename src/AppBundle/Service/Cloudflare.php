@@ -42,11 +42,27 @@ class Cloudflare
 
     public function purgeCache(Mosque $mosque)
     {
+        if(!$mosque->isMosque()){
+            return;
+        }
+
+        if(!$mosque->isFullyValidated()){
+            return;
+        }
+
         $files = [];
 
         foreach ($this->languages as $language) {
+            //https://mawaqit.net/fr/m/grande-mosquee-de-grigny
             $files[] = sprintf("%s/%s/m/%s", $this->site, $language, $mosque->getSlug());
         }
+
+        // https://mawaqit.net/api/1.0.0/mosque/3175/prayer-times?calendar&updatedAt=1585396469
+        $files[] = sprintf("%s/api/1.0.0/mosque/%s/prayer-times?calendar&updatedAt=%s", $this->site, $mosque->getId(), $mosque->getUpdated()->getTimestamp());
+        // https://mawaqit.net/api/2.0/mosque/7c0554c4-219b-4955-993c-1ac20941e0d2/prayer-times
+        $files[] = sprintf("%s/api/2.0/mosque/%s/prayer-times", $this->site, $mosque->getUuid());
+        // https://mawaqit.net/api/2.0/mosque/7c0554c4-219b-4955-993c-1ac20941e0d2/prayer-times?calendar&updatedAt=1585396469
+        $files[] = sprintf("%s/api/2.0/mosque/%s/prayer-times?calendar&updatedAt=%s", $this->site, $mosque->getUuid(), $mosque->getUpdated()->getTimestamp());
 
         try {
             $this->cloudflareClient->post("v4/zones/{$this->zoneId}/purge_cache", [

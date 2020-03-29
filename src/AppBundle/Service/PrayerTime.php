@@ -271,9 +271,12 @@ class PrayerTime
 
     /**
      *  Get pray times and other info of the mosque
+
      * @param Mosque $mosque
-     * @param bool $returnFullCalendar
+     * @param bool   $returnFullCalendar
+     *
      * @return array
+     * @throws \Exception
      */
     public function prayTimes(Mosque $mosque, $returnFullCalendar = false)
     {
@@ -346,8 +349,11 @@ class PrayerTime
 
     /**
      * apply some changes on iqama calendar like (DST)
+
      * @param Mosque $mosque
-     * @return array|null
+     *
+     * @return array
+     * @throws \Exception
      */
     private function getIqamaCalendar(Mosque $mosque)
     {

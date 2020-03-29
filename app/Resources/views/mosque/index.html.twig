@@ -110,21 +110,21 @@
                         {% if mosque.image1 is not null %}
                             <a href="{{ vich_uploader_asset(mosque, 'file1') }}" target="_blank">
                                 <img src="{{ vich_uploader_asset(mosque, 'file1') | imagine_filter('thumb_100x56') }}"
-                                     alt="{{ mosque.title }}" class="mt-1"/>
+                                     class="mt-1"/>
                             </a>
                         {% endif %}
 
                         {% if mosque.image2 is not null %}
                             <a href="{{ vich_uploader_asset(mosque, 'file2') }}" target="_blank">
                                 <img src="{{ vich_uploader_asset(mosque, 'file2') | imagine_filter('thumb_100x56') }}"
-                                     alt="{{ mosque.file2 }}" class="mt-1"/>
+                                    class="mt-1"/>
                             </a>
                         {% endif %}
 
                         {% if mosque.image3 is not null %}
                             <a href="{{ vich_uploader_asset(mosque, 'file3') }}" target="_blank">
                                 <img src="{{ vich_uploader_asset(mosque, 'file3') | imagine_filter('thumb_100x56') }}"
-                                     alt="{{ mosque.file3 }}" class="mt-1"/>
+                                     class="mt-1"/>
                             </a>
                         {% endif %}
                     </td>
