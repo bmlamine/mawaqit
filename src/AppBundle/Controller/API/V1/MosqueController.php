@@ -23,6 +23,7 @@ class MosqueController extends Controller
 {
     /**
      * @Route("/mosque/search")
+     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Method("GET")
      * @param Request $request
      *
