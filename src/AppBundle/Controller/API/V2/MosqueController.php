@@ -74,17 +74,6 @@ class MosqueController extends Controller
             throw new NotFoundHttpException();
         }
 
-        if ($request->query->has('updatedAt')) {
-            $updatedAt = $request->query->get('updatedAt');
-            if (!is_numeric($updatedAt)) {
-                throw new BadRequestHttpException();
-            }
-
-            if ($mosque->getUpdated()->getTimestamp() <= $updatedAt) {
-                return new Response(null, Response::HTTP_NOT_MODIFIED);
-            }
-        }
-
         $calendar = $request->query->has('calendar');
         $result = $this->get('app.prayer_times')->prayTimes($mosque, $calendar);
         return new JsonResponse($result);
