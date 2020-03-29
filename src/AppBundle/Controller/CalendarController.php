@@ -89,7 +89,7 @@ class CalendarController extends Controller
     public function calendarCsvAction(Mosque $mosque)
     {
         if (!$this->isGranted("ROLE_ADMIN")) {
-            if (!$mosque->isFullyValidated()) {
+            if (!$mosque->isConfigurationAllowed()) {
                 throw new AccessDeniedException;
             }
         }
