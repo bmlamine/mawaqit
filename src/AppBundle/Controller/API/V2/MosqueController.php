@@ -5,6 +5,7 @@ namespace AppBundle\Controller\API\V2;
 use AppBundle\Entity\Mosque;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,6 +60,7 @@ class MosqueController extends Controller
      * Get pray times and other info of the mosque by uuid
      * @Route("/{uuid}/prayer-times", name="app_api_mosque_praytimes")
      * @ParamConverter("mosque", options={"mapping": {"uuid": "uuid"}})
+     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Method("GET")
      *
      * @param Request $request
@@ -72,6 +74,17 @@ class MosqueController extends Controller
 
         if (!$mosque->isFullyValidated()) {
             throw new NotFoundHttpException();
+        }
+
+        if ($request->query->has('updatedAt')) {
+            $updatedAt = $request->query->get('updatedAt');
+            if (!is_numeric($updatedAt)) {
+                throw new BadRequestHttpException();
+            }
+
+            if ($mosque->getUpdated()->getTimestamp() <= $updatedAt) {
+                return new Response(null, Response::HTTP_NOT_MODIFIED);
+            }
         }
 
         $calendar = $request->query->has('calendar');
