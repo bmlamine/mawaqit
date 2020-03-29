@@ -2,11 +2,13 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\Configuration;
 use AppBundle\Entity\Mosque;
 use AppBundle\Service\Cloudflare;
 use AppBundle\Service\RequestService;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 
@@ -22,10 +24,16 @@ class MosqueCacheListener implements EventSubscriber
      */
     private $requestService;
 
-    public function __construct(Cloudflare $cloudflare, RequestService $requestService)
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    public function __construct(Cloudflare $cloudflare, RequestService $requestService, EntityManagerInterface $em)
     {
         $this->cloudflare = $cloudflare;
         $this->requestService = $requestService;
+        $this->em = $em;
     }
 
     public function getSubscribedEvents()
@@ -38,23 +46,34 @@ class MosqueCacheListener implements EventSubscriber
 
     public function postRemove(LifecycleEventArgs $args)
     {
-        $mosque = $args->getObject();
-        if (!$mosque instanceof Mosque) {
+        $entity = $args->getObject();
+        if (!$entity instanceof Mosque) {
             return;
         }
 
-        $this->purgeCloudFlareCache($mosque, $mosque->getUpdated());
+        $this->purgeCloudFlareCache($entity, $entity->getUpdated());
     }
 
     public function preUpdate(PreUpdateEventArgs $args)
     {
-        $mosque = $args->getObject();
-        if (!$mosque instanceof Mosque) {
+        $entity = $args->getObject();
+
+        if (!$entity instanceof Mosque && !$entity instanceof Configuration) {
             return;
         }
 
+        if ($entity instanceof Configuration) {
+            $entity = $this->em->getRepository(Mosque::class)->findOneBy([
+                'configuration' => $entity
+            ]);
+
+            if (!$entity instanceof Mosque) {
+                return;
+            }
+        }
+
         $updated = $args->getOldValue("updated");
-        $this->purgeCloudFlareCache($mosque, $updated);
+        $this->purgeCloudFlareCache($entity, $updated);
     }
 
     /**
