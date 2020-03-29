@@ -5,7 +5,6 @@ namespace AppBundle\Controller\API\V2;
 use AppBundle\Entity\Mosque;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,8 +43,7 @@ class MosqueController extends Controller
     /**
      * @Route("/list-uuid")
      * @Method("GET")
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
-
+     *
      * @param Request $request
      *
      * @return JsonResponse
@@ -61,13 +59,13 @@ class MosqueController extends Controller
      * Get pray times and other info of the mosque by uuid
      * @Route("/{uuid}/prayer-times", name="app_api_mosque_praytimes")
      * @ParamConverter("mosque", options={"mapping": {"uuid": "uuid"}})
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Method("GET")
      *
      * @param Request $request
      * @param Mosque  $mosque
      *
-     * @return Response
+     * @return JsonResponse|Response
+     * @throws \Exception
      */
     public function prayTimesAction(Request $request, Mosque $mosque)
     {

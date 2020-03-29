@@ -19,7 +19,6 @@ class MosqueController extends Controller
 {
 
     /**
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Route("/id/{id}", name="mosque_id")
      * @param Request $request
      * @param Mosque  $mosque
@@ -36,7 +35,6 @@ class MosqueController extends Controller
 
     /**
      * @Route("/{slug}", name="mosque")
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
      * @param Request                $request
      * @param EntityManagerInterface $em
@@ -44,6 +42,7 @@ class MosqueController extends Controller
      * @param Mosque                 $mosque
      *
      * @return Response
+     * @throws \Exception
      */
     public function mosqueAction(Request $request, EntityManagerInterface $em, RequestService $requestService, Mosque $mosque)
     {
@@ -89,7 +88,6 @@ class MosqueController extends Controller
     /**
      * @Route("/m/{slug}", name="mosque_mobile")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @param EntityManagerInterface $em
      * @param Request                $request
      * @param Mosque                 $mosque
@@ -126,7 +124,7 @@ class MosqueController extends Controller
     /**
      * @Route("/w/{slug}", name="mosque_widget")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     * @Cache(public=true, maxage="600", smaxage="600", expires="+600 sec")
+     * @Cache(public=true, maxage="120", smaxage="120", expires="+120 sec")
      * @param Mosque $mosque
      *
      * @return Response

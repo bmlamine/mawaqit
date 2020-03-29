@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\API\V2;
 
 use AppBundle\Entity\Mosque;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,8 +21,6 @@ class WeatherController extends Controller
      * @Route("/{uuid}/weather", name="weather")
      *
      * @ParamConverter("mosque", options={"mapping": {"uuid": "uuid"}})
-     *
-     * @Cache(public=true, maxage="3600", smaxage="3600", expires="+3600 sec")
      *
      * @return JsonResponse
      */

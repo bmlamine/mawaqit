@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\API\V2;
 
 use AppBundle\Service\YamlLoader;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,7 +18,6 @@ class SupportController extends Controller
 
     /**
      * @Route("")
-     * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * @Method("GET")
      * @param Request    $request
      * @param YamlLoader $yamlLoader

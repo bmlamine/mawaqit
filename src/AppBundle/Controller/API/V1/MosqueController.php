@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\API\V1;
 
 use AppBundle\Entity\Mosque;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -41,7 +40,6 @@ class MosqueController extends Controller
     /**
      * Get pray times and other info of the mosque by ID
      * @Route("/mosque/{id}/prayer-times")
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Method("GET")
      *
      * @param Request $request
