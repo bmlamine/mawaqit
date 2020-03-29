@@ -31,7 +31,7 @@ class MosqueCacheListener implements EventSubscriber
     {
         return [
             Events::postRemove,
-            Events::postUpdate,
+            Events::preUpdate,
         ];
     }
 
@@ -40,7 +40,7 @@ class MosqueCacheListener implements EventSubscriber
         $this->purgeCloudFlareCache($args);
     }
 
-    public function postUpdate(LifecycleEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args)
     {
         $this->purgeCloudFlareCache($args);
     }
