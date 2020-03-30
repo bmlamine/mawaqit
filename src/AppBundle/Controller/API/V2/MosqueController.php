@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\Serializer;
 class MosqueController extends Controller
 {
     /**
-     * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
+     * @Cache(public=true, maxage="600", smaxage="600", expires="+600 sec")
      * @Route("/search")
      * @Method("GET")
      * @param Request $request
@@ -62,7 +62,7 @@ class MosqueController extends Controller
      * Get pray times and other info of the mosque by uuid
      * @Route("/{uuid}/prayer-times", name="app_api_mosque_praytimes")
      * @ParamConverter("mosque", options={"mapping": {"uuid": "uuid"}})
-     * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
+     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Method("GET")
      *
      * @param Request $request
