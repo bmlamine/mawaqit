@@ -57,6 +57,12 @@ var prayer = {
             return;
         }
 
+        let frequency = 5;
+        if(!isMosque)
+        {
+            frequency = 10;
+        }
+
         var remote = $(".main").data("remote");
         setInterval(function () {
             $.ajax({
@@ -74,7 +80,7 @@ var prayer = {
                     }
                 }
             });
-        }, prayer.oneMinute * 5);
+        }, prayer.oneMinute * frequency);
     },
     /**
      * load prayer times
