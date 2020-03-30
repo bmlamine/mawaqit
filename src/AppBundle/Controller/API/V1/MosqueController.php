@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Serializer;
 class MosqueController extends Controller
 {
     /**
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
+     * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * @Route("/mosque/search")
      * @Method("GET")
      * @param Request $request
@@ -40,7 +40,7 @@ class MosqueController extends Controller
     }
 
     /**
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
+     * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * Get pray times and other info of the mosque by ID
      * @Route("/mosque/{id}/prayer-times")
      * @Method("GET")

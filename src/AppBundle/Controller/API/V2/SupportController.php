@@ -18,7 +18,7 @@ class SupportController extends Controller
 {
 
     /**
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
+     * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * @Route("")
      * @Method("GET")
      * @param Request    $request
