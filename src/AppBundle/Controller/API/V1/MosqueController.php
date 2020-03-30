@@ -40,7 +40,6 @@ class MosqueController extends Controller
     }
 
     /**
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * Get pray times and other info of the mosque by ID
      * @Route("/mosque/{id}/prayer-times")
      * @Method("GET")

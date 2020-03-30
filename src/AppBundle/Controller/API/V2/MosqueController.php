@@ -3,17 +3,16 @@
 namespace AppBundle\Controller\API\V2;
 
 use AppBundle\Entity\Mosque;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -46,7 +45,6 @@ class MosqueController extends Controller
      * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * @Route("/list-uuid")
      * @Method("GET")
-     *
      * @param Request $request
      *
      * @return JsonResponse
@@ -62,7 +60,6 @@ class MosqueController extends Controller
      * Get pray times and other info of the mosque by uuid
      * @Route("/{uuid}/prayer-times", name="app_api_mosque_praytimes")
      * @ParamConverter("mosque", options={"mapping": {"uuid": "uuid"}})
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Method("GET")
      *
      * @param Request $request
@@ -78,20 +75,25 @@ class MosqueController extends Controller
             throw new NotFoundHttpException();
         }
 
-        if ($request->query->has('updatedAt')) {
-            $updatedAt = $request->query->get('updatedAt');
-            if (!is_numeric($updatedAt)) {
-                throw new BadRequestHttpException();
-            }
+        $response = new JsonResponse();
+        $response->setExpires(new \DateTime("+300 sec"));
+        $response->setCache([
+            "public" => true,
+            "max_age" => 300,
+            "s_maxage" => 300,
+        ]);
 
-            if ($mosque->getUpdated()->getTimestamp() <= $updatedAt) {
-                return new Response(null, Response::HTTP_NOT_MODIFIED);
-            }
+        $response->setLastModified($mosque->getUpdated());
+
+        if ($response->isNotModified($request)) {
+            $response->headers->set("Cache-Control", "no-cache");
+            return $response;
         }
 
         $calendar = $request->query->has('calendar');
         $result = $this->get('app.prayer_times')->prayTimes($mosque, $calendar);
-        return new JsonResponse($result);
+        $response->setData($result);
+        return $response;
     }
 
     /**
