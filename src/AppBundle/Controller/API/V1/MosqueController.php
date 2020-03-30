@@ -5,6 +5,7 @@ namespace AppBundle\Controller\API\V1;
 use AppBundle\Entity\Mosque;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ use Symfony\Component\Serializer\Serializer;
 class MosqueController extends Controller
 {
     /**
+     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Route("/mosque/search")
      * @Method("GET")
      * @param Request $request
@@ -38,6 +40,7 @@ class MosqueController extends Controller
     }
 
     /**
+     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * Get pray times and other info of the mosque by ID
      * @Route("/mosque/{id}/prayer-times")
      * @Method("GET")
