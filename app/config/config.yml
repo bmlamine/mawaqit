@@ -46,6 +46,7 @@ twig:
     supportEmail: "%support_email%"
     site: "%site%"
     version: "%version%"
+    token: '%mawaqit_api_access_token%'
     yamlLoader: '@AppBundle\Service\YamlLoader'
   form_themes:
     - 'form/themes.html.twig'

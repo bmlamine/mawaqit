@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -74,6 +75,19 @@ class MosqueController extends Controller
         if (!$mosque->isFullyValidated()) {
             throw new NotFoundHttpException();
         }
+
+        /** Begin Deprecated */
+        if ($request->query->has('updatedAt')) {
+            $updatedAt = $request->query->get('updatedAt');
+            if (!is_numeric($updatedAt)) {
+                throw new BadRequestHttpException();
+            }
+
+            if ($mosque->getUpdated()->getTimestamp() <= $updatedAt) {
+                return new Response(null, Response::HTTP_NOT_MODIFIED);
+            }
+        }
+        /** End Deprecated */
 
         $response = new JsonResponse();
         $response->setExpires(new \DateTime("+300 sec"));
