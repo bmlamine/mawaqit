@@ -9,7 +9,7 @@ $("#whatsapp-select").bind("change keyup", function (event) {
             country: $(this).val()
         },
         success: function (data) {
-            window.open(data.web.whatsapp, '_blank');
+            window.location.href = data.web.whatsapp;
         }
     });
 });
