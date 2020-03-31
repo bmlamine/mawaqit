@@ -90,7 +90,7 @@ class MosqueController extends Controller
         /** End Deprecated */
 
         $response = new JsonResponse();
-        $response->setExpires(new \DateTime("+300 sec"));
+        //$response->setExpires(new \DateTime("+300 sec"));
         $response->setCache([
             "public" => true,
             "max_age" => 300,
@@ -100,7 +100,12 @@ class MosqueController extends Controller
         $response->setLastModified($mosque->getUpdated());
 
         if ($response->isNotModified($request)) {
-            $response->headers->set("Cache-Control", "no-cache");
+            $response->setCache([
+                "public" => true,
+                "max_age" => 300,
+                "s_maxage" => 300,
+            ]);
+            //$response->headers->set("Cache-Control", "no-cache");
             return $response;
         }
 
