@@ -76,6 +76,12 @@ class MosqueController extends Controller
             throw new NotFoundHttpException();
         }
 
+        $response = new JsonResponse();
+        $response->setExpires(new \DateTime("+300 sec"));
+        $response->setPublic();
+        $response->setMaxAge(300);
+        $response->setSharedMaxAge(300);
+
         /** Begin Deprecated */
         if ($request->query->has('updatedAt')) {
             $updatedAt = $request->query->get('updatedAt');
@@ -84,27 +90,14 @@ class MosqueController extends Controller
             }
 
             if ($mosque->getUpdated()->getTimestamp() <= $updatedAt) {
-                return new Response(null, Response::HTTP_NOT_MODIFIED);
+                $response->setStatusCode(Response::HTTP_NOT_MODIFIED);
+                return $response;
             }
         }
         /** End Deprecated */
 
-        $response = new JsonResponse();
-        //$response->setExpires(new \DateTime("+300 sec"));
-        $response->setCache([
-            "public" => true,
-            "max_age" => 300,
-            "s_maxage" => 300,
-        ]);
-
         $response->setLastModified($mosque->getUpdated());
-
         if ($response->isNotModified($request)) {
-            $response->setCache([
-                "public" => true,
-                "max_age" => 300,
-                "s_maxage" => 300,
-            ]);
             //$response->headers->set("Cache-Control", "no-cache");
             return $response;
         }
