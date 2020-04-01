@@ -58,14 +58,19 @@ class MosqueController extends Controller
 
     /**
      * Get pray times and other info of the mosque by uuid
+     *
+     * @Cache(public=true, maxage="60", expires="+60 sec")
+     *
      * @Route("/{uuid}/prayer-times", name="app_api_mosque_praytimes")
-     * @ParamConverter("mosque", options={"mapping": {"uuid": "uuid"}})
      * @Method("GET")
+     *
+     * @ParamConverter("mosque", options={"mapping": {"uuid": "uuid"}})
      *
      * @param Request $request
      * @param Mosque  $mosque
      *
      * @return JsonResponse|Response
+     *
      * @throws \Exception
      */
     public function prayTimesAction(Request $request, Mosque $mosque)
@@ -86,7 +91,6 @@ class MosqueController extends Controller
             }
 
             if ($mosque->getUpdated()->getTimestamp() <= $updatedAt) {
-                //$response->headers->set("Cache-Control", "no-cache");
                 $response->setStatusCode(Response::HTTP_NOT_MODIFIED);
                 return $response;
             }
@@ -95,7 +99,6 @@ class MosqueController extends Controller
 
         $response->setLastModified($mosque->getUpdated());
         if ($response->isNotModified($request)) {
-            //$response->headers->set("Cache-Control", "no-cache");
             return $response;
         }
 
@@ -103,10 +106,11 @@ class MosqueController extends Controller
         $result = $this->get('app.prayer_times')->prayTimes($mosque, $calendar);
 
         $response->setData($result);
-        $response->setPublic();
-        $response->setExpires(new \DateTime("+7200 sec"));
-        $response->setMaxAge(7200);
-        $response->setSharedMaxAge(7200);
+
+//        $response->setPublic();
+//        $response->setExpires(new \DateTime("+7200 sec"));
+//        $response->setMaxAge(7200);
+//        $response->setSharedMaxAge(7200);
 
         return $response;
     }
