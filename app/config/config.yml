@@ -169,21 +169,24 @@ csa_guzzle:
     api:
       config:
         base_uri: '%api_base_url%'
+        timeout: 10
         headers:
           Accept: 'application/json'
           Api-Access-Token: '%mawaqit_api_access_token%'
     pdfshift:
       config:
         base_uri: 'https://api.pdfshift.io'
+        timeout: 10
         headers:
           Authorization: 'Basic %pdfshift_api_token%'
     elastic:
       config:
         base_uri: '%app_elasticsearch_url%'
+        timeout: 10
     cloudflare:
       config:
         base_uri: 'https://api.cloudflare.com/client/'
-        timeout: 3
+        timeout: 10
         headers:
           X-Auth-Key: '%cloudflare_api_token%'
           X-Auth-Email: '%cloudflare_api_email%'
