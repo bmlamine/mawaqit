@@ -101,7 +101,10 @@ class MosqueController extends Controller
 
         $calendar = $request->query->has('calendar');
         $result = $this->get('app.prayer_times')->prayTimes($mosque, $calendar);
+
         $response->setData($result);
+        $response->setPublic();
+
         return $response;
     }
 
