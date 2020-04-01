@@ -42,6 +42,7 @@ services:
       - .env
 
   elasticsearch:
+    container_name: elasticsearch_mysql
     image: elasticsearch:6.8.6
     environment:
       - http.host=0.0.0.0
