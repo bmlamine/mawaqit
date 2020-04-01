@@ -78,11 +78,6 @@ class MosqueController extends Controller
             return $response;
         }
 
-        $response->setExpires(new \DateTime("+300 sec"));
-        $response->setPublic();
-        $response->setMaxAge(300);
-        $response->setSharedMaxAge(300);
-
         /** Begin Deprecated */
         if ($request->query->has('updatedAt')) {
             $updatedAt = $request->query->get('updatedAt');
@@ -91,6 +86,7 @@ class MosqueController extends Controller
             }
 
             if ($mosque->getUpdated()->getTimestamp() <= $updatedAt) {
+                //$response->headers->set("Cache-Control", "no-cache");
                 $response->setStatusCode(Response::HTTP_NOT_MODIFIED);
                 return $response;
             }
