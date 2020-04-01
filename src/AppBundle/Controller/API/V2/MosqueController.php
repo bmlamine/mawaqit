@@ -104,6 +104,9 @@ class MosqueController extends Controller
 
         $response->setData($result);
         $response->setPublic();
+        $response->setExpires(new \DateTime("+7200 sec"));
+        $response->setMaxAge(7200);
+        $response->setSharedMaxAge(7200);
 
         return $response;
     }
