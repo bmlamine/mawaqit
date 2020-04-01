@@ -1,10 +1,13 @@
 $(".copyright-year").text((new Date()).getFullYear());
 
 $("#whatsapp-select").bind("change keyup", function (event) {
-    let self = this;
+    if(!$(this).val()){
+        return;
+    }
+
     $.ajax({
-        url: $(self).data("remote"),
-        headers: {'Api-Access-Token': $(self).data("token")},
+        url: $(this).data("remote"),
+        headers: {'Api-Access-Token': $(this).data("token")},
         data: {
             country: $(this).val()
         },
