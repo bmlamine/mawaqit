@@ -83,9 +83,9 @@ class MosqueController extends Controller
         }
 
         $response->setPublic();
-        $response->setExpires(new \DateTime("+600 sec"));
-        $response->setMaxAge(600);
-        $response->setSharedMaxAge(600);
+        $response->setExpires(new \DateTime("+120 sec"));
+        $response->setMaxAge(120);
+        $response->setSharedMaxAge(120);
 
         /** Begin Deprecated */
         if ($request->query->has('updatedAt')) {
