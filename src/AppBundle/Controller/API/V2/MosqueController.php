@@ -59,7 +59,7 @@ class MosqueController extends Controller
     /**
      * Get pray times and other info of the mosque by uuid
      *
-     * @Cache(public=true, maxage="0")
+     * @Cache(public=true)
      *
      * @Route("/{uuid}/prayer-times", name="app_api_mosque_praytimes")
      * @Method("GET")
