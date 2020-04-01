@@ -71,11 +71,13 @@ class MosqueController extends Controller
     public function prayTimesAction(Request $request, Mosque $mosque)
     {
 
+        $response = new JsonResponse();
         if (!$mosque->isFullyValidated()) {
-            throw new NotFoundHttpException();
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            $response->headers->set("Cache-Control", "no-cache");
+            return $response;
         }
 
-        $response = new JsonResponse();
         $response->setExpires(new \DateTime("+300 sec"));
         $response->setPublic();
         $response->setMaxAge(300);
