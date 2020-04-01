@@ -59,7 +59,7 @@ class MosqueController extends Controller
     /**
      * Get pray times and other info of the mosque by uuid
      *
-     * @Cache(public=true, maxage="60", expires="+60 sec")
+     * @Cache(public=true, maxage="0")
      *
      * @Route("/{uuid}/prayer-times", name="app_api_mosque_praytimes")
      * @Method("GET")
@@ -106,11 +106,6 @@ class MosqueController extends Controller
         $result = $this->get('app.prayer_times')->prayTimes($mosque, $calendar);
 
         $response->setData($result);
-
-//        $response->setPublic();
-//        $response->setExpires(new \DateTime("+7200 sec"));
-//        $response->setMaxAge(7200);
-//        $response->setSharedMaxAge(7200);
 
         return $response;
     }
