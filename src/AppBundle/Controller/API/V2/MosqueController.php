@@ -25,7 +25,6 @@ use Symfony\Component\Serializer\Serializer;
 class MosqueController extends Controller
 {
     /**
-     * @Cache(public=true, maxage="600", smaxage="600", expires="+600 sec")
      * @Route("/search")
      * @Method("GET")
      * @param Request $request

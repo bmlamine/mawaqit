@@ -4,7 +4,6 @@ namespace AppBundle\Controller\API\V1;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +15,6 @@ class HadithController extends Controller
 {
 
     /**
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @Route("/random")
      * @Method("GET")
      * @param Request $request

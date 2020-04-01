@@ -5,7 +5,6 @@ namespace AppBundle\Controller\API\V2;
 use AppBundle\Service\YamlLoader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,6 @@ class SupportController extends Controller
 {
 
     /**
-     * @Cache(public=true, maxage="86400", smaxage="86400", expires="+86400 sec")
      * @Route("")
      * @Method("GET")
      * @param Request    $request
