@@ -59,8 +59,6 @@ class MosqueController extends Controller
     /**
      * Get pray times and other info of the mosque by uuid
      *
-     * @Cache(public=true)
-     *
      * @Route("/{uuid}/prayer-times", name="app_api_mosque_praytimes")
      * @Method("GET")
      *
@@ -77,11 +75,17 @@ class MosqueController extends Controller
     {
 
         $response = new JsonResponse();
+
         if (!$mosque->isFullyValidated()) {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $response->headers->set("Cache-Control", "no-cache");
             return $response;
         }
+
+        $response->setPublic();
+        $response->setExpires(new \DateTime("+600 sec"));
+        $response->setMaxAge(600);
+        $response->setSharedMaxAge(600);
 
         /** Begin Deprecated */
         if ($request->query->has('updatedAt')) {
