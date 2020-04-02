@@ -83,13 +83,9 @@ class MosqueController extends Controller
         }
 
         $response->setPublic();
-//        $response->setExpires(new \DateTime("+120 sec"));
-//        $response->setMaxAge(120);
-//        $response->setSharedMaxAge(120);
 
         /** Begin Deprecated */
-        if ($request->query->has('updatedAt')) {
-            $updatedAt = $request->query->get('updatedAt');
+        if ($updatedAt = $request->query->get('updatedAt')) {
             if (!is_numeric($updatedAt)) {
                 throw new BadRequestHttpException();
             }
