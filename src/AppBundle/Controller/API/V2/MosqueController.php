@@ -76,16 +76,15 @@ class MosqueController extends Controller
 
         $response = new JsonResponse();
 
+        $response->setPublic();
+        $response->setExpires(new \DateTime("+60 sec"));
+        $response->setMaxAge(60);
+        $response->setSharedMaxAge(60);
+
         if (!$mosque->isFullyValidated()) {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
-            $response->headers->set("Cache-Control", "no-cache");
             return $response;
         }
-
-        $response->setPublic();
-        $response->setExpires(new \DateTime("+120 sec"));
-        $response->setMaxAge(120);
-        $response->setSharedMaxAge(120);
 
         /** Begin Deprecated */
         if ($updatedAt = $request->query->get('updatedAt')) {
