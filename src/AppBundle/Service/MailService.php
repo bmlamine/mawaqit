@@ -75,9 +75,16 @@ class MailService
         $body = $this->twig->render("email_templates/mosque_$status.html.twig", ['mosque' => $mosque]);
         $message = $this->mailer->createMessage();
         $message->setSubject($title)
+            ->setCharset("utf-8")
             ->setFrom($from)
             ->setTo($to)
-            ->setBody($body, 'text/html');
+            ->addPart($body, 'text/html');
+
+        if($status === "duplicated"){
+            $text = $this->twig->render("email_templates/mosque_$status.txt.twig", ['mosque' => $mosque]);
+            $message->setBody($text);
+        }
+
         $this->mailer->send($message);
     }
 
