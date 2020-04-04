@@ -79,7 +79,7 @@
                 {% if isNotLocal() %}
                     <th>{{ 'status'|trans }}</th>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <th>{{ 'user'|trans }}</th>
+                        <th>{{ 'user.label'|trans }}</th>
                     {% endif %}
                     <th>{{ 'date'|trans }}</th>
                 {% endif %}
@@ -292,7 +292,7 @@
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <div>
-                            <strong>{{ 'user'|trans }}:</strong>
+                            <strong>{{ 'user.label'|trans }}:</strong>
                             <a href="{{ path('easyadmin', { action: 'edit', entity: 'User', id: mosque.user.id}) }}">{{ mosque.user.email }}</a>
                             <a href="{{ path('mosque_index', {userId: mosque.user.id}) }}">
                                 ({{ mosque.user.mosques|length }})</a>

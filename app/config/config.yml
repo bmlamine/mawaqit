@@ -117,6 +117,9 @@ fos_user:
       validation_groups: [Registration, appChangePassword]
     confirmation:
       enabled: true
+  profile:
+    form:
+      type: AppBundle\Form\ProfileType
   change_password:
     form:
       validation_groups: [appChangePassword]

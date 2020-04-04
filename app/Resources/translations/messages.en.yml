@@ -240,6 +240,13 @@ registration:
 tou:
   label: I accept
 
+user:
+  label: User
+  form:
+    unsubscribeEmail:
+      label: Unsubscribe from mawaqit emails
+      help: Attention you lose all our important communications
+
 mosque:
   title:
     HOME: Mawaqit %city% - Home
@@ -740,7 +747,6 @@ azan: Al-Adhân
 power-off-phones: Please turn off your mobile phones !
 hi: Hi %name%
 salam: 'Essalamu `alaykom %name%'
-user: User
 active: Enebled ?
 delete_element_question: Are you sure you want to validate the deletion?
 add: Add

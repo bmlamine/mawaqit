@@ -262,6 +262,13 @@ registration:
 tou:
   label: J'accepte
 
+user:
+  label: Utilisateur
+  form:
+    unsubscribeEmail:
+      label: Se désinscrire des emails mawaqit
+      help: Attention vous perdez toutes nos communications importantes
+
 mosque:
   title:
     HOME: Mawaqit %city% - Domicile
@@ -779,7 +786,6 @@ azan: Al-Adhân
 power-off-phones: Éteignez vos portables SVP !
 hi: Bonjour %name%
 salam: 'Essalamu `alaykum %name%'
-user: Utilisateur
 active: Activé
 actions: Actions
 delete_element_question: Êtes-vous sûr de vouloir valider la suppression ?

@@ -244,6 +244,13 @@ registration:
   password_rule: أقلها 8 أحرف منها حرف صغير ، حرف كبير ورقم
   please_enter_right_email: يرجى إدخال عنوان بريد إلكتروني تزوره بانتظام
 
+user:
+  label: المستخدم
+  form:
+    unsubscribeEmail:
+      label: إلغاء الاشتراك من رسائل البريد الإلكتروني
+      help: انتباه تفقد كل اتصالاتنا الهامة
+
 mosque:
   title:
     HOME: مواقيت %city% - منزل
@@ -711,7 +718,6 @@ azan: الأذان
 power-off-phones: أطفئوا الهاتف من فضلكم
 hi: %name% مرحبا
 salam: %name%' السلام عليكم
-user: المستخدم
 active: مفعل؟
 delete_element_question: هل تريد فعلا القيام بعملية الحذف؟
 add: إضافة
