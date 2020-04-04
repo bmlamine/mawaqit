@@ -66,6 +66,7 @@ class ProfileType extends AbstractType
             ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
             ->add('email', EmailType::class, array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
             ->add('unsubscribeEmails', CheckboxType::class, [
+                'required' => false,
                 'label' => 'user.form.unsubscribeEmail.label',
                 'attr' => [
                     'help' => 'user.form.unsubscribeEmail.help',
