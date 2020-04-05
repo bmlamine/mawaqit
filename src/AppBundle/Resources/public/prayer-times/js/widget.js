@@ -38,7 +38,7 @@ $.ajax({
                 iqama = mosque.fixedIqama[i];
             }
 
-            $('.prayers .iqama').eq(i).text(iqama);
+            $('.prayers .iqama').eq(i).html(dateTime.formatTime(iqama, format));
         });
     }
 });

@@ -133,6 +133,10 @@ var dateTime = {
             return time;
         }
 
+        if (!time.includes(':') ) {
+            return time;
+        }
+
         time = time.split(":");
         var hours = time[0];
         var minutes = time[1];
