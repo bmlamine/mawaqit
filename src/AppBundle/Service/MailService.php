@@ -139,12 +139,19 @@ class MailService
     private function sendEmail(Mosque $mosque, $title, $to, $from, $status)
     {
         $body = $this->twig->render("email_templates/mosque_$status.html.twig", ['mosque' => $mosque]);
+
+        /**
+         * @var \Swift_Message $message
+         */
         $message = $this->mailer->createMessage();
+
         $message->setSubject($title)
             ->setCharset("utf-8")
             ->setFrom($from)
             ->setTo($to)
-            ->setBody($body, 'text/html');
+            ->setBody($body, 'text/html')
+            ->addPart(strip_tags($body), 'text/plain');
+        $message->getHeaders()->addTextHeader('List-Unsubscribe', "https://mawaqit.net/fr/backoffice/profile/edit");
 
         $this->mailer->send($message);
     }
