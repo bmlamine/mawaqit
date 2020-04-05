@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/backoffice/tools")
+ * @Route("/backoffice/superadmin")
  */
 class ToolsController extends Controller
 {

@@ -43,7 +43,17 @@
                         </li>
                     {% endif %}
                     {% if is_granted('ROLE_SUPER_ADMIN') and  isNotLocal() %}
-                        <li><a href="{{ path('admin_index') }}"><i class="fa fa-cogs"></i>&nbsp;Administration</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false"> <i class="fa fa-cogs"></i>&nbsp;Administration <i class="caret"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path("easyadmin") }}">Accès super admin</a></li>
+                                <li><a href="{{ path("users_send_email") }}">Envoyer un mail</a></li>
+                                <li><a href="{{ path("admin_index") }}">Outils</a></li>
+                            </ul>
+                        </li>
                     {% endif %}
                 {% endif %}
 
