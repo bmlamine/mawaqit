@@ -38,16 +38,20 @@ class MosqueController extends Controller
      * @Route("/{slug}", name="mosque")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
      * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
-     * @param Request                $request
+     * @param Request $request
      * @param EntityManagerInterface $em
-     * @param RequestService         $requestService
-     * @param Mosque                 $mosque
+     * @param RequestService $requestService
+     * @param Mosque $mosque
      *
      * @return Response
      * @throws \Exception
      */
-    public function mosqueAction(Request $request, EntityManagerInterface $em, RequestService $requestService, Mosque $mosque)
-    {
+    public function mosqueAction(
+        Request $request,
+        EntityManagerInterface $em,
+        RequestService $requestService,
+        Mosque $mosque
+    ) {
 
         if (!$mosque->isAccessible()) {
             throw new NotFoundHttpException();
@@ -57,8 +61,9 @@ class MosqueController extends Controller
         $view = $request->query->get("view");
 
         // if mobile device request
-        if (($view !== "desktop" && $mobileDetect->isMobile() && !$mobileDetect->isTablet()) || $view === "mobile") {
-            return $this->redirectToRoute("mosque_mobile", ['slug' => $mosque->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+        if ($view !== "desktop" && $mobileDetect->isMobile() && !$mobileDetect->isTablet()) {
+            return $this->redirectToRoute("mosque_mobile", ['slug' => $mosque->getSlug()],
+                Response::HTTP_MOVED_PERMANENTLY);
         }
 
         // saving locale
@@ -71,7 +76,7 @@ class MosqueController extends Controller
         $confData = $this->get('serializer')->normalize($mosque->getConfiguration(), 'json', ["groups" => ["screen"]]);
 
         $form = null;
-        if($requestService->isLocal()){
+        if ($requestService->isLocal()) {
             $form = $this->createForm(MosqueSyncType::class)->createView();
         }
 
