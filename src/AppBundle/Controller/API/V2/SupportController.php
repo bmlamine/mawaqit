@@ -24,7 +24,7 @@ class SupportController extends Controller
      *
      * @return Response
      */
-    public function supportAction(Request $request, YamlLoader $yamlLoader)
+    public function support(Request $request, YamlLoader $yamlLoader)
     {
         $country = $request->query->get("country", "OC");
 
