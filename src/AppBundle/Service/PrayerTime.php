@@ -326,6 +326,7 @@ class PrayerTime
             $result['flash'] = [
                 'content' => $flashMessage->getContent(),
                 'expire' => $flashMessage->getExpire() instanceof \DateTime ? $flashMessage->getExpire()->getTimestamp() : null,
+                'orientation' => $flashMessage->getOrientation(),
             ];
         }
 
