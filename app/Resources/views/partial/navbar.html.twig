@@ -49,7 +49,9 @@
                                aria-expanded="false"> <i class="fa fa-cogs"></i>&nbsp;Administration <i class="caret"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ path("easyadmin") }}">Accès super admin</a></li>
+                                <li><a href="{{ path("easyadmin", {entity: 'User'}) }}">Utilisateurs</a></li>
+                                <li><a href="{{ path("easyadmin", {entity: 'Parameters'}) }}">Paramètres</a></li>
+                                <li><a href="{{ path("easyadmin", {entity: 'Faq'}) }}">FAQ</a></li>
                                 <li><a href="{{ path("users_send_email") }}">Envoyer un mail</a></li>
                                 <li><a href="{{ path("admin_index") }}">Outils</a></li>
                             </ul>
