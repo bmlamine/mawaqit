@@ -9,7 +9,7 @@
 
     <style>
         @page {
-            margin: 20px 60px;
+            margin: 10px 50px;
         }
 
         @font-face {
@@ -30,7 +30,8 @@
         }
 
         footer {
-            margin: 20px 5px 0;
+            margin: 10px 5px 0;
+            font-size: 90%;
         }
 
         header {
@@ -130,14 +131,18 @@
 
         <footer>
             {% if mosque.associationName %}
-                <div>{{ mosque.associationName }}</div>
+                {{ mosque.associationName }} |
             {% endif %}
-            <div>{{ mosque.localisation }}</div>
-            {% if mosque.email %}
-                <span>{{ mosque.email }}</span>
-            {% endif %}
-            {% if mosque.phone %}
-                - <span>{{ mosque.phone }}</span>
+            {{ mosque.localisation }}
+            {% if mosque.email or mosque.phone %}
+                <div>
+                    {% if mosque.email %}
+                        {{ mosque.email }}
+                    {% endif %}
+                    {% if mosque.phone %}
+                        | {{ mosque.phone }}
+                    {% endif %}
+                </div>
             {% endif %}
             {% if mosque.rib or mosque.paymentWebsite %}
                 <div>

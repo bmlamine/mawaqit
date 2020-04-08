@@ -42,7 +42,8 @@ class CalendarController extends Controller
 
         $md5 = md5(json_encode($mosque->getConf()->getCalendar()));
         $fileName = $mosque->getSlug() . "-$md5.pdf";
-        $cachedFile = $this->getParameter("kernel.root_dir") . "/../docker/data/calendar/$fileName";
+        $cacheDir = $this->getParameter("kernel.root_dir") . "/../docker/data/calendar";
+        $cachedFile = "$cacheDir/$fileName";
 
         $headers = [
             'Content-Disposition' => 'inline; filename="' . $fileName . '"',
@@ -64,9 +65,13 @@ class CalendarController extends Controller
                 ]
             ]);
 
+            // delete old files
+            array_map('unlink', glob("$cacheDir/{$mosque->getSlug()}*.pdf"));
+            // save new content
             file_put_contents($cachedFile, $response->getBody()->getContents());
 
             return new Response($response->getBody(), Response::HTTP_OK, $headers);
+
         } catch (ClientException $e) {
             $logger->critical($e->getMessage());
             if ($e->getResponse()->getStatusCode() === Response::HTTP_FORBIDDEN) {
