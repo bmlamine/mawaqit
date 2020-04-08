@@ -115,9 +115,8 @@
 
                 {% if isLocal() %}
                     {% if mosque.synchronized %}
-                        <div class="settings" title="{{ 'form.configure.action'|trans }}">
-                            <a href="{{ path('mosque_index', {id: mosque.id}) }}"> <i
-                                        class="glyphicon glyphicon-cog"></i></a>
+                        <div class="settings" title="{{ 'form.sync.action'|trans }}">
+                            <a href="{{ path('mosque_reset_sync', {id: mosque.id}) }}"> <i class="glyphicon glyphicon-refresh"></i></a>
                         </div>
                     {% endif %}
 

@@ -122,13 +122,14 @@ class MosqueController extends Controller
      *
      * @return Response
      */
-    public function syncAction(Request $request, Client $client, Mosque $mosque, LoggerInterface $logger)
+    public function syncAction(Request $request, Client $client, Mosque $mosque, LoggerInterface $logger, EntityManagerInterface $em)
     {
         $form = $this->createForm(MosqueSyncType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        $mosque->setSynchronized(false);
+        $em->flush();
 
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($request->request->has('validate')) {
                 try {
 
@@ -183,6 +184,7 @@ class MosqueController extends Controller
                     }
 
                     $mosque->setSynchronized(true);
+                    $em->flush();
 
                 } catch (ConnectException $e) {
                     $this->addFlash("danger", "mosqueScreen.noInternetConnection");
@@ -203,8 +205,6 @@ class MosqueController extends Controller
                     $this->addFlash("danger", "mosqueScreen.otherPb");
                 }
             }
-
-            $em->flush();
         }
 
         return $this->redirectToRoute('mosque', [
