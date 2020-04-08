@@ -236,6 +236,7 @@ registration:
   registration: Registration
   password_rule: 8 characters minimum, including 1 capital, 1 lowercase and 1 number
   please_enter_right_email: Please enter an email address that you visit regularly
+  check_spams: Please also check your spam box.
 
 tou:
   label: I accept

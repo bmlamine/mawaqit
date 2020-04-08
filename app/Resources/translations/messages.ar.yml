@@ -243,6 +243,7 @@ registration:
   registration: التسجيل
   password_rule: أقلها 8 أحرف منها حرف صغير ، حرف كبير ورقم
   please_enter_right_email: يرجى إدخال عنوان بريد إلكتروني تزوره بانتظام
+  check_spams:  يرجى أيضًا التحقق من صندوق البريد العشوائي (spam).
 
 user:
   label: المستخدم

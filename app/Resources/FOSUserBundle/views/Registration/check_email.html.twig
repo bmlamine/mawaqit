@@ -4,7 +4,8 @@
 
 {% block body %}
     {% block fos_user_content %}
-        <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+        <h2>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</h2>
+        <h2 style="color: #ff391e">{{ 'registration.check_spams'|trans({}, 'messages') }}</h2>
     {% endblock fos_user_content %}
 {% endblock body %}
 

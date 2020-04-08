@@ -258,6 +258,7 @@ registration:
   registration: Inscription
   password_rule: 8 caractères minimum, dont 1 majuscule, 1 minuscule et 1 nombre
   please_enter_right_email: Veuillez entrer une adresse mail que vous consultez régulièrement
+  check_spams: Veuillez aussi vérifier votre dossier spam.
 
 tou:
   label: J'accepte
