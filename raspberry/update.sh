@@ -18,7 +18,7 @@ fi
     echo 10
     sed -i "s/version: .*/version: $version/" app/config/parameters.yml
     sudo rm -rf var/cache/* var/logs/*
-    docker-compose run mawaqit_composer sh -c "export SYMFONY_ENV=raspberry; composer install -o -n --no-dev --no-suggest --prefer-dist --no-progress" /dev/null 2>&1
+    docker-compose run mawaqit_composer sh -c "export SYMFONY_ENV=raspberry; composer install -o -n -q --no-dev --no-suggest --prefer-dist --no-progress"
     echo 40
     docker-compose exec mawaqit_php bin/console assets:install --env=raspberry --no-debug /dev/null 2>&1
     echo 60
