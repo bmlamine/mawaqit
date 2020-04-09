@@ -20,7 +20,7 @@ class MosqueController extends Controller
 
     /**
      * @Route("/id/{id}", name="mosque_id")
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
+     *
      * @param Request $request
      * @param Mosque  $mosque
      *
@@ -37,7 +37,7 @@ class MosqueController extends Controller
     /**
      * @Route("/{slug}", name="mosque")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
+     *
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param RequestService $requestService
