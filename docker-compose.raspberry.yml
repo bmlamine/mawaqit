@@ -35,3 +35,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mawaqit
       MYSQL_DATABASE: mawaqit
+
+  mawaqit_composer:
+    image: arm32v6/composer
+    volumes:
+      - ./:/app
