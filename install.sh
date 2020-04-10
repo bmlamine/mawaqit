@@ -1,16 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-docker-compose up -d --build
 docker-compose exec php composer install -n
 echo ""
 echo "Waiting for database..."
 
-while ! docker-compose exec db mysqladmin ping -h"127.0.0.1" --silent; do
+while ! docker-compose exec db mysqladmin ping -h "127.0.0.1" --silent; do
     sleep 1
 done
 
 docker-compose exec php bin/console d:s:u -f
-docker-compose exec php bin/console h:f:l -n
+docker-compose exec php bin/console h:f:l -n --purge-with-truncate
 docker-compose exec php chmod 777 -R var/cache var/logs var/sessions web/upload
 
 echo "------------------------------------------"

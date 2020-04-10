@@ -1,8 +1,8 @@
 AppBundle\Entity\User:
     LOCAL:
-        username: local
-        plainPassword: local
-        email: local\@local.com
+        username: locale
+        plainPassword: locale
+        email: locale\@locale.com
         enabled: true
         tou: true
         roles: [ROLE_SUPER_ADMIN]
