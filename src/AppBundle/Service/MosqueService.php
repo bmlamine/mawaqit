@@ -115,7 +115,7 @@ class MosqueService
                 "query" => [
                     "query_string" => [
                         "query" => "*$word*",
-                        "fields" => ["name^3", "localisation^2", "associationName", "id"],
+                        "fields" => ["name^3", "localisation^2", "associationName"],
                         "default_operator" => "OR"
                     ]
                 ]
