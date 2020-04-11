@@ -14,7 +14,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /node_modules/
-docker-compose.yml
 .env
 /web/bundles/
 /web/css/
