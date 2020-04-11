@@ -23,6 +23,11 @@ services:
             - "%site%"
             - "%languages%"
 
+    AppBundle\Service\Statistic:
+        arguments:
+            - "@csa_guzzle.client.elastic"
+            - "@logger"
+
     AppBundle\EventListener\CommentListener:
         arguments:
             - "@security.token_storage"
