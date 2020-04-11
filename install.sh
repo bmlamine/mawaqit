@@ -1,5 +1,6 @@
 #!/bin/bash
 
+ln -sf docker-compose.dev.yml docker-compose.yml
 docker-compose exec php composer install -n
 echo ""
 echo "Waiting for database..."
