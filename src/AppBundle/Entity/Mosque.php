@@ -293,6 +293,11 @@ class Mosque
      */
     private $similar = [];
 
+    /**
+     * @var int
+     */
+    private $mobileFavoriteCounter;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
@@ -1671,6 +1676,25 @@ class Mosque
     {
         $this->similar = $similar;
         return $this;
+    }
+
+    /**
+     * @param int $mobileFavoriteCounter
+     *
+     * @return Mosque
+     */
+    public function setMobileFavoriteCounter(int $mobileFavoriteCounter): Mosque
+    {
+        $this->mobileFavoriteCounter = $mobileFavoriteCounter;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMobileFavoriteCounter(): ?int
+    {
+        return $this->mobileFavoriteCounter;
     }
 
 }

@@ -39,7 +39,7 @@ class Statistic
                 $this->elasticClient->post("$uri/_update", [
                     "json" => [
                         "script" => [
-                            "inline" => "ctx._source.mobileFavorite++"
+                            "inline" => "ctx._source.mobileFavoriteCounter++"
                         ]
                     ]
                 ]);
@@ -54,7 +54,7 @@ class Statistic
         try {
             $this->elasticClient->post("$uri", [
                 "json" => [
-                    "mobileFavorite" => 0
+                    "mobileFavoriteCounter" => 1
                 ]
             ]);
         } catch (\Exception $e) {
@@ -70,13 +70,26 @@ class Statistic
                 $this->elasticClient->post("$uri", [
                     "json" => [
                         "script" => [
-                            "inline" => "ctx._source.mobileFavorite--"
+                            "inline" => "ctx._source.mobileFavoriteCounter--"
                         ]
                     ]
                 ]);
             } catch (\Exception $e) {
                 $this->logger->critical("Elastic: Can't post on $uri", [$e->getMessage()]);
             }
+        }
+    }
+
+    public function get(Mosque $mosque)
+    {
+        $uri = sprintf("%s/%s/%s", self::ELASTIC_INDEX, self::ELASTIC_TYPE, $mosque->getId());
+
+        try {
+            $response = $this->elasticClient->get($uri);
+
+            return json_decode($response->getBody()->getContents());
+        } catch (\Exception $e) {
+            return null;
         }
     }
 

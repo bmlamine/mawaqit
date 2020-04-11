@@ -11,6 +11,7 @@ use AppBundle\Form\MosqueSearchType;
 use AppBundle\Form\MosqueSyncType;
 use AppBundle\Form\MosqueType;
 use AppBundle\Service\Calendar;
+use AppBundle\Service\Statistic;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -42,7 +43,7 @@ class MosqueController extends Controller
     /**
      * @Route(name="mosque_index")
      */
-    public function indexAction(Request $request, EntityManagerInterface $em)
+    public function indexAction(Request $request, EntityManagerInterface $em, Statistic $statistic)
     {
         /**
          * @var User $user
@@ -66,6 +67,11 @@ class MosqueController extends Controller
 
         if ($this->isGranted("ROLE_SUPER_ADMIN")) {
             foreach ($mosques as $mosque) {
+                $mosqueStatistic = $statistic->get($mosque);
+                if ($mosqueStatistic && isset($mosqueStatistic->_source->mobileFavoriteCounter)){
+                    $mosque->setMobileFavoriteCounter($mosqueStatistic->_source->mobileFavoriteCounter);
+                }
+
                 if ($mosque->isNew()) {
                     $mosque->setSimilar($this->get("app.mosque_service")->getSimilarByLocalization($mosque));
                 }
