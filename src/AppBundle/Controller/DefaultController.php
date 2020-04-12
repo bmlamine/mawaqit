@@ -107,6 +107,24 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/mawaqit-team-message", name="mawaqit_team_message_ajax", options={"i18n"="false"})
+     * @Cache(public=true, maxage="1800", smaxage="1800", expires="+1800 sec")
+     * @param EntityManagerInterface $em
+     *
+     * @return JsonResponse
+     */
+    public function getMawaqitTeamMessageAction(EntityManagerInterface $em)
+    {
+        $parameter = $em->getRepository(Parameters::class)->findOneBy(['key' => 'mawaqit_message']);
+        $message = null;
+        if($parameter instanceof Parameters && !empty($parameter->getValue()))
+        {
+            $message = $parameter->getValue();
+        }
+        return new JsonResponse(['message'=> $message]);
+    }
+
+    /**
      * @param Request $request
      * @Route("/search-ajax")
      *
