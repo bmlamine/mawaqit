@@ -201,6 +201,9 @@ home:
       For more information visit our <a target="_blank" href="https://www.youtube.com/channel/UCK0bHMvAlVL8NvyofiMulUw/">YouTube</a> channel
     install9: Are you encountering difficulties ? send us a message <a href="#contact">it's this way</a>
 
+cookies_accept:
+  text: We use session cookies only for the operation of the service
+  button: Got it
 
 form:
   label:

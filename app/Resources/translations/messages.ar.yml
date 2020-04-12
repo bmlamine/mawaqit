@@ -210,6 +210,9 @@ home:
       لمزيد من المعلومات زر قناتنا على <a target="_blank" href="https://www.youtube.com/channel/UCK0bHMvAlVL8NvyofiMulUw/">اليوتيوب</a>
     install9: إذا واجهتك أي صعوبات أرسل لنا رسالة من  <a href="#contact">هنا</a>
 
+cookies_accept:
+  text: نحن نستخدم ملفات تعريف ارتباط الجلسة (cookies) فقط لتشغيل الخدمة
+  button: فهمت
 
 form:
   mandatory_field:  حقل إجباري

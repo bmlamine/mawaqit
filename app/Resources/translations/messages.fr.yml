@@ -211,6 +211,10 @@ home:
       Pour plus d'informations visitez notre chaîne <a target="_blank" href="https://www.youtube.com/channel/UCK0bHMvAlVL8NvyofiMulUw/">YouTube</a>
     install9: Vous rencontrez des difficultés ? envoyez-nous un message <a href="#contact">c'est par ici</a>
 
+cookies_accept:
+  text: Nous utilisons les cookies de session uniquement pour le fonctionnement du service
+  button: Compris
+
 form:
   label:
     delete: Supprimer ?

@@ -78,5 +78,7 @@
         {% block additional_javascripts %}
         {% endblock %}
         <div class="version">v{{ version }}</div>
+
+        {% include 'partial/cookies_accept.html.twig' %}
     </body>
 </html>
