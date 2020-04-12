@@ -26,6 +26,7 @@
                     if (response.message !== null) {
                         if (localStorage.getItem("mawaqit-message-text") !== response.message || localStorage.getItem("mawaqit-message") === null) {
                             localStorage.setItem('mawaqit-message-text', response.message);
+                            localStorage.removeItem('mawaqit-message');
                             $("#mawaqit-message-text").html(response.message);
                             $(".mawaqit-message").removeClass('hidden');
                         }
