@@ -218,7 +218,7 @@
                 <div class="col-xs-12" style="position: relative">
                     <div class="row">
                         <div class="col-xs-10">
-                            <h4><strong>{{ mosque.name }}</strong>
+                            <h4><b>{{ mosque.name }}</b>
                                 <small>ID {{ mosque.id }}</small>
                             </h4>
                             {% if is_granted('ROLE_SUPER_ADMIN') and mosque.isNew and mosque.similar is not empty %}
@@ -250,7 +250,7 @@
 
                     <div>
                         {% if mosque.isValidated %}
-                            <strong>{{ 'links'|trans }}</strong>:
+                            <b>{{ 'links'|trans }}</b>:
                             <select class="form-control linkSelector" style="width: 60%">
                                 <option>{{ 'selectLanguage'|trans }}</option>
                                 {% for lang in languages %}
@@ -258,7 +258,7 @@
                                             data-link="{{ url("mosque", {slug: mosque.slug, _locale: lang}) }}">{{ lang|langTrans(app.request.locale)|capitalize }}</option>
                                 {% endfor %}
                             </select>
-                            <div class="mt-1 mb-1"><a class="hidden link" href=""></a></div>
+                            <div class="mt-1 mb-1"><a class="hidden link" href="" target="_blank"></a></div>
                         {% else %}
                             <p>{{ ('mosque.statuses_message.' ~  mosque.status)|trans }}</p>
                             {% if mosque.justificatory %}
@@ -268,7 +268,7 @@
                         {% endif %}
                     </div>
                     <div>
-                        <strong>{{ 'status'|trans }}:</strong>
+                        <b>{{ 'status'|trans }}:</b>
                         {% if mosque.status == constant('STATUS_WATCHED', mosque) %}
                             {{ ('mosque.statuses.' ~ constant('STATUS_VALIDATED', mosque))|trans }}
                         {% else %}
@@ -281,14 +281,15 @@
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <div>
-                            <strong>{{ 'user.label'|trans }}:</strong>
+                            <b>{{ 'user.label'|trans }}:</b>
                             <a href="{{ path('easyadmin', { action: 'edit', entity: 'User', id: mosque.user.id}) }}">{{ mosque.user.email }}</a>
                             <a href="{{ path('mosque_index', {userId: mosque.user.id}) }}">
                                 ({{ mosque.user.mosques|length }})</a>
                         </div>
                     {% endif %}
-                    <div><strong>{{ 'creation_date'|trans }}:</strong> {{ mosque.created|date('d/m/Y H:i') }}</div>
-                    <div><strong>{{ 'type'|trans }} :</strong> {{ ('mosque.types.' ~ mosque.type ) | trans }}</div>
+                    <div><b>Ajout en favoris:</b> {{ mosque.mobileFavoriteCounter is null ? 'NA' : mosque.mobileFavoriteCounter}}</div>
+                    <div><b>{{ 'creation_date'|trans }}:</b> {{ mosque.created|date('d/m/Y H:i') }}</div>
+                    <div><b>{{ 'type'|trans }} :</b> {{ ('mosque.types.' ~ mosque.type ) | trans }}</div>
 
                     {% if mosque.isValidated and mosque.daysBeforeRemove is not null %}
                         <div class="alert alert-{{ mosque.daysBeforeRemove > 15 ? 'warning' : 'danger' }} mt-1"
