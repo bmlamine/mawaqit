@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MosqueController extends Controller
@@ -52,9 +53,9 @@ class MosqueController extends Controller
     ) {
 
         if (!$mosque->isAccessible()) {
-            return new Response(null, Response::HTTP_NOT_FOUND, [
+            throw new HttpException(404, null, null,  [
                 "Cache-Control" => "public, max-age=600"
-            ]);
+            ], 0);
         }
 
         $mobileDetect = $this->get('mobile_detect.mobile_detector');
