@@ -20,7 +20,6 @@ class MosqueController extends Controller
 
     /**
      * @Route("/id/{id}", name="mosque_id")
-     *
      * @param Request $request
      * @param Mosque  $mosque
      *
@@ -37,7 +36,6 @@ class MosqueController extends Controller
     /**
      * @Route("/{slug}", name="mosque")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     *
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param RequestService $requestService
@@ -54,7 +52,9 @@ class MosqueController extends Controller
     ) {
 
         if (!$mosque->isAccessible()) {
-            throw new NotFoundHttpException();
+            return new Response(null, Response::HTTP_NOT_FOUND, [
+                "Cache-Control" => "public, max-age=600"
+            ]);
         }
 
         $mobileDetect = $this->get('mobile_detect.mobile_detector');
