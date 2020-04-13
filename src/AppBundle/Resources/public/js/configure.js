@@ -334,6 +334,8 @@ function timezoneHandler() {
     if ($timezone.val().includes('Algiers')) {
         $dst.val("0");
     }
+
+    $dst.trigger("change")
 }
 
 $("#configuration_timezoneName").bind("change keyup", function () {
