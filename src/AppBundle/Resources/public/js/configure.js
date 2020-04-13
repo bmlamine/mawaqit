@@ -18,7 +18,6 @@ $("#predefined-calendar").autocomplete({
     minLength: 2,
     select: function (event, ui) {
         window.location.href = $("#predefined-calendar").data("copyPath").replace("-id-", ui.item.id);
-        ;
     }
 });
 
@@ -321,6 +320,27 @@ $("input[name*='configuration[calendar][1][28]']").bind("change keyup", function
     $("input[name='" + name + "']").val($(this).val());
 });
 
+
+function timezoneHandler() {
+    let $timezone = $("#configuration_timezoneName");
+    let $dst = $("#configuration_dst");
+    // if Europe timezone hide dst and force it to auto
+    $dst.parent().show();
+    if ($timezone.val().includes('Europe')) {
+        $dst.parent().hide();
+        $dst.val("2");
+    }
+
+    if ($timezone.val().includes('Algiers')) {
+        $dst.val("0");
+    }
+}
+
+$("#configuration_timezoneName").bind("change keyup", function () {
+    timezoneHandler();
+});
+
+timezoneHandler();
 dstDisplayHandler();
 checkAndHilightIncompletedMonths();
 handleErrorsDisplay();
