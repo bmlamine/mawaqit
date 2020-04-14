@@ -38,7 +38,7 @@ class DefaultController extends Controller
         $paginator = $this->get('knp_paginator');
         $page = $request->query->getInt('page', 1);
         $page = $page > 0 ? $page : 1;
-        $mosquesWithImage = $paginator->paginate($mosqueRepo->getMosquesWithImageQb(), 1, $page * 9);
+        $mosquesWithImage = $paginator->paginate($mosqueRepo->getMosquesWithImageQb(), $page, 9);
         $totalMosquesCount = $mosqueRepo->getCount();
         $mosqueNumberByCountry = $mosqueRepo->getNumberByCountry();
         $countries = $yamlLoader->getCountries();
