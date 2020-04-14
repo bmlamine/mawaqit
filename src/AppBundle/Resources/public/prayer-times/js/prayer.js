@@ -413,20 +413,6 @@ var prayer = {
                 }
             }, prayer.oneSecond);
         },
-        initNotif: function () {
-            setInterval(function () {
-                var currentTime = dateTime.getCurrentTime();
-                var options = {hour: '2-digit', minute: '2-digit'};
-                $(prayer.getTimes()).each(function (currentPrayerIndex, time) {
-                    var prayerDateTime = prayer.getCurrentDateForPrayerTime(time);
-                    var tenMinBeforAdhan = prayerDateTime.setMinutes(prayerDateTime.getMinutes() - 10);
-                    tenMinBeforAdhan = (new Date(tenMinBeforAdhan)).toLocaleString('fr', options);
-                    if (currentTime === tenMinBeforAdhan) {
-                        MawaqitNotification.showNotification(prayerTimeIn10MinTitle, prayerTimeIn10MinBody);
-                    }
-                });
-            }, prayer.oneMinute);
-        },
         /**
          * Flash adhan, play sound if enabled
          * @param {Number} currentPrayerIndex
