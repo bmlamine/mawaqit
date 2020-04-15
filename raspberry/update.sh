@@ -23,8 +23,10 @@ fi
     docker-compose exec mawaqit_php bin/console assets:install -q -e raspberry --no-debug
     echo 60
     docker-compose exec mawaqit_php bin/console assetic:dump -q -e raspberry --no-debug
-    echo 80
+    echo 70
     docker-compose exec mawaqit_php sh -c "export SYMFONY_ENV=raspberry; bin/console doc:mig:mig -q -n --allow-no-migration"
+    echo 80
+    docker-compose exec mawaqit_php kill -USR2 1
     echo 90
     sudo rm -rf var/cache/* var/logs/*
     echo 100
