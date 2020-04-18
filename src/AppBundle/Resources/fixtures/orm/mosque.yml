@@ -4,6 +4,7 @@ AppBundle\Entity\Mosque:
         status: VALIDATED
         name: Mosquée NOM
         slug: mosquee
+        locale: en
         associationName: Association XXX
         email: exemple@exemple.com
         site: https://mawaqit.net/fr/mosquee-essunna-houilles
