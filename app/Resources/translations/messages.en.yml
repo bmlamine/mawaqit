@@ -692,7 +692,7 @@ mosqueList:
     title: Missing screen photo :(
     content: We are still waiting for the screen photo for the mosque "%mosque%"
     button: I get it
-  iframeCopyText: To display the widget below on your website just copy / paste this html-code
+  iframeCopyText: To display the widget below on your website just copy / paste this html code
   iframeAddTitle: Add the widget to your website
   widgetForYourSite: Widget for your website
   alertRemoveMosque: |

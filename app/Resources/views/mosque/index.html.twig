@@ -259,6 +259,11 @@
                                 {% endfor %}
                             </select>
                             <div class="mt-1 mb-1"><a class="hidden link" href="" target="_blank"></a></div>
+                            {% if mosque.isMosque %}
+                                <div>
+                                    {{ 'mosqueList.widgetForYourSite'|trans }} <a class="iframe-button" data-url="{{ url('mosque_widget', {slug: mosque.slug}) }}">{{ 'show'|trans }}</a>
+                                </div>
+                            {% endif %}
                         {% else %}
                             <p>{{ ('mosque.statuses_message.' ~  mosque.status)|trans }}</p>
                             {% if mosque.justificatory %}
