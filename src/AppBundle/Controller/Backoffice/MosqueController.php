@@ -21,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -168,53 +169,8 @@ class MosqueController extends Controller
                     );
                     $messages = $serializer->denormalize($messages, Message::class . '[]', 'json');
                     $mosque->setMessages($messages);
-
-                    $rootDir = $this->getParameter("kernel.root_dir");
-
-                    // Set online mosque url in online_url.txt file
-                    $site = $this->getParameter("site");
-                    $url = "$site/{$form->getData()['language']}/id/{$form->getData()['id']}";
-                    if ($form->getData()['screen'] === 'messages') {
-                        $url = "$site/{$form->getData()['language']}/messages/id/{$form->getData()['id']}";
-                    }
-
-                    file_put_contents("$rootDir/../docker/data/online_url.txt", $url);
-
-                    // download mosque and messages photos
-                    $uploadDir = "$rootDir/../web/upload";
-                    array_map(
-                        'unlink',
-                        array_filter(
-                            (array)glob("$uploadDir/*"),
-                            function ($file) {
-                                return is_file($file);
-                            }
-                        )
-                    );
-
-                    if ($mosque->getImage1()) {
-                        @file_put_contents(
-                            "$uploadDir/{$mosque->getImage1()}",
-                            @fopen("$site/upload/{$mosque->getImage1()}", 'r')
-                        );
-                    }
-
-                    if ($mosque->getImage2()) {
-                        @file_put_contents(
-                            "$uploadDir/{$mosque->getImage2()}",
-                            @fopen("$site/upload/{$mosque->getImage2()}", 'r')
-                        );
-                    }
-
-                    foreach ($mosque->getMessages() as $message) {
-                        if ($message->getImage()) {
-                            @file_put_contents(
-                                "$uploadDir/{$message->getImage()}",
-                                @fopen("$site/upload/{$message->getImage()}", 'r')
-                            );
-                        }
-                    }
-
+                    $this->syncDownloadImages($mosque);
+                    $this->syncSetUrls($mosque, $form);
                     $mosque->setSynchronized(true);
                     $em->flush();
                 } catch (ConnectException $e) {
@@ -475,5 +431,83 @@ class MosqueController extends Controller
                 'id' => $currentMosque->getId()
             ]
         );
+    }
+
+    /**
+     * @param Mosque        $mosque
+     * @param FormInterface $form
+     */
+    private function syncSetUrls(Mosque $mosque, FormInterface $form)
+    {
+        $rootDir = $this->getParameter("kernel.root_dir");
+        $onlineSite = $this->getParameter("site");
+        $offlineSite = "http://mawaqit.local";
+        $urlPatternPrayerTimes = "%s/%s/id/%s";
+        $urlPatternMessages = "%s/%s/messages/id/%s";
+        $onlineUrl = sprintf($urlPatternPrayerTimes, $onlineSite, $form->getData()['language'], $form->getData()['id']);
+        $offlineUrl = sprintf($urlPatternPrayerTimes, $offlineSite, $form->getData()['language'], 1);
+
+        if ($form->getData()['screen'] === 'messages') {
+            $onlineUrl = sprintf(
+                $urlPatternMessages,
+                $onlineSite,
+                $form->getData()['language'],
+                $form->getData()['id']
+            );
+            $offlineUrl = sprintf(
+                $urlPatternMessages,
+                $offlineSite,
+                $form->getData()['language'],
+                1
+            );
+        }
+
+        file_put_contents("$rootDir/../docker/data/online_url.txt", $onlineUrl);
+        file_put_contents("$rootDir/../docker/data/offline_url.txt", $offlineUrl);
+    }
+
+    /**
+     * Download images when synching
+     *
+     * @param Mosque $mosque
+     */
+    private function syncDownloadImages(Mosque $mosque)
+    {
+        $site = $this->getParameter("site");
+        $rootDir = $this->getParameter("kernel.root_dir");
+        // download mosque and messages photos
+        $uploadDir = "$rootDir/../web/upload";
+        array_map(
+            'unlink',
+            array_filter(
+                (array)glob("$uploadDir/*"),
+                function ($file) {
+                    return is_file($file);
+                }
+            )
+        );
+
+        if ($mosque->getImage1()) {
+            @file_put_contents(
+                "$uploadDir/{$mosque->getImage1()}",
+                @fopen("$site/upload/{$mosque->getImage1()}", 'r')
+            );
+        }
+
+        if ($mosque->getImage2()) {
+            @file_put_contents(
+                "$uploadDir/{$mosque->getImage2()}",
+                @fopen("$site/upload/{$mosque->getImage2()}", 'r')
+            );
+        }
+
+        foreach ($mosque->getMessages() as $message) {
+            if ($message->getImage()) {
+                @file_put_contents(
+                    "$uploadDir/{$message->getImage()}",
+                    @fopen("$site/upload/{$message->getImage()}", 'r')
+                );
+            }
+        }
     }
 }

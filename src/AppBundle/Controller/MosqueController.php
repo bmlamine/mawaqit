@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MosqueController extends Controller
 {
@@ -26,21 +25,49 @@ class MosqueController extends Controller
      *
      * @return Response
      */
-    public function mosqueByIdAction(Request $request, Mosque $mosque)
+    public function mosqueById(Request $request, Mosque $mosque)
     {
-        return $this->forward("AppBundle:Mosque:mosque", [
-            "request" => $request,
-            "slug" => $mosque->getSlug(),
-        ]);
+        return $this->forward(
+            "AppBundle:Mosque:mosque",
+            [
+                "request" => $request,
+                "slug" => $mosque->getSlug(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/{slug}", options={"i18n"="false"})
+     * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
+     * @param Mosque $mosque
+     *
+     * @return Response
+     * @deprecated
+     */
+    public function mosqueBySlugWithoutLocale(Mosque $mosque)
+    {
+        $locale = 'en';
+        $savedLocale = $mosque->getLocale();
+        if ($savedLocale) {
+            $locale = $savedLocale;
+        }
+
+        return $this->forward(
+            "AppBundle:Mosque:mosque",
+            [
+                "slug" => $mosque->getSlug(),
+                "_locale" => $locale
+            ]
+        );
     }
 
     /**
      * @Route("/{slug}", name="mosque")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     * @param Request $request
+     * @param Request                $request
      * @param EntityManagerInterface $em
-     * @param RequestService $requestService
-     * @param Mosque $mosque
+     * @param RequestService         $requestService
+     * @param Mosque                 $mosque
      *
      * @return Response
      * @throws \Exception
@@ -51,11 +78,12 @@ class MosqueController extends Controller
         RequestService $requestService,
         Mosque $mosque
     ) {
-
         if (!$mosque->isAccessible()) {
-            throw new HttpException(404, null, null,  [
+            throw new HttpException(
+                404, null, null, [
                 "Cache-Control" => "public, max-age=600"
-            ], 0);
+            ], 0
+            );
         }
 
         $mobileDetect = $this->get('mobile_detect.mobile_detector');
@@ -63,8 +91,11 @@ class MosqueController extends Controller
 
         // if mobile device request
         if ($view !== "desktop" && $mobileDetect->isMobile() && !$mobileDetect->isTablet()) {
-            return $this->redirectToRoute("mosque_mobile", ['slug' => $mosque->getSlug()],
-                Response::HTTP_MOVED_PERMANENTLY);
+            return $this->redirectToRoute(
+                "mosque_mobile",
+                ['slug' => $mosque->getSlug()],
+                Response::HTTP_MOVED_PERMANENTLY
+            );
         }
 
         // saving locale
@@ -81,16 +112,20 @@ class MosqueController extends Controller
             $form = $this->createForm(MosqueSyncType::class)->createView();
         }
 
-        return $this->render("mosque/mosque.html.twig", [
-            'mosque' => $mosque,
-            'confData' => array_merge($confData, $this->get('app.prayer_times')->prayTimes($mosque, true)),
-            'languages' => $this->getParameter('languages'),
-            'version' => $this->getParameter('version'),
-            "support_email" => $this->getParameter("support_email"),
-            "postmasterAddress" => $this->getParameter("postmaster_address"),
-            "mawaqitApiAccessToken" => $this->getParameter("mawaqit_api_access_token"),
-            'form' => $form,
-        ], new Response(null, Response::HTTP_OK, ["X-Frame-Options" => "deny"]));
+        return $this->render(
+            "mosque/mosque.html.twig",
+            [
+                'mosque' => $mosque,
+                'confData' => array_merge($confData, $this->get('app.prayer_times')->prayTimes($mosque, true)),
+                'languages' => $this->getParameter('languages'),
+                'version' => $this->getParameter('version'),
+                "support_email" => $this->getParameter("support_email"),
+                "postmasterAddress" => $this->getParameter("postmaster_address"),
+                "mawaqitApiAccessToken" => $this->getParameter("mawaqit_api_access_token"),
+                'form' => $form,
+            ],
+            new Response(null, Response::HTTP_OK, ["X-Frame-Options" => "deny"])
+        );
     }
 
     /**
@@ -118,15 +153,19 @@ class MosqueController extends Controller
 
         $confData = $this->get('serializer')->normalize($mosque->getConfiguration(), 'json', ["groups" => ["screen"]]);
 
-        return $this->render("mosque/mosque_mobile.html.twig", [
-            'mosque' => $mosque,
-            'confData' => array_merge($confData, $this->get('app.prayer_times')->prayTimes($mosque, true)),
-            'version' => $this->getParameter('version'),
-            "support_email" => $this->getParameter("support_email"),
-            "postmasterAddress" => $this->getParameter("postmaster_address"),
-            "mawaqitApiAccessToken" => $this->getParameter("mawaqit_api_access_token"),
-            'messages' => $em->getRepository("AppBundle:Message")->getMessagesByMosque($mosque, null, true)
-        ], $response);
+        return $this->render(
+            "mosque/mosque_mobile.html.twig",
+            [
+                'mosque' => $mosque,
+                'confData' => array_merge($confData, $this->get('app.prayer_times')->prayTimes($mosque, true)),
+                'version' => $this->getParameter('version'),
+                "support_email" => $this->getParameter("support_email"),
+                "postmasterAddress" => $this->getParameter("postmaster_address"),
+                "mawaqitApiAccessToken" => $this->getParameter("mawaqit_api_access_token"),
+                'messages' => $em->getRepository("AppBundle:Message")->getMessagesByMosque($mosque, null, true)
+            ],
+            $response
+        );
     }
 
     /**
@@ -143,10 +182,13 @@ class MosqueController extends Controller
             return $this->forward("AppBundle:Mosque:blocked");
         }
 
-        return $this->render("mosque/widget.html.twig", [
-            'mawaqitApiAccessToken' => $this->getParameter("mawaqit_api_access_token"),
-            'mosque' => $mosque
-        ]);
+        return $this->render(
+            "mosque/widget.html.twig",
+            [
+                'mawaqitApiAccessToken' => $this->getParameter("mawaqit_api_access_token"),
+                'mosque' => $mosque
+            ]
+        );
     }
 
     public function blockedAction()
@@ -167,27 +209,6 @@ class MosqueController extends Controller
 
         $hasBeenUpdated = $this->get("app.prayer_times")->mosqueHasBeenUpdated($mosque, $lastUpdatedDate);
         return new JsonResponse(["hasBeenUpdated" => $hasBeenUpdated]);
-    }
-
-    /**
-     * @Route("/{slug}", options={"i18n"="false"})
-     * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     * @param Mosque $mosque
-     *
-     * @return Response
-     */
-    public function mosqueWithoutLocalAction(Mosque $mosque)
-    {
-        $locale = 'fr';
-        $savedLocale = $mosque->getLocale();
-        if ($savedLocale) {
-            $locale = $savedLocale;
-        }
-
-        return $this->forward("AppBundle:Mosque:mosque", [
-            "slug" => $mosque->getSlug(),
-            "_locale" => $locale
-        ]);
     }
 
     /**
