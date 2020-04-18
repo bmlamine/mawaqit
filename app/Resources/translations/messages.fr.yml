@@ -15,9 +15,14 @@ mosqueScreen:
   loginHelp: Votre email de connexion sur mawaqit.net
   password: Mot de passe
   passwordHelp: Votre mot de passe de connexion sur mawaqit.net
-  Language:
+  language:
     label: Langue
     placeholder: Sélectionnez une langue
+  screen:
+    label: Type d'écran
+    choices:
+      1: Horaires de prière
+      2: Messages et annonces
 
 home:
   menu:

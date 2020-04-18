@@ -187,6 +187,7 @@ services:
     app.form_mosque_sync:
         class: AppBundle\Form\MosqueSyncType
         arguments:
+            - "@request_stack"
             - "%languages%"
         tags:
             - { name: form.type }

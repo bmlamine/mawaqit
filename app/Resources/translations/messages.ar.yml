@@ -15,9 +15,14 @@ mosqueScreen:
   loginHelp: بريدك الإلكتروني على mawaqit.net
   password: كلمه السر
   passwordHelp:  كلمة السر الخاصة بك على mawaqit.net
-  Language:
+  language:
     label: اللغة
     placeholder: إختر اللغة
+  screen:
+    label: نوع الشاشة
+    choices:
+      1: أوقات الصلاة
+      2: الرسائل و الإعلانات
 
 home:
   menu:
@@ -222,7 +227,7 @@ form:
     success:  تمت التعديل بنجاح
     action: تعديل
   sync:
-    action: تزامن (synchronize)
+    action: (synchronize) تزامن
   delete:
     success:  تم الحذف بنجاح
     action: إحذف

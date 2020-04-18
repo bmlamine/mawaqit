@@ -1683,7 +1683,7 @@ class Mosque
      *
      * @return Mosque
      */
-    public function setMobileFavoriteCounter(int $mobileFavoriteCounter): Mosque
+    public function setMobileFavoriteCounter(?int $mobileFavoriteCounter): Mosque
     {
         $this->mobileFavoriteCounter = $mobileFavoriteCounter;
         return $this;

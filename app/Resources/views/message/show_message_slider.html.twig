@@ -21,8 +21,11 @@
 </head>
 
 <body>
-<div id="full-screen" title="{{ 'full_screen'|trans }}">
-    <i class="glyphicon glyphicon-resize-full" aria-hidden="true"></i>
+<div id="top-buttons">
+    <i class="glyphicon glyphicon-resize-full" title="{{ 'full_screen'|trans }}" aria-hidden="true"></i>
+    {% if isLocal() %}
+        <a title="{{ 'form.sync.action'|trans }}" href="{{ path('mosque_reset_sync', {id: mosque.id}) }}"> <i class="glyphicon glyphicon-refresh"></i></a>
+    {% endif %}
 </div>
 
 <main id="slider" data-remote="{{ path('mosque_has_been_updated', {slug: mosque.slug}) }}">

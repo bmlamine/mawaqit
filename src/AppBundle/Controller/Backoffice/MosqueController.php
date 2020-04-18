@@ -68,7 +68,7 @@ class MosqueController extends Controller
         if ($this->isGranted("ROLE_SUPER_ADMIN")) {
             foreach ($mosques as $mosque) {
                 $mosqueStatistic = $statistic->get($mosque);
-                if ($mosqueStatistic && isset($mosqueStatistic->_source->mobileFavoriteCounter)){
+                if ($mosqueStatistic && isset($mosqueStatistic->_source->mobileFavoriteCounter)) {
                     $mosque->setMobileFavoriteCounter($mosqueStatistic->_source->mobileFavoriteCounter);
                 }
 
@@ -121,15 +121,21 @@ class MosqueController extends Controller
      * Sync mosque data, Only for raspberry env
      * @Route("/sync/{id}", name="mosque_sync")
      *
-     * @param Request         $request
-     * @param Client          $client
-     * @param Mosque          $mosque
-     * @param LoggerInterface $logger
+     * @param Request                $request
+     * @param Client                 $client
+     * @param Mosque                 $mosque
+     * @param LoggerInterface        $logger
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function syncAction(Request $request, Client $client, Mosque $mosque, LoggerInterface $logger, EntityManagerInterface $em)
-    {
+    public function syncAction(
+        Request $request,
+        Client $client,
+        Mosque $mosque,
+        LoggerInterface $logger,
+        EntityManagerInterface $em
+    ) {
         $form = $this->createForm(MosqueSyncType::class);
         $form->handleRequest($request);
         $mosque->setSynchronized(false);
@@ -138,14 +144,16 @@ class MosqueController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($request->request->has('validate')) {
                 try {
-
                     // pomulate mosque from online
-                    $res = $client->get(sprintf("/api/2.0/mosque/%s/data", $form->getData()['id']),
+                    $res = $client->get(
+                        sprintf("/api/2.0/mosque/%s/data", $form->getData()['id']),
                         ['auth' => [$form->getData()['login'], $form->getData()['password']]]
                     );
                     $normalizer = new ObjectNormalizer(null, null, null, new ReflectionExtractor());
-                    $serializer = new Serializer([new DateTimeNormalizer(), new ArrayDenormalizer(), $normalizer],
-                        [new JsonEncoder()]);
+                    $serializer = new Serializer(
+                        [new DateTimeNormalizer(), new ArrayDenormalizer(), $normalizer],
+                        [new JsonEncoder()]
+                    );
                     $json = json_decode($res->getBody()->getContents(), true);
                     $messages = $json["messages"];
                     unset($json["messages"]);
@@ -154,8 +162,10 @@ class MosqueController extends Controller
                     $serializer->denormalize($json, Mosque::class, 'json', ['object_to_populate' => $mosque]);
                     $mosque->setLocale($form->getData()['language']);
 
-                    $serializer = new Serializer([new GetSetMethodNormalizer(), new ArrayDenormalizer()],
-                        [new JsonEncoder()]);
+                    $serializer = new Serializer(
+                        [new GetSetMethodNormalizer(), new ArrayDenormalizer()],
+                        [new JsonEncoder()]
+                    );
                     $messages = $serializer->denormalize($messages, Message::class . '[]', 'json');
                     $mosque->setMessages($messages);
 
@@ -164,34 +174,49 @@ class MosqueController extends Controller
                     // Set online mosque url in online_url.txt file
                     $site = $this->getParameter("site");
                     $url = "$site/{$form->getData()['language']}/id/{$form->getData()['id']}";
+                    if ($form->getData()['screen'] === 'messages') {
+                        $url = "$site/{$form->getData()['language']}/messages/id/{$form->getData()['id']}";
+                    }
+
                     file_put_contents("$rootDir/../docker/data/online_url.txt", $url);
 
                     // download mosque and messages photos
                     $uploadDir = "$rootDir/../web/upload";
-                    array_map('unlink', array_filter((array)glob("$uploadDir/*"), function ($file) {
-                        return is_file($file);
-                    }));
+                    array_map(
+                        'unlink',
+                        array_filter(
+                            (array)glob("$uploadDir/*"),
+                            function ($file) {
+                                return is_file($file);
+                            }
+                        )
+                    );
 
                     if ($mosque->getImage1()) {
-                        @file_put_contents("$uploadDir/{$mosque->getImage1()}",
-                            @fopen("$site/upload/{$mosque->getImage1()}", 'r'));
+                        @file_put_contents(
+                            "$uploadDir/{$mosque->getImage1()}",
+                            @fopen("$site/upload/{$mosque->getImage1()}", 'r')
+                        );
                     }
 
                     if ($mosque->getImage2()) {
-                        @file_put_contents("$uploadDir/{$mosque->getImage2()}",
-                            @fopen("$site/upload/{$mosque->getImage2()}", 'r'));
+                        @file_put_contents(
+                            "$uploadDir/{$mosque->getImage2()}",
+                            @fopen("$site/upload/{$mosque->getImage2()}", 'r')
+                        );
                     }
 
                     foreach ($mosque->getMessages() as $message) {
                         if ($message->getImage()) {
-                            @file_put_contents("$uploadDir/{$message->getImage()}",
-                                @fopen("$site/upload/{$message->getImage()}", 'r'));
+                            @file_put_contents(
+                                "$uploadDir/{$message->getImage()}",
+                                @fopen("$site/upload/{$message->getImage()}", 'r')
+                            );
                         }
                     }
 
                     $mosque->setSynchronized(true);
                     $em->flush();
-
                 } catch (ConnectException $e) {
                     $this->addFlash("danger", "mosqueScreen.noInternetConnection");
                     $logger->critical($e->getMessage());
@@ -211,12 +236,25 @@ class MosqueController extends Controller
                     $this->addFlash("danger", "mosqueScreen.otherPb");
                 }
             }
+
+            if ($form->getData()['screen'] === 'messages') {
+                return $this->redirectToRoute(
+                    'messages_id_index',
+                    [
+                        'id' => $mosque->getId(),
+                        '_locale' => $mosque->getLocale()
+                    ]
+                );
+            }
         }
 
-        return $this->redirectToRoute('mosque', [
-            'slug' => $mosque->getSlug(),
-            '_locale' => $mosque->getLocale()
-        ]);
+        return $this->redirectToRoute(
+            'mosque',
+            [
+                'slug' => $mosque->getSlug(),
+                '_locale' => $mosque->getLocale()
+            ]
+        );
     }
 
     /**
@@ -224,7 +262,6 @@ class MosqueController extends Controller
      */
     public function createAction(Request $request)
     {
-
         if ($this->get('app.request_service')->isLocal()) {
             throw new AccessDeniedHttpException();
         }
@@ -235,9 +272,16 @@ class MosqueController extends Controller
         try {
             $form->handleRequest($request);
         } catch (GooglePositionException $exc) {
-            $form->addError(new FormError($this->get("translator")->trans("form.configure.geocode_error", [
-                "%address%" => $mosque->getLocalisation()
-            ])));
+            $form->addError(
+                new FormError(
+                    $this->get("translator")->trans(
+                        "form.configure.geocode_error",
+                        [
+                            "%address%" => $mosque->getLocalisation()
+                        ]
+                    )
+                )
+            );
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -258,10 +302,13 @@ class MosqueController extends Controller
         }
 
 
-        return $this->render('mosque/create.html.twig', [
-            'form' => $form->createView(),
-            "google_api_key" => $this->getParameter('google_api_key')
-        ]);
+        return $this->render(
+            'mosque/create.html.twig',
+            [
+                'form' => $form->createView(),
+                "google_api_key" => $this->getParameter('google_api_key')
+            ]
+        );
     }
 
     /**
@@ -283,9 +330,16 @@ class MosqueController extends Controller
         try {
             $form->handleRequest($request);
         } catch (GooglePositionException $exc) {
-            $form->addError(new FormError($this->get("translator")->trans("form.configure.geocode_error", [
-                "%address%" => $mosque->getLocalisation()
-            ])));
+            $form->addError(
+                new FormError(
+                    $this->get("translator")->trans(
+                        "form.configure.geocode_error",
+                        [
+                            "%address%" => $mosque->getLocalisation()
+                        ]
+                    )
+                )
+            );
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -295,11 +349,14 @@ class MosqueController extends Controller
 
             return $this->redirectToRoute('mosque_index');
         }
-        return $this->render('mosque/edit.html.twig', [
-            'mosque' => $mosque,
-            'form' => $form->createView(),
-            "google_api_key" => $this->getParameter('google_api_key')
-        ]);
+        return $this->render(
+            'mosque/edit.html.twig',
+            [
+                'mosque' => $mosque,
+                'form' => $form->createView(),
+                "google_api_key" => $this->getParameter('google_api_key')
+            ]
+        );
     }
 
     /**
@@ -345,7 +402,6 @@ class MosqueController extends Controller
      */
     public function configureAction(Request $request, Mosque $mosque)
     {
-
         if ($this->get('app.request_service')->isLocal()) {
             throw new AccessDeniedHttpException();
         }
@@ -363,16 +419,22 @@ class MosqueController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            return $this->redirectToRoute('mosque', [
-                'slug' => $mosque->getSlug()
-            ]);
+            return $this->redirectToRoute(
+                'mosque',
+                [
+                    'slug' => $mosque->getSlug()
+                ]
+            );
         }
 
-        return $this->render('mosque/configure.html.twig', [
-            'months' => Calendar::MONTHS,
-            'mosque' => $mosque,
-            'form' => $form->createView()
-        ]);
+        return $this->render(
+            'mosque/configure.html.twig',
+            [
+                'months' => Calendar::MONTHS,
+                'mosque' => $mosque,
+                'form' => $form->createView()
+            ]
+        );
     }
 
     /**
@@ -386,9 +448,12 @@ class MosqueController extends Controller
             }
         }
 
-        return $this->render('mosque/qrcode.html.twig', [
-            'mosque' => $mosque
-        ]);
+        return $this->render(
+            'mosque/qrcode.html.twig',
+            [
+                'mosque' => $mosque
+            ]
+        );
     }
 
     /**
@@ -404,8 +469,11 @@ class MosqueController extends Controller
         $em->persist($currentMosque);
         $em->flush();
 
-        return $this->redirectToRoute("mosque_configure", [
-            'id' => $currentMosque->getId()
-        ]);
+        return $this->redirectToRoute(
+            "mosque_configure",
+            [
+                'id' => $currentMosque->getId()
+            ]
+        );
     }
 }
