@@ -240,11 +240,11 @@ definitions:
         description: The mawaqit url screen
       jumua:
         type: string
-        example: 13:00
+        example: "13:00"
         description: The jumua time
       jumua2:
         type: string
-        example: 14:00
+        example: "14:00"
         description: The second jumua time, null if not available
       proximity:
         type: number
