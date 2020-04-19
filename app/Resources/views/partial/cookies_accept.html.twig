@@ -2,7 +2,7 @@
     .cookies-accept {
         width: 100%;
         background-color: #222222;
-        padding: 1em;
+        padding: 0.5em;
         position: fixed;
         bottom: 0;
         color: #FFFFFF;
@@ -13,7 +13,7 @@
 </style>
 
 <div class="cookies-accept hidden">
-    <div style="margin: auto">{{ 'cookies_accept.text'|trans }}</div>
+    <div style="margin: auto; padding: 0.5rem">{{ 'cookies_accept.text'|trans }}</div>
     <button class="btn btn-success" onclick="acceptCookies()">{{ 'cookies_accept.button'|trans }}
     </button>
 </div>
