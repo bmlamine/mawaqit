@@ -64,11 +64,11 @@ home:
 
   text:
     numbers:
-      1: Mosques and homes
+      1: Mosques and others
       2: Countries
       3: Active users on iPhone and Android
-      4: Unique visitors to the site per day
-      5: Site requests per day
+      4: Unique visitors per month
+      5: Requests per month
       6: Note on stores and facebook
     contactUsText0: |
       We are all volunteers and we work fi sabili Allah without any remuneration, be patient

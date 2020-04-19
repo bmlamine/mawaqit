@@ -197,7 +197,7 @@
                             <a href="{{ path('mosque_index', {userId: mosque.user.id}) }}">
                                 | {{ mosque.user.mosques|length }} </a>
                         </td>
-                        <td><div>Ajout en favoris: {{ mosque.mobileFavoriteCounter is null ? 'NA' : mosque.mobileFavoriteCounter}}</div></td>
+                        <td><div>Nb d'abonnés mobile: {{ mosque.mobileFavoriteCounter is null ? 'NA' : mosque.mobileFavoriteCounter}}</div></td>
                     {% endif %}
                     <td>
                         {{ mosque.created|date('d/m/Y H:i') }}
@@ -292,7 +292,7 @@
                                 ({{ mosque.user.mosques|length }})</a>
                         </div>
                     {% endif %}
-                    <div><b>Ajout en favoris:</b> {{ mosque.mobileFavoriteCounter is null ? 'NA' : mosque.mobileFavoriteCounter}}</div>
+                    <div><b>Nb d'abonnés mobile:</b> {{ mosque.mobileFavoriteCounter is null ? 'NA' : mosque.mobileFavoriteCounter}}</div>
                     <div><b>{{ 'creation_date'|trans }}:</b> {{ mosque.created|date('d/m/Y H:i') }}</div>
                     <div><b>{{ 'type'|trans }} :</b> {{ ('mosque.types.' ~ mosque.type ) | trans }}</div>
 

@@ -65,11 +65,11 @@ home:
 
   text:
     numbers:
-      1: Mosquées et domiciles
+      1: Mosquées et autres
       2: Pays
       3: Utilisateurs actifs sur iPhone et Android
-      4: Visiteurs uniques du site par jours
-      5: Requêtes sur le site par jour
+      4: Visiteurs uniques par mois
+      5: Requêtes par mois
       6: Note sur les stores et facebook
     contactUsText0: |
       Nous sommes tous des bénévoles et nous travaillons fi sabili Allah sans aucune rémunération, soyez patient
