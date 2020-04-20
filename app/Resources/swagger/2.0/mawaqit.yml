@@ -240,11 +240,11 @@ definitions:
         description: The mawaqit url screen
       jumua:
         type: string
-        example: 13:00
+        example: "13:00"
         description: The jumua time
       jumua2:
         type: string
-        example: 14:00
+        example: "14:00"
         description: The second jumua time, null if not available
       proximity:
         type: number
@@ -323,11 +323,11 @@ definitions:
       jumua:
         type: string
         description: Jumu`a time
-        example: 13:00
+        example: "13:00"
       jumua2:
         type: string
         description: The second Jumu`a time can be null if not available
-        example: 14:00      
+        example: "14:00"      
       jumuaAsDuhr:
         type: boolean
         description: True if Jumu`a time is identical to duhr time
@@ -339,11 +339,11 @@ definitions:
       maximumIshaTimeForNoWaiting:
         type: string
         description: The maximum time for isha, to fixe iqama to 0 min
-        example: 22:30       
+        example: "22:30"       
       shuruq:
         type: string
         description: Shuruk time
-        example: 07:30      
+        example: "07:30"
       localisation:
         type: string
         description: The full address of the mosque
