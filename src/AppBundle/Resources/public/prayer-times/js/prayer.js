@@ -53,7 +53,7 @@ var prayer = {
      * check for update every 2 minute
      */
     initUpdateConfData: function () {
-        if (typeof isLocal !== 'undefined' && isLocal) {
+        if (isLocal) {
             return;
         }
 
