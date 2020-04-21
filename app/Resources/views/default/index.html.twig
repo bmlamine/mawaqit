@@ -226,16 +226,20 @@
                             <div class="modal-body">
                                 <h2>{{ mosque.title }} {{ mosque.country|country }}</h2>
                                 <p class="item-intro text-muted">{{ mosque.associationName }}</p>
-                                <img src="{{ vich_uploader_asset(mosque, 'file1') | imagine_filter('small_370x210') }}"
-                                     class="img-responsive  img-centered" alt="{{ mosque.title }}"/>
+
+                                <a href="{{ vich_uploader_asset(mosque, 'file1') }}" target="_blank">
+                                    <img src="{{ vich_uploader_asset(mosque, 'file1') | imagine_filter('small_370x210') }}" class="img-responsive  img-centered" alt="{{ mosque.title }}"/>
+                                </a>
 
                                 {% if mosque.image2 is not null %}
-                                    <img class="img-responsive img-centered"
-                                         src="{{ vich_uploader_asset(mosque, 'file2') | imagine_filter('small_370x210') }}">
+                                    <a href="{{ vich_uploader_asset(mosque, 'file2') }}" target="_blank">
+                                       <img class="img-responsive img-centered" src="{{ vich_uploader_asset(mosque, 'file2') | imagine_filter('small_370x210') }}">
+                                    </a>
                                 {% endif %}
                                 {% if mosque.image3 is not null %}
-                                    <img class="img-responsive img-centered"
-                                         src="{{ vich_uploader_asset(mosque, 'file3') | imagine_filter('small_370x210') }}">
+                                <a href="{{ vich_uploader_asset(mosque, 'file3') }}" target="_blank">
+                                    <img class="img-responsive img-centered" src="{{ vich_uploader_asset(mosque, 'file3') | imagine_filter('small_370x210') }}">
+                                </a>
                                 {% endif %}
 
                                 <ul class="list-inline">
