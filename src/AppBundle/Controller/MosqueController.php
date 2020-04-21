@@ -171,7 +171,6 @@ class MosqueController extends Controller
     /**
      * @Route("/w/{slug}", name="mosque_widget")
      * @ParamConverter("mosque", options={"mapping": {"slug": "slug"}})
-     * @Cache(public=true, maxage="300", smaxage="300", expires="+300 sec")
      * @param Mosque $mosque
      *
      * @return Response

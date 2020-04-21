@@ -56,9 +56,10 @@ class Cloudflare
 
         $files = [];
 
-        foreach ($this->languages as $language) {
+        foreach (array_slice($this->languages, 0, 12) as $language) {
             // Uncache mobile url https://mawaqit.net/fr/m/grande-mosquee-de-grigny
             $files[] = sprintf("%s/%s/m/%s", $this->site, $language, $mosque->getSlug());
+            $files[] = sprintf("%s/%s/w/%s", $this->site, $language, $mosque->getSlug());
         }
 
         // Uncache prayer-times api
@@ -75,8 +76,6 @@ class Cloudflare
         $files[] = sprintf("%s/api/2.0/mosque/%s/prayer-times", $this->site, $mosque->getUuid());
         // https://mawaqit.net/api/2.0/mosque/7c0554c4-219b-4955-993c-1ac20941e0d2/prayer-times?calendar
         $files[] = sprintf("%s/api/2.0/mosque/%s/prayer-times?calendar", $this->site, $mosque->getUuid());
-        // https://mawaqit.net/api/2.0/mosque/7c0554c4-219b-4955-993c-1ac20941e0d2/prayer-times?calendar&updatedAt=1585396469
-        $files[] = sprintf("%s/api/2.0/mosque/%s/prayer-times?calendar&updatedAt=%s", $this->site, $mosque->getUuid(), $updatedDate->getTimestamp());
 
         // https://mawaqit.net/api/2.0/mosque/3175/data
         $files[] = sprintf("%s/api/2.0/mosque/%s/data", $this->site, $mosque->getId());
