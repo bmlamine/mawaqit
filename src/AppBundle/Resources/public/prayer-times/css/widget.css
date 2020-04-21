@@ -59,3 +59,13 @@ small {
     font-size: 3vw;
     margin-left: 3px;
 }
+
+.prayer-hilighted {
+    background-color: #0b5c00;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+}
+
+.prayer-hilighted div {
+    color: #FFFFFF !important;
+}
