@@ -523,7 +523,6 @@ configuration:
       label: تعديل التاريخ الهجري
     timezoneName:
       label: المنطقة الزمنية
-      title: إذا تم ملاحظة خطأ من جهةالوقت فيرجى إصلاحه هنا
     dst:
       label: التوقيت الصيفي
       title: |

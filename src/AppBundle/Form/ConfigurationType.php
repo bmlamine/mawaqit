@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -31,6 +32,11 @@ class ConfigurationType extends AbstractType
      * @var Translator
      */
     private $translator;
+
+    /**
+     * @var AuthorizationChecker
+     */
+    private $securityChecker;
 
     /**
      * @var Array
@@ -59,9 +65,10 @@ class ConfigurationType extends AbstractType
         "maghrib-isha" => "3-4"
     ];
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, AuthorizationChecker $securityChecker)
     {
         $this->translator = $translator;
+        $this->securityChecker = $securityChecker;
     }
 
     /**
@@ -70,6 +77,7 @@ class ConfigurationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
+        $isAdmin = $this->securityChecker->isGranted('ROLE_ADMIN');
         $adjustedTimesValues = range(-30, 30);
         $timePattern = '/^\d{2}:\d{2}$/';
 
@@ -188,9 +196,7 @@ class ConfigurationType extends AbstractType
                 'choices' => [-2 => -2, -1 => -1, 0 => 0, 1 => 1, 2 => 2],
             ])
             ->add('timezoneName', TimezoneType::class, [
-                'attr' => [
-                    'help' => 'configuration.form.timezoneName.title',
-                ],
+                'disabled' => !$isAdmin,
             ])
             ->add('dst', ChoiceType::class, [
                 'choices' => self::$DST,

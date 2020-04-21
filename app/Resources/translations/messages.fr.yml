@@ -575,7 +575,6 @@ configuration:
       label: Ajustement de la date hégire
     timezoneName:
       label: Fuseau horaire
-      title: Si vous constatez un décalage d'heure dans le calcul des horaires de prière, ajustez-le ici
     ishaFixation:
       label: Fixation du `Isha par rapport au Maghreb
       title: Appliquer un interval fixe entre maghrib et isha quelque soit la méthode de calcul

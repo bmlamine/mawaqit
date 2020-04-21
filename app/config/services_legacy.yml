@@ -181,6 +181,7 @@ services:
         class: AppBundle\Form\ConfigurationType
         arguments:
             - "@translator"
+            - "@security.authorization_checker"
         tags:
             - { name: form.type }
 
