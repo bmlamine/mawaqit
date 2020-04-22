@@ -417,11 +417,8 @@ class ConfigurationType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary',
                 ]
-            ])/*->addEventListener(FormEvents::SUBMIT, array($this, 'onPostSetData'))*/
+            ])
         ;
-
-        /*$builder->get('calendar')->addModelTransformer(new JsonTransformer());
-        $builder->get('iqamaCalendar')->addModelTransformer(new JsonTransformer());*/
 
         $builder->get('waitingTimes')->addModelTransformer(new PrayerTransformer());
         $builder->get('adjustedTimes')->addModelTransformer(new PrayerTransformer());
@@ -429,7 +426,7 @@ class ConfigurationType extends AbstractType
         $builder->get('fixedIqama')->addModelTransformer(new PrayerTransformer());
         $builder->get('duaAfterPrayerShowTimes')->addModelTransformer(new PrayerTransformer());
 
-        $builder->get('calendar')
+       /* $builder->get('calendar')
             ->addModelTransformer(new CallbackTransformer(
                 function ($tagsAsArray) {
                     // transform the array to a string
@@ -451,7 +448,7 @@ class ConfigurationType extends AbstractType
                     // transform the string back to an array
                     return json_decode($tagsAsString, true);
                 }
-            ));
+            ));*/
 
     }
 
