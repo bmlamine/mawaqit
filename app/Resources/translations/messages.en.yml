@@ -15,6 +15,14 @@ mosqueScreen:
   loginHelp: Your connection email on mawaqit.net
   password: Password
   passwordHelp:  Your connection password on mawaqit.net
+  language:
+    label: Language
+    placeholder: Select a language
+  screen:
+    label: Screen type
+    choices:
+      1: Prayer times
+      2: Messages and announcements
 
 home:
   menu:
@@ -56,20 +64,21 @@ home:
 
   text:
     numbers:
-      1: Mosques and homes
+      1: Mosques and others
       2: Countries
       3: Active users on iPhone and Android
-      4: Unique visitors to the site per day
-      5: Site requests per day
+      4: Unique visitors per month
+      5: Requests per month
       6: Note on stores and facebook
     contactUsText0: |
       We are all volunteers and we work fi sabili Allah without any remuneration, be patient
       if you do not receive an immediate answer to your questions
     contactUsText1: |
-      🙏&nbsp;BEFORE contacting us, please carefully follow the installation manual <a href="manual_link">here</a>
+      BEFORE contacting us, please   🙏
+      carefully follow the installation manual <a href="manual_link">here</a>
       and visit our <a href="faq_link">FAQ</a> as well as our <a href="youtube_link" target="_blank">Youtube</a> channel
     contactUsText2: |
-      If you cannot find an answer to your questions, you can contact us by:
+      If you cannot find an answer to your questions, you can contact us by
     contactUsText3: |
       WhatsApp (message only, NO calls will be processed)
     contactUsText4: |
@@ -136,8 +145,8 @@ home:
     install_sub_title:  steps
     install1_1:  Sign-up <a href="registerUrl" target="_blank">here</a>
     install1_2:  |
-      Add the mosque on our account, have a proof of domiciliation of the mosque
-      (like an electric bill, no need for homes and other types of installation)
+      Add the mosque from your user space, bring two photos of the mosque (exterior / interior) and
+      proof of domiciliation of the mosque (like an electric bill, no need for homes and other types of installation)
     install2:  Download the pre-configured system image here
     install3:  You must be logged in to download the system image
     install4: |
@@ -168,20 +177,16 @@ home:
       </p>
     install7: |
       <ol>
-        <li>Start the raspberry and connect a usb keyboard and mouse</li>
+        <li>Start the raspberry and connect an usb keyboard and mouse</li>
+        <li>Minimize the mawaqit window with the F11 key on your keyboard</li>
         <li>Connect it to the internet (WIFI or Ethernet cable)</li>
-        <li>
-            Open the file <code>online_site.txt</code> present on the desktop and replace its content with the link
-            generated in your account, example: <br>
-            <code>mosqueUrl<br></code>
-        </li>
-        <li>Save and exit</li>
-        <li>Launch Mawaqit from the desktop</li>
-        <li>
-          At launch, the raspberry check if an internet connection is available,
-          in this case it launches the online version, otherwise it switches to the offline version
-        </li>
+        <li>Synchronize, let yourself be guided on the mawaqit window</li>
+        <li>Press F11 key to maximize the mawaqit window</li>
       </ol>
+      <p>
+        NB: At launch, the system checks if an internet connection is available,
+        in this case it launches the online version, otherwise it switches to the offline version
+      </p>
       <br>
       <p><strong>OPTION 2: </strong>
           Use the offline version, just plug the raspberry on the screen, the software will launch itself.<br>
@@ -201,6 +206,9 @@ home:
       For more information visit our <a target="_blank" href="https://www.youtube.com/channel/UCK0bHMvAlVL8NvyofiMulUw/">YouTube</a> channel
     install9: Are you encountering difficulties ? send us a message <a href="#contact">it's this way</a>
 
+cookies_accept:
+  text: We use session cookies only for the operation of the service. No commercial use.
+  button: Got it
 
 form:
   label:
@@ -211,7 +219,7 @@ form:
     success:  The edition has been successfully completed.
     action: Edit
   sync:
-    action: Sync with online mosque
+    action: Synchronize
   delete:
     success:  Removing has been successfully completed.
     action: Remove
@@ -236,9 +244,17 @@ registration:
   registration: Registration
   password_rule: 8 characters minimum, including 1 capital, 1 lowercase and 1 number
   please_enter_right_email: Please enter an email address that you visit regularly
+  check_spams: Please also check your spam box.
 
 tou:
   label: I accept
+
+user:
+  label: User
+  form:
+    unsubscribeEmail:
+      label: Unsubscribe from mawaqit emails
+      help: Attention you lose all our important communications
 
 mosque:
   title:
@@ -333,17 +349,20 @@ mosque:
     justificatoryFile:
       label: A supporting document (.pdf .jpg .png .doc .ppt)
       help: |
-        Add a document justifying the existence of the mosque (an electricity / water / telephone bill or other) this makes it easy for us to validate your mosque quickly
+        Add a document justifying the existence of the mosque (an electricity / water / telephone bill or other)
+        this makes it easy for us to validate your mosque quickly
+      model: Application template for Muslim countries only
     file1:
       label: A photo of the mosque
-      help: A photo of good quality in landscape format (800x450 px minimum)
+      help: A photo of good quality in landscape format (800x450 px minimum). No face or license plates should appear on the photo.
     file2:
       label: An interior photo of the mosque
+      help: A photo of good quality in landscape format (800x450 px minimum). No face should appear on the photo.
     file3:
       label: A photo of the mawaqit screen
       help: |
-        The photo must be taken in the mosque in landscape format, we must be able to identify the name and the city
-        on the screen as well as part of the mosque, such as the minbar or the mihrab
+        The photo must be taken in the mosque in landscape format (800x450 px minimum), we must be able to identify the name and the city
+        on the screen as well as part of the mosque, such as the minbar or the mihrab. No face should appear on the photo.
     womenSpace:
       label: Space for women
     janazaPrayer:
@@ -522,7 +541,6 @@ configuration:
       label: Adjustment of the Hegira date
     timezoneName:
       label: Time zone
-      title: If you have a time difference in the calculation of prayer times, adjust it here
     ishaFixation:
       label: Fixing of `Isha in relation to the Maghreb
       title: Apply a fixed interval between maghrib and isha whatever the method of calculation
@@ -669,7 +687,11 @@ color: Color
 reason: Reason
 
 mosqueList:
-  iframeCopyText: To display the widget below on your website just copy / paste this html-code
+  screenPhotoModalreminder:
+    title: Missing screen photo :(
+    content: We are still waiting for the screen photo for the mosque "%mosque%"
+    button: I get it
+  iframeCopyText: To display the widget below on your website just copy / paste this html code
   iframeAddTitle: Add the widget to your website
   widgetForYourSite: Widget for your website
   alertRemoveMosque: |
@@ -723,6 +745,7 @@ asr: '`Asr'
 maghrib: Maghrib
 isha: '`Isha'
 jumua: 'Jumu`a'
+noJumua: 'No jumu`a'
 jumuaPrayer: 'Salât al-Jumu`a'
 aid: 'Salât al-Aïd'
 imsak: Imsak
@@ -732,7 +755,6 @@ azan: Al-Adhân
 power-off-phones: Please turn off your mobile phones !
 hi: Hi %name%
 salam: 'Essalamu `alaykom %name%'
-user: User
 active: Enebled ?
 delete_element_question: Are you sure you want to validate the deletion?
 add: Add
@@ -818,9 +840,11 @@ selectLanguage: Select a language
 language: Language
 languages: Languages
 
+error403: Hum! you are trying to access a page that you do not have rights to
 error404: The requested page is not found!
 error500: Sorry, an error has occured !
-error403: Hum! you are trying to access a page that you do not have rights to
+error503: Sorry, this mosque is unavailable for the moment
+
 goHome: Go home
 contactUs: Conact-us
 type: Type
@@ -843,9 +867,6 @@ announcements: Announcements
 expired: Expired on
 expire: Expire on
 searchOtherMosque: Look for an other mosque
-
-prayerTimeIn10MinTitle: "Al-Adhan in 10 min"
-prayerTimeIn10MinBody: "You still have 10 minutes to go to mosque and pray in group inshAllah"
 
 help_the_mosque: Help the mosque
 by_bank_transfer: By bank transfer

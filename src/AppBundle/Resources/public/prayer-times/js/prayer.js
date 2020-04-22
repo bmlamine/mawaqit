@@ -53,8 +53,14 @@ var prayer = {
      * check for update every 2 minute
      */
     initUpdateConfData: function () {
-        if (typeof isLocal !== 'undefined' && isLocal) {
+        if (isLocal) {
             return;
+        }
+
+        let frequency = 5;
+        if(!isMosque)
+        {
+            frequency = 10;
         }
 
         var remote = $(".main").data("remote");
@@ -74,7 +80,7 @@ var prayer = {
                     }
                 }
             });
-        }, prayer.oneMinute * 2);
+        }, prayer.oneMinute * frequency);
     },
     /**
      * load prayer times
@@ -406,20 +412,6 @@ var prayer = {
                     });
                 }
             }, prayer.oneSecond);
-        },
-        initNotif: function () {
-            setInterval(function () {
-                var currentTime = dateTime.getCurrentTime();
-                var options = {hour: '2-digit', minute: '2-digit'};
-                $(prayer.getTimes()).each(function (currentPrayerIndex, time) {
-                    var prayerDateTime = prayer.getCurrentDateForPrayerTime(time);
-                    var tenMinBeforAdhan = prayerDateTime.setMinutes(prayerDateTime.getMinutes() - 10);
-                    tenMinBeforAdhan = (new Date(tenMinBeforAdhan)).toLocaleString('fr', options);
-                    if (currentTime === tenMinBeforAdhan) {
-                        MawaqitNotification.showNotification(prayerTimeIn10MinTitle, prayerTimeIn10MinBody);
-                    }
-                });
-            }, prayer.oneMinute);
         },
         /**
          * Flash adhan, play sound if enabled
@@ -794,7 +786,8 @@ var prayer = {
 
         var beginDateTime = prayer.getCurrentDateForPrayerTime(prayer.getJumuaTime());
         var beginTime = beginDateTime.getTime();
-        var endTime = beginDateTime.setMinutes(beginDateTime.getMinutes() + prayer.confData.jumuaTimeout);
+        var endTime = new Date(beginTime);
+        endTime.setMinutes(endTime.getMinutes() + prayer.confData.jumuaTimeout);
 
         if (date.getTime() < beginTime || date.getTime() > endTime) {
             return false;
@@ -932,13 +925,22 @@ var prayer = {
      * Check if we are in praying moment (10 min before afhan and and 19 min after iqamah)
      */
     isPrayingMoment: function () {
-        var isPrayingMoment = false;
-        var date = new Date();
-        var beginDateTime, endDateTime, prayerDateTime;
+        let isPrayingMoment = false;
+        let date = new Date();
+        let beginDateTime, endDateTime, prayerDateTime;
+
+        if(prayer.isJumuaMoment())
+        {
+            return true;
+        }
+
         $(prayer.getTimes()).each(function (i, time) {
             prayerDateTime = prayer.getCurrentDateForPrayerTime(time);
-            beginDateTime = prayerDateTime.setMinutes(prayerDateTime.getMinutes() - 10);
-            endDateTime = prayerDateTime.setMinutes(prayerDateTime.getMinutes() + prayer.getWaitingByIndex(i) + 11);
+            beginDateTime = new Date(prayerDateTime.getTime());
+            endDateTime = new Date(prayerDateTime.getTime());
+            beginDateTime.setMinutes(beginDateTime.getMinutes() - 10);
+            endDateTime.setMinutes(endDateTime.getMinutes() + prayer.getWaitingByIndex(i) + 11);
+
             if (date > beginDateTime && date < endDateTime) {
                 isPrayingMoment = true;
                 return false;

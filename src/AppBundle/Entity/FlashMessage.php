@@ -69,7 +69,7 @@ class FlashMessage
      */
     public function setContent($content): FlashMessage
     {
-        $this->content = $content;
+        $this->content = preg_replace("/[\s\n]+/"," ", $content);
         return $this;
     }
 
@@ -110,7 +110,8 @@ class FlashMessage
     }
 
     /**
-     * @return boolean
+     * @return bool
+     * @throws \Exception
      */
     public function isExpired()
     {
@@ -118,7 +119,8 @@ class FlashMessage
     }
 
     /**
-     * @return boolean
+     * @return bool
+     * @throws \Exception
      */
     public function isAvailable()
     {
@@ -159,13 +161,5 @@ class FlashMessage
     {
         $this->orientation = $orientation;
         return $this;
-    }
-
-    /**
-     * @return Mosque
-     */
-    public function getMosque(): Mosque
-    {
-        return $this->mosque;
     }
 }

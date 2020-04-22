@@ -3,7 +3,7 @@ form:
       address_mandatory: العنوان إلزامي للمساجد
       max_reached: لقد وصلت إلى الحد الأقصى لعدد عمليات التثبيت ، يرجى الاتصال بنا عبر البريد الإلكتروني contact@mawaqit.net لمزيد من الحصص.
       justificatoryMandatory: المستند الداعم إلزامي
-      mainImageMandatory: صورة المسجد إلزامية
+      imageMandatory: صور المسجد إجبارية
     configuration:
         mandatory: حقل إجباري
         custom_prayer_method: يجب إدخال "درجة الفجر" و "درجة العشاء"

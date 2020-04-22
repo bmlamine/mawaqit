@@ -52,6 +52,11 @@ class Mosque
         self::STATUS_WATCHED
     ];
 
+    const RESTRICTED_STATUSES = [
+        self::STATUS_VALIDATED,
+        self::STATUS_WATCHED
+    ];
+
     const SUSPENSION_REASON_MOSQUE_CLOSED = "mosque_closed";
     const SUSPENSION_REASON_MOSQUE_PRAYER_TIMES_INCORRECT = "prayer_times_not_correct";
     const SUSPENSION_REASON_MISSING_PHOTO = "missing_photo";
@@ -79,6 +84,7 @@ class Mosque
      */
     private $type = "MOSQUE";
     /**
+     * @Groups({"elastic"})
      * @var string
      */
     private $slug;
@@ -282,6 +288,16 @@ class Mosque
      */
     private $emailScreenPhotoReminder;
 
+    /**
+     * @var array
+     */
+    private $similar = [];
+
+    /**
+     * @var int
+     */
+    private $mobileFavoriteCounter;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
@@ -342,6 +358,17 @@ class Mosque
             $name .= " - " . $this->getCity();
         }
         return $name;
+    }
+
+    /**
+     * Label for web search autocomplete
+     *
+     * @Groups({"elastic"})
+     * @return string
+     */
+    function getLabel()
+    {
+        return $this->getTitle();
     }
 
     /**
@@ -940,9 +967,17 @@ class Mosque
         $this->setUpdated(new \DateTime());
     }
 
+    public function setMessages(array $messages)
+    {
+        $this->clearMessages();
+        foreach ($messages as $message) {
+            $this->addMessage($message);
+        }
+    }
+
     public function clearMessages()
     {
-        $this->messages = null;
+        $this->messages = new ArrayCollection();
     }
 
     /**
@@ -1066,15 +1101,6 @@ class Mosque
     }
 
     /**
-     * @Groups({"elastic"})
-     * @return string
-     */
-    public function getUrl()
-    {
-        return "https://mawaqit.net/ar/" . $this->slug;
-    }
-
-    /**
      * @return string
      */
     public function getStatus(): string
@@ -1101,6 +1127,39 @@ class Mosque
     public function isAccessible()
     {
         return in_array($this->status, self::ACCESSIBLE_STATUSES);
+    }
+
+    public function isElasticIndexable()
+    {
+        return $this->isMosque() && $this->isFullyValidated();
+    }
+
+    /**
+     * Cond 1 : Mosques only
+     * Cond 2 : Must be validated
+     * Cond 3 : Created after Mosque::STARTDATE_CHECKING_PHOTO
+     * Cond 4 : The screen picture must be uploaded
+     * @return bool
+     */
+    public function isFullyValidated()
+    {
+        if (!$this->isMosque()) {
+            return true;
+        }
+
+        if (!$this->isValidated()) {
+            return false;
+        }
+
+        if ($this->getCreated()->format("Y-m-d") < Mosque::STARTDATE_CHECKING_PHOTO) {
+            return true;
+        }
+
+        if (empty($this->getImage3())) {
+            return false;
+        }
+
+        return true;
     }
 
     public function isValidated()
@@ -1532,11 +1591,6 @@ class Mosque
         return $this->type === self::TYPE_MOSQUE;
     }
 
-    public function isElasticIndexable()
-    {
-        return $this->isMosque() && $this->isValidated();
-    }
-
     /**
      * @return string|null
      */
@@ -1603,6 +1657,44 @@ class Mosque
     function getJumua2()
     {
         return $this->getConf()->getJumuaTime2();
+    }
+
+    /**
+     * @return array
+     */
+    public function getSimilar(): array
+    {
+        return $this->similar;
+    }
+
+    /**
+     * @param array $similar
+     *
+     * @return Mosque
+     */
+    public function setSimilar(array $similar): Mosque
+    {
+        $this->similar = $similar;
+        return $this;
+    }
+
+    /**
+     * @param int $mobileFavoriteCounter
+     *
+     * @return Mosque
+     */
+    public function setMobileFavoriteCounter(?int $mobileFavoriteCounter): Mosque
+    {
+        $this->mobileFavoriteCounter = $mobileFavoriteCounter;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMobileFavoriteCounter(): ?int
+    {
+        return $this->mobileFavoriteCounter;
     }
 
 }

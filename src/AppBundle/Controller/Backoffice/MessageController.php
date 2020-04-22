@@ -38,6 +38,10 @@ class MessageController extends Controller
             if ($user !== $mosque->getUser()) {
                 throw new AccessDeniedException;
             }
+
+            if (!$mosque->isFullyValidated()) {
+                throw new AccessDeniedException;
+            }
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -76,7 +80,6 @@ class MessageController extends Controller
             return new Response($messageViolation, Response::HTTP_BAD_REQUEST);
         }
 
-        $em->persist($conf);
         $em->flush();
 
         return new Response();

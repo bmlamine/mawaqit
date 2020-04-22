@@ -9,10 +9,6 @@ var randomHadith = {
         if (prayer.confData.randomHadithEnabled) {
             setInterval(function () {
                 randomHadith.get();
-                setTimeout(function () {
-                    randomHadith.hide();
-                }, prayer.oneSecond * 90);
-
             }, 4 * prayer.oneMinute);
         }
     },
@@ -54,23 +50,35 @@ var randomHadith = {
             }
 
             if ($(".main").is(":visible") && !messageInfoSlider.messageInfoIsShowing) {
-                var $randomHadithEl = $(".random-hadith");
-                $.ajax({
-                    url: $randomHadithEl.data("remote"),
-                    headers: {'Api-Access-Token': $randomHadithEl.data("apiAccessToken")},
-                    success: function (resp) {
-                        if (resp.text !== "") {
-                            $(".random-hadith .text div").text(resp.text);
-                            randomHadith.show(randomHadith.setFontSize);
+
+                let $randomHadithEl = $(".random-hadith");
+                let hadith = getLocalTTL("hadith");
+
+                if (hadith) {
+                    $(".random-hadith .text div").text(hadith);
+                    randomHadith.show(randomHadith.setFontSize);
+                }
+
+                if (!hadith) {
+                    $.ajax({
+                        url: $randomHadithEl.data("remote"),
+                        headers: {'Api-Access-Token': $(".main").data("apiAccessToken")},
+                        success: function (resp) {
+                            if (resp.text) {
+                                hadith = resp.text;
+                                $(".random-hadith .text div").text(hadith);
+                                // put hadith in cache during 1 hour
+                                setLocalTTL("hadith", hadith, 3600000)
+                                randomHadith.show(randomHadith.setFontSize);
+                            }
+                        },
+                        error: function () {
+                            if ($(".random-hadith .text div").text() !== "") {
+                                randomHadith.show();
+                            }
                         }
-                    },
-                    error: function () {
-                        var hadith = $(".random-hadith .text div").text();
-                        if (hadith != "") {
-                            randomHadith.show();
-                        }
-                    }
-                });
+                    });
+                }
             }
         }, 5000);
     },
@@ -83,6 +91,11 @@ var randomHadith = {
                 callback();
             }
         });
+
+        setTimeout(function () {
+            randomHadith.hide();
+        }, prayer.oneSecond * 90);
+
     },
     hide: function () {
         $(".random-hadith").fadeOut(0, function () {

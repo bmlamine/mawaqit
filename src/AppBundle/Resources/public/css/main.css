@@ -208,3 +208,9 @@ body.rtl .keyboardInputInitiator {
     left: 5px;
     right: auto;
 }
+
+a.disabled {
+    color: #b9b9b9 !important;
+    pointer-events: none;
+    cursor: default;
+}

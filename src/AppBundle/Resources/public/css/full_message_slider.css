@@ -50,14 +50,18 @@ footer .datetime > div .date {
     font-size: 3vh;
 }
 
-#full-screen {
+#top-buttons {
     z-index: 1000;
     font-size: 180%;
-    color: #777777;
+    color: #555555;
     position: fixed;
     top: 10px;
     left: 10px;
     cursor: pointer;
+}
+
+#top-buttons a {
+    color: #555555;
 }
 
 ul {

@@ -7,7 +7,7 @@ PATH  := node_modules/.bin:bin/:$(PATH)
 help:
     @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-install: ## Install project in dev environement
+install:up ## Install project in dev environement
     ./install.sh
 
 stop: ## Stop all containers

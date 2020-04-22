@@ -271,9 +271,12 @@ class PrayerTime
 
     /**
      *  Get pray times and other info of the mosque
+
      * @param Mosque $mosque
-     * @param bool $returnFullCalendar
+     * @param bool   $returnFullCalendar
+     *
      * @return array
+     * @throws \Exception
      */
     public function prayTimes(Mosque $mosque, $returnFullCalendar = false)
     {
@@ -284,6 +287,7 @@ class PrayerTime
             'id' => $mosque->getId(),
             'name' => $mosque->getTitle(),
             'localisation' => $mosque->getLocalisation(),
+            'countryCode' => $mosque->getCountry(),
             'phone' => $mosque->getPhone(),
             'email' => $mosque->getEmail(),
             'site' => $mosque->getSite(),
@@ -322,6 +326,7 @@ class PrayerTime
             $result['flash'] = [
                 'content' => $flashMessage->getContent(),
                 'expire' => $flashMessage->getExpire() instanceof \DateTime ? $flashMessage->getExpire()->getTimestamp() : null,
+                'orientation' => $flashMessage->getOrientation(),
             ];
         }
 
@@ -345,8 +350,11 @@ class PrayerTime
 
     /**
      * apply some changes on iqama calendar like (DST)
+
      * @param Mosque $mosque
-     * @return array|null
+     *
+     * @return array
+     * @throws \Exception
      */
     private function getIqamaCalendar(Mosque $mosque)
     {

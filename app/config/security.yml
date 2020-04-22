@@ -58,6 +58,7 @@ security:
         - { path: /clone, role: ROLE_ADMIN }
 
         - { path: /admin, role: ROLE_SUPER_ADMIN }
+        - { path: /superadmin, role: ROLE_SUPER_ADMIN }
 
         - { path: /backoffice, role: ROLE_USER }
         - { path: /api, role: ROLE_USER }

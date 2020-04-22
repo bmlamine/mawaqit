@@ -181,6 +181,15 @@ services:
         class: AppBundle\Form\ConfigurationType
         arguments:
             - "@translator"
+            - "@security.authorization_checker"
+        tags:
+            - { name: form.type }
+
+    app.form_mosque_sync:
+        class: AppBundle\Form\MosqueSyncType
+        arguments:
+            - "@request_stack"
+            - "%languages%"
         tags:
             - { name: form.type }
 

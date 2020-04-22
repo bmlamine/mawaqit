@@ -15,6 +15,14 @@ mosqueScreen:
   loginHelp: Votre email de connexion sur mawaqit.net
   password: Mot de passe
   passwordHelp: Votre mot de passe de connexion sur mawaqit.net
+  language:
+    label: Langue
+    placeholder: Sélectionnez une langue
+  screen:
+    label: Type d'écran
+    choices:
+      1: Horaires de prière
+      2: Messages et annonces
 
 home:
   menu:
@@ -57,20 +65,20 @@ home:
 
   text:
     numbers:
-      1: Mosquées et domiciles
+      1: Mosquées et autres
       2: Pays
       3: Utilisateurs actifs sur iPhone et Android
-      4: Visiteurs uniques du site par jours
-      5: Requêtes sur le site par jour
+      4: Visiteurs uniques par mois
+      5: Requêtes par mois
       6: Note sur les stores et facebook
     contactUsText0: |
       Nous sommes tous des bénévoles et nous travaillons fi sabili Allah sans aucune rémunération, soyez patient
       si vous ne recevez pas une réponse immédiate à vos questions
     contactUsText1: |
-      🙏&nbsp;AVANT de nous contacter, veuillez suivre attentivement le manuel d'installation <a href="manual_link">ici</a>
+      AVANT de nous contacter, veuillez  🙏 suivre attentivement le manuel d'installation <a href="manual_link">ici</a>
       et visiter notre <a href="faq_link">FAQ</a> ainsi que notre chaine <a href="youtube_link" target="_blank">Youtube</a>
     contactUsText2: |
-      Si vous ne trouvez pas réponse à vos questions, vous pouvez nous contacter par :
+      Si vous ne trouvez pas réponse à vos questions, vous pouvez nous contacter par
     contactUsText3: |
       WhatsApp (message uniquement, AUCUN appel ne sera traité)
     contactUsText4: |
@@ -141,7 +149,8 @@ home:
     install_sub_title:  étapes
     install1_1:  Inscrivez-vous <a href="registerUrl" target="_blank">ici</a>
     install1_2:  |
-      Ajoutez la mosquée depuis votre espace utilisateur, munissez-vous d'un justificatif de domicialiation de la mosquée
+      Ajoutez la mosquée depuis votre espace utilisateur, munissez-vous de deux photos de la mosquée (extérieur/intérieur) et
+      d'un justificatif de domicialiation de la mosquée
       (comme une facture d'éléctricité, pas besoin pour les domiciles et autres types d'installation)
     install2:  Téléchargez l'image système pré configurée ici
     install3:  Vous devez être connecté pour télécharger l'image système
@@ -177,18 +186,15 @@ home:
     install7: |
       <ol>
         <li>Démarrez le raspberry et branchez un clavier et une souris usb</li>
+        <li>Réduire la fenêtre mawaqit avec la touche F11 de votre clavier</li>
         <li>Connectez-le à internet (WIFI ou câble Ethernet)</li>
-        <li>
-            Ouvrez le fichier <code>online_site.txt</code> présent sur le bureau et remplacez son
-            contenu par le lien généré dans votre compte, exemple: <br>
-            <code>mosqueUrl<br></code>
-        </li>
-        <li>Sauvegardez et quittez</li>
-        <li>Lancez Mawaqit depuis le bureau</li>
-        <li>Au lancement, le raspberry vérifie si une connexion internet est disponible,
-            dans ce cas il lance la version en ligne, sinon il bascule sur la version offline
-        </li>
+        <li>Synchronisez, laissez-vous guider sur la fenêtre mawaqit</li>
+        <li>Appuyez sur la touche F11 pour agrandir la fenêtre mawaqit</li>
       </ol>
+      <p>
+        NB: À chaque démarrage, le système vérifie si une connexion internet est disponible,
+        dans ce cas il lance la version online, sinon il bascule sur la version offline
+      </p>
       <br>
       <p><strong>OPTION 2: </strong>
            Utilisez la version offline, il suffit de brancher le raspberry sur l'écran, le logiciel se lancera tout seul. <br>
@@ -210,6 +216,10 @@ home:
       Pour plus d'informations visitez notre chaîne <a target="_blank" href="https://www.youtube.com/channel/UCK0bHMvAlVL8NvyofiMulUw/">YouTube</a>
     install9: Vous rencontrez des difficultés ? envoyez-nous un message <a href="#contact">c'est par ici</a>
 
+cookies_accept:
+  text: Nous utilisons les cookies de session uniquement pour le fonctionnement du service. Aucune utilisation commerciale.
+  button: Compris
+
 form:
   label:
     delete: Supprimer ?
@@ -220,7 +230,7 @@ form:
     success:  L'édition a été réalisée avec succès.
     action: Éditer
   sync:
-    action: Synchroniser avec la mosquée en ligne
+    action: Synchroniser
   delete:
     success:  La suppression a été réalisée avec succès.
     action: Supprimer
@@ -257,9 +267,17 @@ registration:
   registration: Inscription
   password_rule: 8 caractères minimum, dont 1 majuscule, 1 minuscule et 1 nombre
   please_enter_right_email: Veuillez entrer une adresse mail que vous consultez régulièrement
+  check_spams: Veuillez aussi vérifier votre dossier spam.
 
 tou:
   label: J'accepte
+
+user:
+  label: Utilisateur
+  form:
+    unsubscribeEmail:
+      label: Se désinscrire des emails mawaqit
+      help: Attention vous perdez toutes nos communications importantes
 
 mosque:
   title:
@@ -355,23 +373,27 @@ mosque:
     paymentWebsite:
       label: Site de paiement en ligne
       placeholder: https://paypal.me/mosquee-essunna
-      help: Lien vers le site de paiement en ligne de lamosquée pour les dons
+      help: Lien vers le site de paiement en ligne de la mosquée pour les dons
     addOnMap:
       label: Ajouter sur la carte google
     justificatoryFile:
       label: Un document justificatif (.pdf .jpg .png .doc .ppt)
       help: |
-        Ajouter un document justifiant l'existance de la mosquée (une facture d'éléctricité / eau / téléphone) cela facilite à mawaqit la validation de votre mosquée rapidement
+        Ajouter un document justifiant l'existance de la mosquée (une facture d'éléctricité / eau / téléphone) cela facilite à
+        mawaqit la validation de votre mosquée rapidement
+      model: Modèle de demande pour les pays musulmans uniquement
     file1:
       label: Photo extérieur de la mosquée
-      help: Photo de bonne qualité au format paysage (800x450 px minimum)
+      help: Photo de bonne qualité au format paysage (800x450 px minimum). Aucun visage ni plaques d'immatriculation
+            ne doivent apparaître sur la photo.
     file2:
       label: Photo intérieur de la mosquée
+      help: Photo de bonne qualité au format paysage (800x450 px minimum). Aucun visage ne doit apparaître sur la photo.
     file3:
       label: Photo de l'écran mawaqit
       help: |
         La photo doit être prise dans la mosquée au format paysage, on doit pouvoir identifier le nom et la ville sur
-        l'écran ainsi qu'une partie de la mosquée, comme le minbar ou le mihrab
+        l'écran ainsi qu'une partie de la mosquée, comme le minbar ou le mihrab. Aucun visage ne doit apparaître sur la photo.
     womenSpace:
       label: Espace pour femmes
     janazaPrayer:
@@ -553,7 +575,6 @@ configuration:
       label: Ajustement de la date hégire
     timezoneName:
       label: Fuseau horaire
-      title: Si vous constatez un décalage d'heure dans le calcul des horaires de prière, ajustez-le ici
     ishaFixation:
       label: Fixation du `Isha par rapport au Maghreb
       title: Appliquer un interval fixe entre maghrib et isha quelque soit la méthode de calcul
@@ -705,6 +726,10 @@ motif: Motif
 color: Couleur
 
 mosqueList:
+  screenPhotoModalreminder:
+    title: Photo de l'écran manquante :(
+    content: Nous attendons toujours la photo de l'écran pour la mosquée "%mosque%"
+    button: J'ai compris
   iframeCopyText: Pour afficher le widget ci-dessous dans votre site il suffit de copier/coller ce code html
   iframeAddTitle: Ajouter le widget à votre site
   widgetForYourSite: Widget pour votre site internet
@@ -761,7 +786,7 @@ asr: '`Asr'
 maghrib: Maghrib
 isha: '`Isha'
 jumua: 'Jumu`a'
-jumuaPrayer: 'Salat al-Jumu`a'
+noJumua: 'Pas de<br>jumu`a'
 aid: 'Salât al-Aïd'
 imsak: Imsak
 iqama: Iqama
@@ -770,7 +795,6 @@ azan: Al-Adhân
 power-off-phones: Éteignez vos portables SVP !
 hi: Bonjour %name%
 salam: 'Essalamu `alaykum %name%'
-user: Utilisateur
 active: Activé
 actions: Actions
 delete_element_question: Êtes-vous sûr de vouloir valider la suppression ?
@@ -869,9 +893,11 @@ selectLanguage: Sélectionner une langue
 language: Langue
 languages: Langues
 
+error403: Hum! vous essayez d'accéder sur une page dont vous n'avez pas les droits
 error404: La page que vous cherchez n'existe pas!
 error500: Désolé, une erreur est survenue!
-error403: Hum! vous essayez d'accéder sur une page dont vous n'avez pas les droits
+error503: Désolé, cette mosquée n'est pas accessible pour le moment
+
 goHome: Page d'accueil
 contactUs: Contactez-nous
 type: Type
@@ -896,9 +922,6 @@ announcements: Annonces
 expired: Expiré le
 expire: Expire le
 searchOtherMosque: Chercher une autre mosquée
-
-prayerTimeIn10MinTitle: "Al-Adhan dans 10 min"
-prayerTimeIn10MinBody: "Tu as encore 10 min pour aller à la mosquée et prier en groupe inshAllah"
 
 help_the_mosque: Aidez la mosquée
 by_bank_transfer: Par virement

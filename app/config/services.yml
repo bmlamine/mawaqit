@@ -11,6 +11,23 @@ services:
         resource: '../../src/AppBundle/Controller'
         tags: ['controller.service_arguments']
 
+    AppBundle\Service\YamlLoader:
+        arguments:
+            - "%kernel.root_dir%"
+
+    AppBundle\Service\Cloudflare:
+        arguments:
+            - "@csa_guzzle.client.cloudflare"
+            - "@logger"
+            - "%cloudflare_api_mawaqit_id%"
+            - "%site%"
+            - "%languages%"
+
+    AppBundle\Service\Statistic:
+        arguments:
+            - "@csa_guzzle.client.elastic"
+            - "@logger"
+
     AppBundle\EventListener\CommentListener:
         arguments:
             - "@security.token_storage"
@@ -22,6 +39,10 @@ services:
             - "@app.mosque_service"
             - "@doctrine.orm.entity_manager"
             - "@app.request_service"
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+    AppBundle\EventListener\MosqueCacheListener:
         tags:
             - { name: 'doctrine.event_subscriber' }
 

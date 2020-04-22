@@ -56,7 +56,7 @@
 </head>
 
 <body id="page-top" class="index">
-{% include "partial/fb_messenger.html.twig" %}
+{#{% include "partial/fb_messenger.html.twig" %}#}
 
 {% block header %}
     <!-- Navigation -->
@@ -89,15 +89,14 @@
                 </li>
                 <li>
                     <a class="page-scroll" target="_blank"
-                       href="https://app.swaggerhub.com/apis/ibra/Mawaqit/1.0.0">api</a>
+                       href="https://app.swaggerhub.com/apis/ibra/Mawaqit">api</a>
                 </li>
                 <li>
                     <a class="page-scroll" href="{{ path('homepage') }}#contact">{{ 'home.menu.contactUs'|trans }}</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">
-                        <i class="fa fa-globe"></i>&nbsp;{{ 'language'|trans }}<span class="caret"></span>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {{ 'language'|trans }}<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
@@ -112,11 +111,9 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ path("fos_user_registration_register") }}"><i
-                                class="fa fa-user"></i>&nbsp;{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
+                    <a href="{{ path("fos_user_registration_register") }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
                 <li>
-                    <a href="{{ path("fos_user_security_login") }}"><i
-                                class="fa fa-sign-in-alt"></i>&nbsp;{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    <a href="{{ path("fos_user_security_login") }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
                 </li>
             </ul>
         </div>
@@ -132,7 +129,8 @@
                 <div class="intro-subheading">{{ 'home.title.header2'|trans }}</div>
                 <div class="intro-lead-in" style="font-size: 2rem">{{ 'home.title.header2_2'|trans }}</div>
 
-                <div class="text-center" style="color: #f9deaf; text-transform: uppercase; font-weight: bold; font-size: 1.5rem">
+                <div class="text-center"
+                     style="color: #f9deaf; text-transform: uppercase; font-weight: bold; font-size: 1.5rem">
                     <div>{{ 'home.title.header3'|trans }}</div>
                     <div>{{ 'home.title.header4'|trans }}</div>
                 </div>
@@ -163,39 +161,21 @@
                 </li>
                 <li>
                     {{ 'home.text.contactUsText2'|trans }}
-                    <ol>
-                        <li>
-                            <i class="fab fa-whatsapp"></i> {{ 'home.text.contactUsText3'|trans }}<br>
-                            <div class="row">
-                                <div class="col-md-4 form-group mt-1">
-                                    <select id="whatsapp-select" class="form-control">
-                                        <option value="">{{ 'home.text.contactUsSelectNumber'|trans }}</option>
-                                        <optgroup label="{{ 'FR'|country(app.request.locale) }}">
-{#                                            <option value="0033651061498">Mohammed</option>#}
-                                            <option value="0033629111641">Ibrahim</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'DZ'|country(app.request.locale) }}">
-                                            <option value="00213551720574">Mohammed</option>
-                                            <option value="00213559702939">Nabil</option>
-                                            <option value="00213559510662">Abd Elhak</option>
-                                            <option value="00213771365933">Djamel</option>
-                                            <option value="00213550282964">Mustapaha</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'MA'|country(app.request.locale) }}">
-                                            <option value="0033638159980">Yassine</option>
-                                        </optgroup>
-                                        <optgroup label="{{ 'home.text.contactUsOtherCountry'|trans }}">
-                                            <option value="0033638159980">Yassine</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                            <div><a href="" id="whatsapp-phone"></a></div>
-                        </li>
-                        <li class="mt-2">
-                            <i class="fab fa-facebook-messenger"></i> {{ 'home.text.contactUsText4'|trans }}
-                        </li>
-                    </ol>
+
+                    <i class="fab fa-whatsapp"></i> {{ 'home.text.contactUsText3'|trans }}<br>
+                    <div class="row">
+                        <div class="col-md-4 form-group mt-1">
+                            <select id="whatsapp-select" class="form-control" data-remote="{{ path('app_api_v2_support_support') }}" data-token="{{ token }}">
+                                <option value="">{{ 'home.text.contactUsSelectNumber'|trans }}</option>
+                                {% for countryCode, phones in yamlLoader.support %}
+                                    {% if  countryCode != 'OC' %}
+                                        <option value="{{ countryCode }}">{{ countryCode|country(app.request.locale) }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                <option value="OC">{{ 'home.text.contactUsOtherCountry'|trans }}</option>
+                            </select>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -242,6 +222,9 @@
 
 {% block additional_javascripts %}
 {% endblock %}
+
+{% include 'partial/cookies_accept.html.twig' %}
+{% include 'partial/mawaqit_team_message.html.twig' %}
 
 </body>
 </html>

@@ -10,6 +10,7 @@ var weather = {
         $weatherEl.addClass("hidden");
         $.ajax({
             url: $weatherEl.data("remote"),
+            headers: {'Api-Access-Token': $(".main").data("apiAccessToken")},
             success: function (resp) {
                 if (resp && "temperature" in resp) {
                     $weatherEl.removeAttr("class");
@@ -35,7 +36,7 @@ var weather = {
         });
     },
     initUpdateWeather: function () {
-        if (prayer.confData.temperatureEnabled === true) {
+        if (!isLocal && prayer.confData.temperatureEnabled === true) {
             weather.getWeather();
             setInterval(function () {
                 weather.getWeather();

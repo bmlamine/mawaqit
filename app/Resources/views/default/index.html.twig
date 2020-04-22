@@ -1,4 +1,4 @@
-{% extends 'default/layout.html.twig' %}
+    {% extends 'default/layout.html.twig' %}
 
 {% block additional_stylesheets %}
     {% stylesheets
@@ -130,15 +130,15 @@
                         <div class="h3">{{ 'home.text.numbers.2'|trans }}</div>
                     </div>
                     <div class="col-md-4 mt-2">
-                        <div class="odometer" data-count="120000"></div>
+                        <div class="odometer" data-count="185000"></div>
                         <div class="h3">{{ 'home.text.numbers.3'|trans }}</div>
                     </div>
                     <div class="col-md-4 mt-2">
-                        <div class="odometer" data-count="95000"></div>
+                        <div class="odometer" data-count="2000000"></div>
                         <div class="h3">{{ 'home.text.numbers.4'|trans }}</div>
                     </div>
                     <div class="col-md-4 mt-2">
-                        <div class="odometer" data-count="2000000"></div>
+                        <div class="odometer" data-count="130000000"></div>
                         <div class="h3">{{ 'home.text.numbers.5'|trans }}</div>
                     </div>
                     <div class="col-md-4 mt-2">
@@ -173,7 +173,8 @@
                         <div class="form-group">
                             <input class="form-control input-lg center-placeholder" id="find-mosque"
                                    placeholder="{{ 'home.text.findMosque'|trans }}"
-                                   data-remote="{{ path('public_mosque_search_ajax') }}">
+                                   data-remote="{{ path('app_api_v2_mosque_search') }}"
+                                   data-api-access-token="{{ mawaqitApiAccessToken }}">
                         </div>
                         <p class="text-muted">
                             {{ 'home.text.equipedMosques2'|trans|raw }}
@@ -225,16 +226,20 @@
                             <div class="modal-body">
                                 <h2>{{ mosque.title }} {{ mosque.country|country }}</h2>
                                 <p class="item-intro text-muted">{{ mosque.associationName }}</p>
-                                <img src="{{ vich_uploader_asset(mosque, 'file1') | imagine_filter('small_370x210') }}"
-                                     class="img-responsive  img-centered" alt="{{ mosque.title }}"/>
+
+                                <a href="{{ vich_uploader_asset(mosque, 'file1') }}" target="_blank">
+                                    <img src="{{ vich_uploader_asset(mosque, 'file1') | imagine_filter('small_370x210') }}" class="img-responsive  img-centered" alt="{{ mosque.title }}"/>
+                                </a>
 
                                 {% if mosque.image2 is not null %}
-                                    <img class="img-responsive img-centered"
-                                         src="{{ vich_uploader_asset(mosque, 'file2') | imagine_filter('small_370x210') }}">
+                                    <a href="{{ vich_uploader_asset(mosque, 'file2') }}" target="_blank">
+                                       <img class="img-responsive img-centered" src="{{ vich_uploader_asset(mosque, 'file2') | imagine_filter('small_370x210') }}">
+                                    </a>
                                 {% endif %}
                                 {% if mosque.image3 is not null %}
-                                    <img class="img-responsive img-centered"
-                                         src="{{ vich_uploader_asset(mosque, 'file3') | imagine_filter('small_370x210') }}">
+                                <a href="{{ vich_uploader_asset(mosque, 'file3') }}" target="_blank">
+                                    <img class="img-responsive img-centered" src="{{ vich_uploader_asset(mosque, 'file3') | imagine_filter('small_370x210') }}">
+                                </a>
                                 {% endif %}
 
                                 <ul class="list-inline">
@@ -279,6 +284,7 @@
         '@AppBundle/Resources/public/flexSlider/jquery.flexslider-min.js'
         '@AppBundle/Resources/public/agency/js/index.js' %}
         <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
                 integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
@@ -286,6 +292,8 @@
         <script src="http://github.hubspot.com/odometer/odometer.js"></script>
 
         <script>
+            var lang = '{{ app.request.locale }}';
+
             var map = L.map('map', {
                 scrollWheelZoom: false,
                 center: [28.033886, 1.659626],
@@ -329,6 +337,5 @@
                 $(".country:eq(1)").click();
             });
         </script>
-    {% endjavascripts %}
 
 {% endblock %}

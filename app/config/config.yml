@@ -1,6 +1,6 @@
 imports:
-  - { resource: parameters.yml }
   - { resource: _parameters.yml }
+  - { resource: parameters.yml }
   - { resource: security.yml }
   - { resource: services.yml }
   - { resource: easyadmin/ }
@@ -16,7 +16,7 @@ framework:
   validation: { enable_annotations: true }
   serializer: { enable_annotations: true }
   templating:
-    engines: ['twig']
+    engines: ['twig', 'php']
   default_locale: '%locale%'
   trusted_hosts: ~
   trusted_proxies: ~
@@ -46,6 +46,8 @@ twig:
     supportEmail: "%support_email%"
     site: "%site%"
     version: "%version%"
+    token: '%mawaqit_api_access_token%'
+    yamlLoader: '@AppBundle\Service\YamlLoader'
   form_themes:
     - 'form/themes.html.twig'
     - 'VichUploaderBundle:Form:fields.html.twig'
@@ -115,6 +117,9 @@ fos_user:
       validation_groups: [Registration, appChangePassword]
     confirmation:
       enabled: true
+  profile:
+    form:
+      type: AppBundle\Form\ProfileType
   change_password:
     form:
       validation_groups: [appChangePassword]
@@ -167,17 +172,27 @@ csa_guzzle:
     api:
       config:
         base_uri: '%api_base_url%'
+        timeout: 10
         headers:
           Accept: 'application/json'
           Api-Access-Token: '%mawaqit_api_access_token%'
     pdfshift:
       config:
         base_uri: 'https://api.pdfshift.io'
+        timeout: 10
         headers:
           Authorization: 'Basic %pdfshift_api_token%'
     elastic:
       config:
         base_uri: '%app_elasticsearch_url%'
+        timeout: 10
+    cloudflare:
+      config:
+        base_uri: 'https://api.cloudflare.com/client/'
+        timeout: 10
+        headers:
+          X-Auth-Key: '%cloudflare_api_token%'
+          X-Auth-Email: '%cloudflare_api_email%'
   default_client: 'api'
 
 ewz_recaptcha:

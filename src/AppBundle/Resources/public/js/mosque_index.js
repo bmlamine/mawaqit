@@ -45,10 +45,20 @@ $('.fa-map-marker-alt').click(function (e) {
 $(".linkSelector").change(function (e) {
     let link = $(this).parent().find('.link');
     link.addClass('hidden');
-    if($(this).val()){
+    if ($(this).val()) {
         var selected = $(this).find(':selected');
-        link.attr('href',selected.data('link'))
+        link.attr('href', selected.data('link'))
         link.text(selected.data('link'));
         link.removeClass('hidden');
     }
 });
+
+setTimeout(function () {
+    if (getLocalTTL("photo-reminder-modal") === null) {
+        $("#photo-reminder-modal").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        setLocalTTL("photo-reminder-modal", "", 86400000)
+    }
+}, 1000);

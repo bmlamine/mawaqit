@@ -68,7 +68,30 @@ class MosqueService
         $this->logger = $logger;
     }
 
+    public function listUUID(int $page, int $size = 20)
+    {
+        $query = [
+            "_source" => ["uuid"],
+            "sort" => "id",
+            "size" => $size,
+            "from" => ($page - 1) * $size
+        ];
+
+        $mosques = $this->doSearch($query);
+
+        $result = [];
+        if (isset($mosques["hits"]["hits"])) {
+            foreach ($mosques["hits"]["hits"] as $hit) {
+                $result[] = $hit["_source"]["uuid"];
+            }
+        }
+
+        return $result;
+    }
+
     /**
+     * Search by words or lat and lon
+     *
      * @param string $word
      * @param string $lat
      * @param string $lon
@@ -80,7 +103,8 @@ class MosqueService
      */
     public function search($word, $lat, $lon, int $page, int $size = 20, bool $stringify = false)
     {
-        $word = trim($word);
+        $word = $this->escapeElasticReservedChars(trim($word));
+
         if (strlen($word) < 2 && (empty($lat) || empty($lon))) {
             return [];
         }
@@ -111,34 +135,59 @@ class MosqueService
         $query["size"] = $size;
         $query["from"] = ($page - 1) * $size;
 
-        try {
-            $uri = sprintf("%s/%s/_search", self::ELASTIC_INDEX, self::ELASTIC_TYPE);
-            $mosques = $this->elasticClient->get($uri, [
-                "json" => $query
-            ]);
-
-            $mosques = json_decode($mosques->getBody()->getContents(), true);
-        } catch (\Exception $e) {
-            $this->logger->error("Elastic: query KO on $uri", [$query, $e->getTrace()]);
-            return [];
-        }
+        $mosques = $this->doSearch($query);
 
         $result = [];
-        foreach ($mosques["hits"]["hits"] as $hit) {
-            $mosque = $hit["_source"];
-            unset($mosque["location"]);
-            if (isset($hit["sort"])) {
-                $mosque["proximity"] = (int)$hit["sort"][0];
-            }
+        if (isset($mosques["hits"]["hits"])) {
+            foreach ($mosques["hits"]["hits"] as $hit) {
+                $mosque = $hit["_source"];
+                unset($mosque["location"]);
+                if (isset($hit["sort"])) {
+                    $mosque["proximity"] = (int)$hit["sort"][0];
+                }
 
-            if ($stringify) {
-                $this->stringify($mosque);
-            }
+                if ($stringify) {
+                    $this->stringify($mosque);
+                }
 
-            $result[] = $mosque;
+                $result[] = $mosque;
+            }
         }
 
         return $result;
+    }
+
+    /**
+     * get similar mosques
+     *
+     * @param Mosque $mosque
+     *
+     * @return array
+     */
+    public function getSimilarByLocalization(Mosque $mosque)
+    {
+
+        $query = [
+            "_source" => ["id"],
+            "size" => 3,
+            "min_score" => 10,
+            "query" => [
+                "query_string" => [
+                    "query" => $mosque->getLocalisation(),
+                    "fields" => ["localisation"],
+                ]
+            ]
+        ];
+
+        $mosques = $this->doSearch($query);
+        $similar = [];
+        if (isset($mosques["hits"]["hits"])) {
+            foreach ($mosques["hits"]["hits"] as $hit) {
+                $similar[] = $hit["_source"]["id"];
+            }
+        }
+
+        return $similar;
     }
 
     public function searchV1($word, $lat, $lon, $page)
@@ -156,7 +205,7 @@ class MosqueService
         try {
             $this->elasticClient->delete(self::ELASTIC_INDEX);
         } catch (\Exception $e) {
-            $this->logger->error("Elastic: Can't drop index " . self::ELASTIC_INDEX, [$e->getTrace()]);
+            $this->logger->critical("Elastic: Can't drop index " . self::ELASTIC_INDEX, [$e->getMessage()]);
         }
     }
 
@@ -169,30 +218,27 @@ class MosqueService
         $mosque = $this->serializer->normalize($mosque, 'json', ["groups" => ["elastic"]]);
 
         $uri = sprintf("%s/%s/%s", self::ELASTIC_INDEX, self::ELASTIC_TYPE, $mosque["id"]);
-        $this->elasticClient->post($uri, [
-            "json" => $mosque
-        ]);
 
         try {
             $this->elasticClient->post($uri, [
                 "json" => $mosque
             ]);
         } catch (\Exception $e) {
-            $this->logger->error("Elastic: Can't post on $uri", [$mosque, $e->getTrace()]);
+            $this->logger->critical("Elastic: Can't post on $uri", [$mosque, $e->getMessage()]);
         }
     }
 
     public function elasticDelete(Mosque $mosque)
     {
-        if (!$mosque->isElasticIndexable()) {
+        if (!$mosque->isMosque()) {
             return;
         }
 
+        $uri = sprintf("%s/%s/%s", self::ELASTIC_INDEX, self::ELASTIC_TYPE, $mosque->getId());
         try {
-            $uri = sprintf("%s/%s/%s", self::ELASTIC_INDEX, self::ELASTIC_TYPE, $mosque->getId());
             $this->elasticClient->delete($uri);
         } catch (\Exception $e) {
-            $this->logger->error("Elastic: Can't delete $uri", [$e->getTrace()]);
+            $this->logger->error("Elastic: Can't delete $uri", [$e->getMessage()]);
         }
     }
 
@@ -224,7 +270,7 @@ class MosqueService
                 ]
             ]);
         } catch (\Exception $e) {
-            $this->logger->error("Elastic: init index " . self::ELASTIC_INDEX, [$e->getTrace()]);
+            $this->logger->critical("Elastic: init index " . self::ELASTIC_INDEX, [$e->getMessage()]);
         }
     }
 
@@ -253,7 +299,7 @@ class MosqueService
                 "headers" => ["content-type" => "application/json"],
             ]);
         } catch (\Exception $e) {
-            $this->logger->error("Elastic: Can't bulk insert");
+            $this->logger->critical("Elastic: Can't bulk insert", [$e->getMessage()]);
         }
 
     }
@@ -310,6 +356,38 @@ class MosqueService
         $mosque->setFile3(null);
         $this->em->flush();
         $this->mailService->rejectScreenPhoto($mosque);
+    }
+
+    /**
+     * @param $query
+     *
+     * @return array
+     */
+    private function doSearch($query)
+    {
+        $uri = sprintf("%s/%s/_search", self::ELASTIC_INDEX, self::ELASTIC_TYPE);
+
+        try {
+            $mosques = $this->elasticClient->get($uri, [
+                "json" => $query
+            ]);
+
+            return json_decode($mosques->getBody()->getContents(), true);
+        } catch (\Exception $e) {
+            $this->logger->critical("Elastic: query KO on $uri", [$query, $e->getMessage()]);
+
+        }
+
+        return [];
+    }
+
+    private function escapeElasticReservedChars($query)
+    {
+        return preg_replace(
+            '/[\\+\\-\\=\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\<\\>\\?\\:\\\\\\/]/',
+            addslashes('\\$0'),
+            $query
+        );
     }
 
     private function stringify(&$mosque)

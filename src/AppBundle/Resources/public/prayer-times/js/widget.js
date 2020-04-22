@@ -1,33 +1,62 @@
 $(".date").text(dateTime.getCurrentDate(lang));
-$('.current-time').text(dateTime.getCurrentTime(true));
+$('.current-time').html(dateTime.formatTime(dateTime.getCurrentTime(true), format));
+
 setInterval(function () {
-    $('.current-time').text(dateTime.getCurrentTime(true));
+    $('.current-time').html(dateTime.formatTime(dateTime.getCurrentTime(true), format));
 }, 1000);
 
 const widget = $('.widget');
-$('iframe').resizable();
+
+function getTimesFromCalendar(mosque) {
+    let date = new Date();
+    let time = addZero(date.getHours()) + ":" + addZero(date.getMinutes());
+    let times = mosque.times;
+    let ishaTime = times[4];
+
+    if (time > ishaTime) {
+        let month = dateTime.getTomorrowMonth();
+        let day = dateTime.getTomorrowDay();
+        times = mosque.calendar[month][day];
+    }
+    return times;
+}
+
 $.ajax({
-    url: widget.data("remote"),
+    url: widget.data("remote") + "?calendar",
     headers: {'Api-Access-Token': widget.data("apiAccessToken")},
     success: function (mosque) {
+
         // hijri date
         $(".hijriDate").text(writeIslamicDate(mosque.hijriAdjustment, lang));
 
         // shuruq
-        $('.shuruq .time').text(mosque.shuruq);
+        $('.shuruq .time').html(dateTime.formatTime(mosque.shuruq, format));
 
         // jumua
-        if(mosque.jumua) {
-            $('.jumua .time').text(mosque.jumua);
+        if (mosque.jumua) {
+            $('.jumua .time').html(dateTime.formatTime(mosque.jumua, format));
         }
 
-        if(!mosque.jumua){
+        if (!mosque.jumua) {
             $('.jumua').css("visibility", "hidden");
         }
 
         // times
-        $.each(mosque.times, function (i, time) {
-            $('.prayers .time').eq(i).text(time);
+        let times = getTimesFromCalendar(mosque);
+        $.each(times, function (i, time) {
+            $('.prayers .time').eq(i).html(dateTime.formatTime(time, format));
+        });
+
+        let date = new Date();
+        let now = addZero(date.getHours()) + ":" + addZero(date.getMinutes());
+        let timesElm = $(".prayers > div");
+        timesElm.eq(0).addClass("prayer-hilighted");
+        $.each(times, function (i, time) {
+            if(now <= time){
+                timesElm.removeClass("prayer-hilighted");
+                timesElm.eq(i).addClass("prayer-hilighted");
+                return false;
+            }
         });
 
         //iqama
@@ -37,7 +66,7 @@ $.ajax({
                 iqama = mosque.fixedIqama[i];
             }
 
-            $('.prayers .iqama').eq(i).text(iqama);
+            $('.prayers .iqama').eq(i).html(dateTime.formatTime(iqama, format));
         });
     }
 });
