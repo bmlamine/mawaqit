@@ -43,7 +43,7 @@
             {% endif %}
         {% endif %}
 
-        {% if mosque.mosque %}
+        {% if mosque.mosque and not is_granted('ROLE_ADMIN') %}
             <li><a href="{{ path('web_support', {'country': mosque.country}) }}" target="_blank"><i class="fab fa-whatsapp"></i> {{ 'form.contact.action'|trans }}</a></li>
         {% endif %}
 
