@@ -233,6 +233,8 @@ form:
     action: إحذف
   clone:
     action: استنساخ
+  contact:
+    action: اتصل بالدعم
   configure:
     action: ضبط
     geocode_error: |

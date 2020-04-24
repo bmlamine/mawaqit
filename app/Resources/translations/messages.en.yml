@@ -226,6 +226,8 @@ form:
   clone:
     success:  Cloning has been successfully completed.
     action: Clone
+  contact:
+    action: Contact support
   configure:
     action: Configure
     geocode_error: |

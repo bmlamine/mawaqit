@@ -249,6 +249,8 @@ form:
     action: Accepter la photo
   suspend:
     action: Suspendre
+  contact:
+    action: Contacter le support
   configure:
     action: Configurer
     geocode_error: |
