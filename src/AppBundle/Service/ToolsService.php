@@ -76,15 +76,17 @@ class ToolsService
     }
 
 
-    public function updateFrCalendar()
+    public function fixEuropeantimetables()
     {
         ini_set('memory_limit', '512M');
         $mosques = $this->em
             ->getRepository("AppBundle:Mosque")
             ->createQueryBuilder("m")
-            ->innerJoin("m.configuration", "m")
-            ->where("c.sourceCalcul = 'calendar'")
-            ->andWhere("c.dst = 2")
+            ->innerJoin("m.configuration", "c")
+            ->where("m.type = 'mosque'")
+            ->andWhere("c.timezoneName like 'Europe%'")
+            ->andWhere("c.sourceCalcul = 'calendar'")
+            ->andWhere("c.dst = 0")
             ->getQuery()
             ->getResult();
 
@@ -96,9 +98,17 @@ class ToolsService
         foreach ($mosques as $mosqque) {
             $cal = $mosqque->getConfiguration()->getCalendar();
             if (!empty($cal) && is_array($cal)) {
-                $editedMosques[] = $mosqque->getName() . ',' . $mosqque->getCity() . ',' . $mosqque->getCountry() . ',' . $mosqque->getUser()->getEmail();
-                for ($month = 3; $month <= 9; $month++) {
-                    for ($day = 1; $day <= count($cal[$month]); $day++) {
+                $editedMosques[] = $mosqque->getId() . ',' .$mosqque->getName() . ',' . $mosqque->getCity() . ',' . $mosqque->getCountry() . ',' . $mosqque->getUser()->getEmail();
+                for ($month = 2; $month <= 9; $month++) {
+                    $firstDay=1; $lastDay=count($cal[$month]);
+                    if($month === 2){
+                        $firstDay=29;
+                    }
+                    if($month === 9){
+                        $lastDay=26;
+                    }
+
+                    for ($day = $firstDay; $day <= $lastDay; $day++) {
                         for ($prayer = 1; $prayer <= count($cal[$month][$day]); $prayer++) {
                             if (!empty($cal[$month][$day][$prayer])) {
                                 $cal[$month][$day][$prayer] = $this->removeOneHour($cal[$month][$day][$prayer]);
@@ -107,13 +117,12 @@ class ToolsService
                     }
                 }
 
-
+                $mosqque->getConfiguration()->setDst(2);
                 $mosqque->getConfiguration()->setCalendar($cal);
-                $this->em->persist($mosqque);
             }
         }
 
-        file_put_contents("/tmp/rapport.csv", implode("\t\n", $editedMosques));
+        file_put_contents("/application/docker/data/rapport.csv", implode("\t\n", $editedMosques));
         $this->em->flush();
 
     }
@@ -121,7 +130,7 @@ class ToolsService
     private function removeOneHour($time)
     {
         try {
-            $date = new \DateTime("2018-03-01 $time:00");
+            $date = new \DateTime("2020-03-01 $time:00");
             $date->sub(new \DateInterval('PT1H'));
             return $date->format("H:i");
         } catch (\Exception $e) {

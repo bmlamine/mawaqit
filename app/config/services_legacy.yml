@@ -152,6 +152,13 @@ services:
         tags:
             - { name: 'console.command' }
 
+    app.fix_european_timetables:
+        class: AppBundle\Command\FixEuropeanTimetablesCommand
+        arguments:
+            - "@app.tools_service"
+        tags:
+            - { name: 'console.command' }
+
     app.elastic_mosque_populate:
         class: AppBundle\Command\ElasticMosquePopulateCommand
         arguments:
