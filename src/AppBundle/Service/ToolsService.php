@@ -91,14 +91,14 @@ class ToolsService
             ->getResult();
 
         /**
-         * @var $mosqque Mosque
+         * @var $mosque Mosque
          */
 
         $editedMosques = [];
-        foreach ($mosques as $mosqque) {
-            $cal = $mosqque->getConfiguration()->getCalendar();
+        foreach ($mosques as $mosque) {
+            $cal = $mosque->getConfiguration()->getCalendar();
             if (!empty($cal) && is_array($cal)) {
-                $editedMosques[] = $mosqque->getId() . ',' .$mosqque->getName() . ',' . $mosqque->getCity() . ',' . $mosqque->getCountry() . ',' . $mosqque->getUser()->getEmail();
+                $editedMosques[] = $mosque->getId() . ',' .$mosque->getName() . ',' . $mosque->getCity() . ',' . $mosque->getCountry() . ',' . $mosque->getUser()->getEmail();
                 for ($month = 2; $month <= 9; $month++) {
                     $firstDay=1; $lastDay=count($cal[$month]);
                     if($month === 2){
@@ -117,8 +117,12 @@ class ToolsService
                     }
                 }
 
-                $mosqque->getConfiguration()->setDst(2);
-                $mosqque->getConfiguration()->setCalendar($cal);
+                $mosque->getConfiguration()->setDst(2);
+                $mosque->getConfiguration()->setCalendar($cal);
+
+                if($mosque->isSuspended() && $mosque->getReason() === 'prayer_times_not_correct'){
+                    $mosque->setStatus(Mosque::STATUS_VALIDATED);
+                }
             }
         }
 
