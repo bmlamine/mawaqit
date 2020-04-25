@@ -803,9 +803,12 @@ prayer_mobile_site: "Mawaqit on mobile <a href='%site%'>%site%</a>"
 mawaqitOnMobile: Prayer times on mobile
 association_info: "%name% - Phone. %phone%"
 info_dst_change: |
-  WARNING ! the calendar must be entered without taking into account the change of daylight saving time,
-  you must enter your hours in winter time throughout the year. The software will take care of the daylight saving time according to your choices in the regional settings.<br>
-  The hours must be in 24h format example 22:00 and not 10:00
+  WARNING !
+  <ul>
+    <li>The calendar must be entered without taking into account the change of daylight saving time,
+    you must enter your hours in winter time throughout the year. The software will take care of the daylight saving time.</li>
+    <li>The hours must be in 24h format example 22:00 and not 10:00.</li>
+  </ul>
 
 other_settings: Other settings
 home_settings: Home use
