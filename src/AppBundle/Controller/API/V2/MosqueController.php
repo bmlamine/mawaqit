@@ -77,6 +77,7 @@ class MosqueController extends Controller
         $response = new JsonResponse();
 
         $response->setPublic();
+        $response->setMaxAge(300);
 
         if (!$mosque->isFullyValidated()) {
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
