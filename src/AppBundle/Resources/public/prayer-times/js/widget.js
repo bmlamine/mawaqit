@@ -10,14 +10,20 @@ const widget = $('.widget');
 function getTimesFromCalendar(mosque) {
     let date = new Date();
     let time = addZero(date.getHours()) + ":" + addZero(date.getMinutes());
-    let times = mosque.times;
-    let ishaTime = times[4];
+    let month = dateTime.getCurrentMonth();
+    let day = dateTime.getCurrentDay();
+    let times = mosque.calendar[month][day];
+    let ishaTime = times[5];
 
     if (time > ishaTime) {
-        let month = dateTime.getTomorrowMonth();
-        let day = dateTime.getTomorrowDay();
-        times = mosque.calendar[month][day];
+         month = dateTime.getTomorrowMonth();
+         day = dateTime.getTomorrowDay();
+         times = mosque.calendar[month][day];
     }
+
+    // remove shuruq
+    times.splice(1,1)
+
     return times;
 }
 
