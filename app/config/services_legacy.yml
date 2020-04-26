@@ -153,7 +153,7 @@ services:
             - { name: 'console.command' }
 
     app.fix_european_timetables:
-        class: AppBundle\Command\FixEuropeanTimetablesCommand
+        class: AppBundle\Command\FixTimetablesCommand
         arguments:
             - "@app.tools_service"
         tags:
