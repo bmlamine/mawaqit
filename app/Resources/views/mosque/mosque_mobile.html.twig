@@ -65,7 +65,9 @@
                     <h4>{{ message.title }}</h4>
                     <p>{{ message.content|raw }}</p>
                     {% if message.image is not empty %}
-                        <img src="/upload/{{ message.image }}" alt="{{ message.title }}"/>
+                        <a href="{{ vich_uploader_asset(message, 'file', 'AppBundle\\Entity\\Message') }}" target="_blank">
+                            <img src="{{ vich_uploader_asset(message, 'file', 'AppBundle\\Entity\\Message') | imagine_filter('small_370x210') }}" alt="{{ message.title }}"/>
+                        </a>
                     {% endif %}
                     {#<div class="cancel" data-id="{{ message.id }}">✕</div>#}
                 </div>

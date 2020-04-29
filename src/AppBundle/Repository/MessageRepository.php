@@ -17,8 +17,8 @@ class MessageRepository extends SortableRepository
 
     /**
      * @param Mosque $mosque
-     * @param boolean $desktop include or not desktop tagged message
-     * @param boolean $mobile include or not mobile tagged message
+     * @param bool   $desktop include or not desktop tagged message
+     * @param bool   $mobile  include or not mobile tagged message
      * @return array
      */
     function getMessagesByMosque(Mosque $mosque, $desktop = null, $mobile = null)

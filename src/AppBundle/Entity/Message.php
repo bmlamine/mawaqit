@@ -36,7 +36,6 @@ class Message
      */
     private $mobile = true;
 
-
     /**
      * Display on main mosque screen
      * @var boolean
