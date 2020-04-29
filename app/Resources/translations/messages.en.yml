@@ -433,6 +433,9 @@ message:
     image:
       label: Image
       title: It will be displayed instead of text. For better viewing comfort, load only landscape images
+    video:
+      label: Youtube link
+      title: Youtube video uniquement, it will be visible on mawaqit mobile link
     mobile:
       label: Display on mobile
       title: Your message will be displayed on the mobile version of mawaqit as a notification

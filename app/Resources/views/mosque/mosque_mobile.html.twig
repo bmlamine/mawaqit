@@ -63,11 +63,14 @@
             {% for message in messages %}
                 <div class="notibox">
                     <h4>{{ message.title }}</h4>
-                    <p>{{ message.content|raw }}</p>
-                    {% if message.image is not empty %}
-                        <a href="{{ vich_uploader_asset(message, 'file', 'AppBundle\\Entity\\Message') }}" target="_blank">
-                            <img src="{{ vich_uploader_asset(message, 'file', 'AppBundle\\Entity\\Message') | imagine_filter('small_370x210') }}" alt="{{ message.title }}"/>
+                    {% if message.embedVideo %}
+                        <iframe style="width: 100%" src="{{ message.embedVideo }}" frameborder="0" allow="picture-in-picture" allowfullscreen></iframe>
+                    {% elseif message.image %}
+                        <a href="{{ vich_uploader_asset(message, 'file') }}" target="_blank">
+                            <img src="{{ vich_uploader_asset(message, 'file') | imagine_filter('small_370x210') }}" alt="{{ message.title }}"/>
                         </a>
+                    {% else %}
+                        {{ message.content|raw }}
                     {% endif %}
                     {#<div class="cancel" data-id="{{ message.id }}">✕</div>#}
                 </div>

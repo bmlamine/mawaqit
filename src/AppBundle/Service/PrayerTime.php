@@ -316,7 +316,6 @@ class PrayerTime
             'ablutions' => $mosque->getAblutions(),
             'parking' => $mosque->getParking(),
             'otherInfo' => $mosque->getOtherInfo(),
-            'flashMessage' => $flashMessage instanceof FlashMessage && $flashMessage->isAvailable() ? $flashMessage->getContent() : null,
             'announcements' => $this->getMessages($mosque),
             'updatedAt' => $mosque->getUpdated()->getTimestamp(),
         ];
@@ -428,9 +427,10 @@ class PrayerTime
                     'id' => $message->getId(),
                     'title' => $message->getTitle(),
                     'content' => $message->getContent(),
+                    'image' => $message->getImage() ? 'https://mawaqit.net/upload/' . $message->getImage() : null,
+                    'video' => $message->getEmbedVideo(),
                     'isMobile' => $message->isMobile(),
                     'isDesktop' => $message->isDesktop(),
-                    'image' => $message->getImage() ? 'https://mawaqit.net/upload/' . $message->getImage() : null,
                 ];
             }
         }

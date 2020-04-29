@@ -465,7 +465,10 @@ message:
       label: Délai d'affichage (minutes)
     image:
       label: Image
-      title: Elle sera affichée à la place du texte. Pour un meilleur affichage chargez que des images au format paysage
+      title: Elle remplacera le texte. format paysage 800x450px minimum
+    video:
+      label: Lien Youtube
+      title: Vidéo youtube uniquement, elle sera visible sur le lien mobile
     enabled:
       label: Activé
       title: Activer/désactiver le message de tous les écrans (écran mawaqit, écran dédié aux messages et écran mobile)
