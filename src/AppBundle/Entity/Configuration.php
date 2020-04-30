@@ -3,7 +3,8 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Service\PrayerTime;
-use Meezaan\PrayerTimes\PrayerTimes;
+use IslamicNetwork\PrayerTimes\PrayerTimes;
+use IslamicNetwork\PrayerTimes\Method;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -185,7 +186,7 @@ class Configuration
     /**
      * @var string
      */
-    private $prayerMethod = PrayerTimes::METHOD_ISNA;
+    private $prayerMethod = Method::METHOD_ISNA;
 
     /**
      * @var string

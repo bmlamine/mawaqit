@@ -6,10 +6,9 @@ use AppBundle\Entity\Configuration;
 use AppBundle\Entity\FlashMessage;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Mosque;
-use Meezaan\PrayerTimes\Method;
 use Psr\Log\LoggerInterface;
-use Meezaan\PrayerTimes\PrayerTimes;
-use function Couchbase\defaultDecoder;
+use IslamicNetwork\PrayerTimes\PrayerTimes;
+use IslamicNetwork\PrayerTimes\Method;
 
 class PrayerTime
 {
@@ -26,7 +25,7 @@ class PrayerTime
     const METHOD_MOROCCO = 'MOROCCO';
 
     const DEFAULT_ADJUSTMENT = [
-        PrayerTimes::METHOD_FRANCE => [-4, 5, 0, 3, 5],
+        Method::METHOD_FRANCE => [-4, 5, 0, 3, 5],
         self::METHOD_ALGERIA => [1, 1, 2, 4, 2],
         self::METHOD_MOROCCO => [-8, 5, 0, 4, 0],
     ];
@@ -50,14 +49,14 @@ class PrayerTime
     const METHOD_CHOICES = [
         self::METHOD_ALGERIA,
         self::METHOD_MOROCCO,
-        PrayerTimes::METHOD_FRANCE,
-        PrayerTimes::METHOD_MWL,
-        PrayerTimes::METHOD_ISNA,
-        PrayerTimes::METHOD_MAKKAH,
-        PrayerTimes::METHOD_EGYPT,
-        PrayerTimes::METHOD_KARACHI,
-        PrayerTimes::METHOD_RUSSIA,
-        PrayerTimes::METHOD_CUSTOM
+        Method::METHOD_FRANCE,
+        Method::METHOD_MWL,
+        Method::METHOD_ISNA,
+        Method::METHOD_MAKKAH,
+        Method::METHOD_EGYPT,
+        Method::METHOD_KARACHI,
+        Method::METHOD_RUSSIA,
+        Method::METHOD_CUSTOM
     ];
 
     public function __construct(LoggerInterface $logger, $cacheDir)
@@ -103,7 +102,7 @@ class PrayerTime
             $calendar = [];
 
             $pt = new PrayerTimes();
-            if ($conf->getPrayerMethod() !== PrayerTimes::METHOD_CUSTOM) {
+            if ($conf->getPrayerMethod() !== Method::METHOD_CUSTOM) {
                 $pt = new PrayerTimes($conf->getPrayerMethod());
             }
 
@@ -112,15 +111,15 @@ class PrayerTime
                 $angle = self::NEW_METHODS[$conf->getPrayerMethod()];
                 $method->setFajrAngle($angle[0]);
                 $method->setIshaAngleOrMins($angle[1]);
-                $pt = new PrayerTimes(PrayerTimes::METHOD_CUSTOM);
+                $pt = new PrayerTimes(Method::METHOD_CUSTOM);
                 $pt->setCustomMethod($method);
             }
 
-            if ($conf->getPrayerMethod() === PrayerTimes::METHOD_CUSTOM) {
+            if ($conf->getPrayerMethod() === Method::METHOD_CUSTOM) {
                 $method = new Method();
                 $method->setFajrAngle($conf->getFajrDegree());
                 $method->setIshaAngleOrMins($conf->getIshaDegree());
-                $pt = new PrayerTimes(PrayerTimes::METHOD_CUSTOM);
+                $pt = new PrayerTimes(Method::METHOD_CUSTOM);
                 $pt->setCustomMethod($method);
             }
 

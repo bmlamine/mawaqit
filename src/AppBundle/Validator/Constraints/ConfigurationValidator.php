@@ -2,7 +2,7 @@
 
 namespace AppBundle\Validator\Constraints;
 
-use Meezaan\PrayerTimes\PrayerTimes;
+use IslamicNetwork\PrayerTimes\Method;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use AppBundle\Entity\Configuration;
@@ -17,7 +17,7 @@ class ConfigurationValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         // validate degrees
-        if ($value->getSourceCalcul() === Configuration::SOURCE_API && $value->getPrayerMethod() === PrayerTimes::METHOD_CUSTOM) {
+        if ($value->getSourceCalcul() === Configuration::SOURCE_API && $value->getPrayerMethod() === Method::METHOD_CUSTOM) {
             if (empty($value->getFajrDegree()) || empty($value->getIshaDegree())) {
                 $this->context->buildViolation($constraint->m1)->addViolation();
             }
