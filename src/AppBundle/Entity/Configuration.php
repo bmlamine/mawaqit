@@ -881,7 +881,7 @@ class Configuration
      */
     public function getCalendar()
     {
-        return json_decode($this->calendar, true);
+        return $this->calendar;
     }
 
     /**
@@ -903,7 +903,7 @@ class Configuration
      */
     public function getIqamaCalendar()
     {
-        return json_decode($this->iqamaCalendar, true);
+        return $this->iqamaCalendar;
     }
 
     /**

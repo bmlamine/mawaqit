@@ -7,7 +7,6 @@ use AppBundle\Form\DataTransformer\PrayerTransformer;
 use AppBundle\Service\PrayerTime;
 use IslamicNetwork\PrayerTimes\PrayerTimes;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -592,7 +591,7 @@ class ConfigurationType extends AbstractType
                 ]
             )
             ->add('backgroundColor')
-            ->add('calendar')
+            ->add('calendar', )
             ->add('iqamaCalendar')
             ->add(
                 'timeToDisplayMessage',
@@ -630,29 +629,6 @@ class ConfigurationType extends AbstractType
         $builder->get('fixedIqama')->addModelTransformer(new PrayerTransformer());
         $builder->get('duaAfterPrayerShowTimes')->addModelTransformer(new PrayerTransformer());
 
-//        $builder->get('calendar')
-//            ->addModelTransformer(
-//                new CallbackTransformer(
-//                    function ($tagsAsArray) {
-//                        return json_encode($tagsAsArray);
-//                    },
-//                    function ($tagsAsString) {
-//                        return $tagsAsString;
-//                    }
-//                )
-//            );
-//
-//        $builder->get('iqamaCalendar')
-//            ->addModelTransformer(
-//                new CallbackTransformer(
-//                    function ($tagsAsArray) {
-//                        return json_encode($tagsAsArray);
-//                    },
-//                    function ($tagsAsString) {
-//                        return $tagsAsString;
-//                    }
-//                )
-//            );
     }
 
     /**
