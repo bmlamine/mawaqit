@@ -51,6 +51,7 @@ home:
     feature7: Options
     feature8: Controle à distance
     feature9: Application mobile
+    available: Mawaqit est disponible aussi sur
 
     numbers: Quelques chiffres
     mosques: Mosquées
@@ -249,6 +250,8 @@ form:
     action: Accepter la photo
   suspend:
     action: Suspendre
+  contact:
+    action: Contacter le support
   configure:
     action: Configurer
     geocode_error: |
@@ -462,7 +465,10 @@ message:
       label: Délai d'affichage (minutes)
     image:
       label: Image
-      title: Elle sera affichée à la place du texte. Pour un meilleur affichage chargez que des images au format paysage
+      title: Elle remplacera le texte. format paysage 800x450px minimum
+    video:
+      label: Lien Youtube
+      title: Vidéo youtube uniquement, elle sera visible sur le lien mobile
     enabled:
       label: Activé
       title: Activer/désactiver le message de tous les écrans (écran mawaqit, écran dédié aux messages et écran mobile)
@@ -851,10 +857,12 @@ prayer_mobile_site: "Mawaqit sur mobile <a href='%site%'>%site%</a>"
 mawaqitOnMobile: Les horaires de prière sur mobile
 association_info: "%name% - Tél. %phone%"
 info_dst_change: |
-  ATTENTION! le calendrier doit être saisi sans tenir compte du changement d'heure d'été, vous devez donc saisir
-  vos horaires en heure d'hiver sur toute l'année. Le logiciel s'occupera du passage à l'heure d'été en fonction de vos choix dans les paramètres
-  régionnaux. <br>
-  Les horaires doivent être au format 24h exemple 22:00 et non pas 10:00.
+  ATTENTION!
+  <ul>
+    <li>Le calendrier doit être saisi sans tenir compte du changement d'heure d'été, vous devez donc saisir
+    vos horaires en heure d'hiver sur toute l'année. Le logiciel s'occupera du passage à l'heure d'été.</li>
+    <li>Les horaires doivent être au format 24h exemple 22:00 et non pas 10:00.</li>
+  <ul>
 other_settings: Autres réglages
 home_settings: Utilisation à domicile
 theme_settings: Thème

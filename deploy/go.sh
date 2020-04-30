@@ -32,7 +32,7 @@ server=$ppServer
 
 if [[ "$target" == "prod" ]]; then
     server=$prodServer
-    echo -n "Are you sur you want to deploy $tag to $target ? (y/n)"
+    echo -n "Are you sur you want to deploy $tag to $target ? (y/n) "
     read answer
 else
     tag=$currentBranch

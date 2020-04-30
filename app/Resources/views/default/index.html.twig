@@ -1,4 +1,4 @@
-    {% extends 'default/layout.html.twig' %}
+{% extends 'default/layout.html.twig' %}
 
 {% block additional_stylesheets %}
     {% stylesheets
@@ -113,6 +113,31 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row" style="margin-top: 100px" id="available-on">
+                    <h3>{{ 'home.title.available'|trans|raw }}</h3>
+                    <div class="col-md-6">
+                        <div style="margin: 3rem">
+                            <a href="https://top.gg/bot/544476555926175748" target="_blank">
+                                <img src="https://images.discordapp.net/avatars/544476555926175748/2dab35688661b8d8945272ef3a1db8fa.png?size=512"
+                                     width="140px" alt="">
+                            </a>
+                        </div>
+                        <h4>Discord</h4>
+                        <div class="text-muted">Beta</div>
+                        <div>_mawaqit grande mosquée de paris</div>
+                        <div>_hadith, _sohor, _ftor</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <img src="https://cognyapps.com/wp-content/uploads/2018/09/amazon-alexa-logo-e1538253665426.png"
+                                 width="200px" alt=""></div>
+                        <h4>Amazon Alexa</h4>
+                        <div class="text-muted">Beta / French only</div>
+                        <div>Alexa ! ouvre mawaqit salat</div>
+                        <div>Alexa ! demande à mawaqit salat la prière du maghrib</div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -206,7 +231,6 @@
                 </div>
                 <a href="{{ path("homepage", {'page': nextPage }) }}#mosquees"
                    class="page-scroll btn btn-xl">{{ 'home.button.viewPlus'|trans }}</a>
-
             </div>
         </section>
 
@@ -228,18 +252,21 @@
                                 <p class="item-intro text-muted">{{ mosque.associationName }}</p>
 
                                 <a href="{{ vich_uploader_asset(mosque, 'file1') }}" target="_blank">
-                                    <img src="{{ vich_uploader_asset(mosque, 'file1') | imagine_filter('small_370x210') }}" class="img-responsive  img-centered" alt="{{ mosque.title }}"/>
+                                    <img src="{{ vich_uploader_asset(mosque, 'file1') | imagine_filter('small_370x210') }}"
+                                         class="img-responsive  img-centered" alt="{{ mosque.title }}"/>
                                 </a>
 
                                 {% if mosque.image2 is not null %}
                                     <a href="{{ vich_uploader_asset(mosque, 'file2') }}" target="_blank">
-                                       <img class="img-responsive img-centered" src="{{ vich_uploader_asset(mosque, 'file2') | imagine_filter('small_370x210') }}">
+                                        <img class="img-responsive img-centered"
+                                             src="{{ vich_uploader_asset(mosque, 'file2') | imagine_filter('small_370x210') }}">
                                     </a>
                                 {% endif %}
                                 {% if mosque.image3 is not null %}
-                                <a href="{{ vich_uploader_asset(mosque, 'file3') }}" target="_blank">
-                                    <img class="img-responsive img-centered" src="{{ vich_uploader_asset(mosque, 'file3') | imagine_filter('small_370x210') }}">
-                                </a>
+                                    <a href="{{ vich_uploader_asset(mosque, 'file3') }}" target="_blank">
+                                        <img class="img-responsive img-centered"
+                                             src="{{ vich_uploader_asset(mosque, 'file3') | imagine_filter('small_370x210') }}">
+                                    </a>
                                 {% endif %}
 
                                 <ul class="list-inline">
@@ -286,56 +313,56 @@
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-                integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-                crossorigin=""></script>
-        <script src="http://github.hubspot.com/odometer/odometer.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+    <script src="http://github.hubspot.com/odometer/odometer.js"></script>
 
-        <script>
-            var lang = '{{ app.request.locale }}';
+    <script>
+        var lang = '{{ app.request.locale }}';
 
-            var map = L.map('map', {
-                scrollWheelZoom: false,
-                center: [28.033886, 1.659626],
-                zoom: 5,
-            });
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        var map = L.map('map', {
+            scrollWheelZoom: false,
+            center: [28.033886, 1.659626],
+            zoom: 5,
+        });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-            function goOnMap(button) {
-                let data = $(button).data("data");
-                map.setView([data.coordinates.lat, data.coordinates.lng]);
+        function goOnMap(button) {
+            let data = $(button).data("data");
+            map.setView([data.coordinates.lat, data.coordinates.lng]);
 
-                $.ajax({
-                    url: $("#map").data("remote").replace("countryCode", data.country),
-                    success: function (resp) {
-                        $.each(resp, function (i, mosque) {
-                            var popup = '<div>' +
-                                '<h4> ' + mosque.name + ' </h4>' +
-                                '<p> ' +
-                                mosque.address + ' ' + mosque.zipcode + ' ' + mosque.city + ' ' + mosque.countryFullName +
-                                '</p>' +
-                                '<p> ' +
-                                '<a target="_blank" href="' + 'https://mawaqit.net/{{ app.request.locale }}/' + mosque.slug + '">' + 'https://mawaqit.net/{{ app.request.locale }}/' + mosque.slug + '</a>' +
-                                '</p>' +
-                                '</div>';
+            $.ajax({
+                url: $("#map").data("remote").replace("countryCode", data.country),
+                success: function (resp) {
+                    $.each(resp, function (i, mosque) {
+                        var popup = '<div>' +
+                            '<h4> ' + mosque.name + ' </h4>' +
+                            '<p> ' +
+                            mosque.address + ' ' + mosque.zipcode + ' ' + mosque.city + ' ' + mosque.countryFullName +
+                            '</p>' +
+                            '<p> ' +
+                            '<a target="_blank" href="' + 'https://mawaqit.net/{{ app.request.locale }}/' + mosque.slug + '">' + 'https://mawaqit.net/{{ app.request.locale }}/' + mosque.slug + '</a>' +
+                            '</p>' +
+                            '</div>';
 
-                            var icon = L.icon({
-                                iconUrl: "https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png",
-                                iconSize: [16, 24],
-                            });
-                            marker = new L.marker([mosque.lat, mosque.lng], {
-                                icon: icon
-                            })
-                                .bindPopup(popup)
-                                .addTo(map);
+                        var icon = L.icon({
+                            iconUrl: "https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png",
+                            iconSize: [16, 24],
                         });
-                    }
-                });
-            }
-
-            $(function() {
-                $(".country:eq(1)").click();
+                        marker = new L.marker([mosque.lat, mosque.lng], {
+                            icon: icon
+                        })
+                            .bindPopup(popup)
+                            .addTo(map);
+                    });
+                }
             });
-        </script>
+        }
+
+        $(function () {
+            $(".country:eq(1)").click();
+        });
+    </script>
 
 {% endblock %}

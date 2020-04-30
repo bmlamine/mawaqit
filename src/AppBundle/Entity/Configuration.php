@@ -203,7 +203,7 @@ class Configuration
     private $timezoneName = "Europe/Paris";
 
     /**
-     * @var integer
+     * @var int
      * default to 2 = auto
      * possible values 0 (disabled), 1 (enabled), 2 (auto)
      */

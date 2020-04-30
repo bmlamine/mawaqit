@@ -6,7 +6,6 @@ use AppBundle\Entity\Mosque;
 use AppBundle\Form\MosqueSyncType;
 use AppBundle\Service\RequestService;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

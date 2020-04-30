@@ -11,4 +11,4 @@
 2. `cd mawaqit && make install`
 
 
-Plase visite our website [https://mawaqit.net]((https://mawaqit.net)) for more information.
+Please visite our website [https://mawaqit.net]((https://mawaqit.net)) for more information.

@@ -51,7 +51,7 @@ home:
     feature7: Options
     feature8: remote control
     feature9: Mobile application
-
+    available: Mawaqit is also available on
     numbers: Some numbers
     mosques: Mosques
     mosquesSub: Click on a country to see the mosques
@@ -226,6 +226,8 @@ form:
   clone:
     success:  Cloning has been successfully completed.
     action: Clone
+  contact:
+    action: Contact support
   configure:
     action: Configure
     geocode_error: |
@@ -431,6 +433,9 @@ message:
     image:
       label: Image
       title: It will be displayed instead of text. For better viewing comfort, load only landscape images
+    video:
+      label: Youtube link
+      title: Youtube video uniquement, it will be visible on mawaqit mobile link
     mobile:
       label: Display on mobile
       title: Your message will be displayed on the mobile version of mawaqit as a notification
@@ -801,9 +806,12 @@ prayer_mobile_site: "Mawaqit on mobile <a href='%site%'>%site%</a>"
 mawaqitOnMobile: Prayer times on mobile
 association_info: "%name% - Phone. %phone%"
 info_dst_change: |
-  WARNING ! the calendar must be entered without taking into account the change of daylight saving time,
-  you must enter your hours in winter time throughout the year. The software will take care of the daylight saving time according to your choices in the regional settings.<br>
-  The hours must be in 24h format example 22:00 and not 10:00
+  WARNING !
+  <ul>
+    <li>The calendar must be entered without taking into account the change of daylight saving time,
+    you must enter your hours in winter time throughout the year. The software will take care of the daylight saving time.</li>
+    <li>The hours must be in 24h format example 22:00 and not 10:00.</li>
+  </ul>
 
 other_settings: Other settings
 home_settings: Home use

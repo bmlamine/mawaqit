@@ -324,11 +324,14 @@ $("input[name*='configuration[calendar][1][28]']").bind("change keyup", function
 function timezoneHandler() {
     let $timezone = $("#configuration_timezoneName");
     let $dst = $("#configuration_dst");
+    let $infoDstChange = $("#info_dst_change");
+    $infoDstChange.hide();
     // if Europe timezone hide dst and force it to auto
     $dst.parent().show();
     if ($timezone.val().includes('Europe')) {
         $dst.parent().hide();
         $dst.val("2");
+        $infoDstChange.show();
     }
 
     if ($timezone.val().includes('Algiers')) {
