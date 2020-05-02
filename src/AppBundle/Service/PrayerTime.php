@@ -284,6 +284,7 @@ class PrayerTime
 
         $result = [
             'id' => $mosque->getId(),
+            'uuid' => $mosque->getUuid(),
             'name' => $mosque->getTitle(),
             'localisation' => $mosque->getLocalisation(),
             'countryCode' => $mosque->getCountry(),
