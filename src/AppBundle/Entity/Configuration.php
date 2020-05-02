@@ -3,8 +3,8 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Service\PrayerTime;
-use IslamicNetwork\PrayerTimes\PrayerTimes;
 use IslamicNetwork\PrayerTimes\Method;
+use IslamicNetwork\PrayerTimes\PrayerTimes;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -239,13 +239,13 @@ class Configuration
     /**
      * @var array
      */
-    private $calendar = [];
+    private $calendar = '[]';
 
     /**
      * @var array
      * @Groups({"screen"})
      */
-    private $iqamaCalendar = [];
+    private $iqamaCalendar = '[]';
     /**
      * @var \DateTime
      */
@@ -538,9 +538,12 @@ class Configuration
      */
     public function getWaitingTimes()
     {
-        return array_map(function ($value) {
-            return (int)$value;
-        }, $this->waitingTimes);
+        return array_map(
+            function ($value) {
+                return (int)$value;
+            },
+            $this->waitingTimes
+        );
     }
 
     /**
@@ -877,11 +880,16 @@ class Configuration
 
     /**
      * Get calendar
-     * @return array
+     * @return string
      */
     public function getCalendar()
     {
         return $this->calendar;
+    }
+
+    public function getDecodedCalendar()
+    {
+        return json_decode($this->calendar, true);
     }
 
     /**

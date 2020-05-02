@@ -201,7 +201,7 @@
                                                                 <div>
                                                                     <input
                                                                             name="configuration[calendar][{{ month }}][{{ day }}][{{ prayer }}]"
-                                                                            value="{{ form.vars.value.calendar[month] is defined ? form.vars.value.calendar[month][day][prayer] : '' }}"
+                                                                            value="{{ form.children.calendar.vars.value[month] is defined ? form.children.calendar.vars.value[month][day][prayer] : '' }}"
                                                                             type="text"
                                                                             placeholder="hh:mm"
                                                                             class="form-control text-center calendar-prayer-time"
@@ -399,7 +399,7 @@
                                                                         <div>
                                                                             <input
                                                                                     name="configuration[iqamaCalendar][{{ month }}][{{ day }}][{{ prayer }}]"
-                                                                                    value="{{ form.vars.value.iqamaCalendar[month] is defined ? form.vars.value.iqamaCalendar[month][day][prayer] : '' }}"
+                                                                                    value="{{ form.children.iqamaCalendar.vars.value[month] is defined ? form.children.iqamaCalendar.vars.value[month][day][prayer] : '' }}"
                                                                                     type="text"
                                                                                     placeholder="hh:mm"
                                                                                     class="form-control text-center calendar-prayer-time"

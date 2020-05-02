@@ -102,7 +102,7 @@ class ToolsService
 
         $editedMosques = [];
         foreach ($mosques as $mosque) {
-            $cal = $mosque->getConfiguration()->getCalendar();
+            $cal = $mosque->getConfiguration()->getDecodedCalendar();
             if (!empty($cal) && is_array($cal)) {
                 $editedMosques[] = $mosque->getId() . ',' . $mosque->getUser()->getEmail();
                 for ($month = 2; $month <= 9; $month++) {
@@ -126,7 +126,7 @@ class ToolsService
                 }
 
                 $mosque->getConfiguration()->setDst(2);
-                $mosque->getConfiguration()->setCalendar($cal);
+                $mosque->getConfiguration()->setCalendar(json_encode($cal));
 
                 if ($mosque->isSuspended() && $mosque->getReason() === 'prayer_times_not_correct') {
                     $mosque->setStatus(Mosque::STATUS_VALIDATED);

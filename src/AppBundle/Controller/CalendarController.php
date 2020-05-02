@@ -40,7 +40,7 @@ class CalendarController extends Controller
             }
         }
 
-        $md5 = md5(json_encode($mosque->getConf()->getCalendar()));
+        $md5 = md5($mosque->getConf()->getCalendar());
         $fileName = $mosque->getSlug() . "-$md5.pdf";
         $cacheDir = $this->getParameter("kernel.root_dir") . "/../docker/data/calendar";
         $cachedFile = "$cacheDir/$fileName";

@@ -1233,8 +1233,8 @@ class Mosque
             $this->isCalendarCompleted = true;
             $configuration = $this->configuration;
             if ($configuration->isCalendar()) {
-                if (!empty($configuration->getCalendar())) {
-                    foreach ($configuration->getCalendar() as $month => $days) {
+                if (!empty($configuration->getDecodedCalendar())) {
+                    foreach ($configuration->getDecodedCalendar() as $month => $days) {
                         foreach ($days as $day => $prayers) {
                             foreach ($prayers as $prayerIndex => $prayer) {
                                 if (empty($prayer)) {

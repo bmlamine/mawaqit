@@ -3,10 +3,13 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Configuration;
+use AppBundle\Entity\Mosque;
 use AppBundle\Form\DataTransformer\PrayerTransformer;
 use AppBundle\Service\PrayerTime;
+use AppBundle\Service\ToolsService;
 use IslamicNetwork\PrayerTimes\PrayerTimes;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -16,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -29,7 +34,7 @@ class ConfigurationType extends AbstractType
 {
 
     /**
-     * @var Array
+     * @var array
      */
     private static $DST = [
         "dst-auto" => 2,
@@ -37,7 +42,7 @@ class ConfigurationType extends AbstractType
         "dst-enabled" => 1
     ];
     /**
-     * @var Array
+     * @var array
      */
     private static $THEMES = [
         "mawaqit",
@@ -47,7 +52,7 @@ class ConfigurationType extends AbstractType
         "winter"
     ];
     /**
-     * @var Array
+     * @var array
      */
     private static $RANDOM_HADITH_INTERVAL_DISABLING = [
         "" => "",
@@ -57,7 +62,7 @@ class ConfigurationType extends AbstractType
         "maghrib-isha" => "3-4"
     ];
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     private $translator;
     /**
@@ -591,7 +596,7 @@ class ConfigurationType extends AbstractType
                 ]
             )
             ->add('backgroundColor')
-            ->add('calendar', )
+            ->add('calendar')
             ->add('iqamaCalendar')
             ->add(
                 'timeToDisplayMessage',
@@ -629,7 +634,31 @@ class ConfigurationType extends AbstractType
         $builder->get('fixedIqama')->addModelTransformer(new PrayerTransformer());
         $builder->get('duaAfterPrayerShowTimes')->addModelTransformer(new PrayerTransformer());
 
+        $builder->get('calendar')
+            ->addViewTransformer(
+                new CallbackTransformer(
+                    function ($value) {
+                        return json_decode($value, true);
+                    },
+                    function ($value) {
+                        return $value;
+                    }
+                )
+            );
+
+        $builder->get('iqamaCalendar')
+            ->addViewTransformer(
+                new CallbackTransformer(
+                    function ($value) {
+                        return json_decode($value, true);
+                    },
+                    function ($value) {
+                        return $value;
+                    }
+                )
+            );
     }
+
 
     /**
      * {@inheritdoc}
@@ -639,7 +668,6 @@ class ConfigurationType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => Configuration::class,
-                'allow_extra_fields' => true,
                 'choice_translation_domain' => true,
                 'label_format' => 'configuration.form.%name%.label'
             )

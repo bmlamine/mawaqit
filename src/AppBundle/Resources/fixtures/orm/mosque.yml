@@ -17,4 +17,5 @@ AppBundle\Entity\Mosque:
         phone: 06.00.00.00.00
         zipcode: 75000
         rib: "IBAN FRXX XXXX XXXX XXXX XXXX XXXX XXX / BIC XXXXXXXX"
+        image3: mosquee.jpg
         configuration: '@LOCAL_MOSQUE_CONF'

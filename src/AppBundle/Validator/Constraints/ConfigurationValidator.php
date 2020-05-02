@@ -34,7 +34,7 @@ class ConfigurationValidator extends ConstraintValidator
         }
 
         // validate calendar
-        foreach ($value->getCalendar() as $month) {
+        foreach ($value->getDecodedCalendar() as $month) {
             foreach ($month as $prayers) {
                 foreach ($prayers as $prayer) {
                     if (!empty($prayer) && !preg_match("/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/", $prayer)) {

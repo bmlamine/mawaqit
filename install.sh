@@ -15,7 +15,7 @@ docker-compose exec php chmod 777 -R var/cache var/logs var/sessions web/upload
 
 echo "------------------------------------------"
 echo "Mawaqit is up"
-echo "http://mawaqit.localhost:10001 / login: locale@locale.com / password: locale"
+echo "http://mawaqit.localhost:10001 / login: local@local.com / password: local"
 echo "Database: host 127.0.0.1, port 10002, user root, password mawaqit"
 echo "Maildev: http://localhost:10003"
 echo "------------------------------------------"

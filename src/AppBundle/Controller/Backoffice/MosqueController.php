@@ -364,7 +364,7 @@ class MosqueController extends Controller
 
         $user = $this->getUser();
         if (!$this->isGranted("ROLE_ADMIN") && $user !== $mosque->getUser()) {
-            throw new AccessDeniedException;
+            throw new AccessDeniedException();
         }
         $em = $this->getDoctrine()->getManager();
 
@@ -372,7 +372,17 @@ class MosqueController extends Controller
 
         $form = $this->createForm(ConfigurationType::class, $configuration);
 
+        // A hack due to sf 3.4.21 BC break, array are know considered as not valid data if not compound
+        // no way to do this with form event listeners
+        if ($request->getMethod() === 'POST') {
+            $requestedConf = $request->request->get("configuration");
+            $requestedConf["calendar"] = json_encode($requestedConf["calendar"]);
+            $requestedConf["iqamaCalendar"] = json_encode($requestedConf["iqamaCalendar"]);
+            $request->request->set("configuration", $requestedConf);
+        }
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
             return $this->redirectToRoute(

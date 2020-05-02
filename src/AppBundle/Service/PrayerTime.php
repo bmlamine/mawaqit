@@ -86,7 +86,7 @@ class PrayerTime
         $conf = $mosque->getConfiguration();
 
         if ($conf->isCalendar()) {
-            $calendar = $conf->getCalendar();
+            $calendar = $conf->getDecodedCalendar();
             foreach ($calendar as $month => $days) {
                 foreach ($days as $day => $prayers) {
                     $prayers = array_values($prayers);
@@ -357,7 +357,7 @@ class PrayerTime
     private function getIqamaCalendar(Mosque $mosque)
     {
         $conf = $mosque->getConf();
-        $iqamaCalendar = $conf->getIqamaCalendar();
+        $iqamaCalendar = json_decode($conf->getIqamaCalendar(), true);
         if (null !== $iqamaCalendar) {
             foreach ($iqamaCalendar as $month => $days) {
                 foreach ($days as $day => $times) {
