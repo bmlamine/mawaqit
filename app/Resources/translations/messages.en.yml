@@ -244,7 +244,11 @@ registration:
     tou:
       label: I accept and agree to respect the <a href="#" id="terms-of-use">terms of use</a>
   registration: Registration
-  password_rule: 8 characters minimum, including 1 capital, 1 lowercase and 1 number
+  password_rule_1: Password must be at least 12 characters.
+  password_rule_2: Password must contain an uppercase letter.
+  password_rule_3: Password must contain a lowercase letter.
+  password_rule_4: Password must contain a digit.
+  password_rule_5: Password must contain a special character.
   please_enter_right_email: Please enter an email address that you visit regularly
   check_spams: Please also check your spam box.
 

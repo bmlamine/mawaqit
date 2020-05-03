@@ -6,7 +6,7 @@ imports:
   - { resource: easyadmin/ }
 
 framework:
-  translator: { fallbacks: [en] }
+  translator: { fallbacks: [fr] }
   secret: '%secret%'
   router:
     resource: '%kernel.root_dir%/config/routing.yml'
