@@ -16,7 +16,7 @@ class MessageValidator extends ConstraintValidator
          * @var $message \AppBundle\Entity\Message
          */
 
-        if (empty($message->getContent()) && empty($message->getImage()) && empty($message->getVideo())) {
+        if (empty($message->getContent()) && empty($message->getFile()) && empty($message->getImage()) && empty($message->getVideo())) {
             $this->context->buildViolation($constraint->minmumContentRequired)->addViolation();
             return;
         }

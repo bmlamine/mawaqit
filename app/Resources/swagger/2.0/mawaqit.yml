@@ -256,6 +256,7 @@ definitions:
     type: object
     required:
       - id
+      - uuid
       - name
       - localisation
       - phone
@@ -293,6 +294,9 @@ definitions:
       id:
         type: integer
         example: 1250
+      uuid:
+        type: string
+        example: 4d0a22d1-3dad-4612-9df4-be444bc7c603        
       name:
         type: string
         example: Mosquée Essunna
