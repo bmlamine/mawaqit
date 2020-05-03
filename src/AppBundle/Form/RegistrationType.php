@@ -2,17 +2,22 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\User;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->remove("username");
+
         $builder
             ->add(
                 'tou',
@@ -27,22 +32,28 @@ class RegistrationType extends AbstractType
                 [
                     'label' => false
                 ]
-            );
-
-        $builder->add(
-            'plainPassword',
-            PasswordType::class,
-            [
-                'translation_domain' => 'FOSUserBundle',
-                'label' => 'form.password',
-                'attr' => [
-                    'autocomplete' => 'new-password',
-                    'pattern' => '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{12,}$',
-                ],
-            ]
-        );
+            )
+            ->add(
+                'plainPassword',
+                PasswordType::class,
+                [
+                    'translation_domain' => 'FOSUserBundle',
+                    'label' => 'form.password',
+                    'attr' => [
+                        'autocomplete' => 'new-password',
+                        'pattern' => '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{12,}$',
+                    ],
+                ]
+            )
+            ->addEventListener(FormEvents::SUBMIT, array($this, 'onSubmit'));
     }
 
+    public function onSubmit(FormEvent $event)
+    {
+        /** @var User $user */
+        $user = $event->getData();
+        $user->setUsername($user->getEmail());
+    }
 
     public function getParent()
     {

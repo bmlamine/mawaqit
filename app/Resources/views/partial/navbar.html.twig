@@ -24,7 +24,7 @@
                 {% if app.user %}
                     {% if isNotLocal() %}
                         <li>
-                            <a href="{{ path('fos_user_profile_show') }}">{{ 'salam'|trans({'%name%': app.user.username}) }}</a>
+                            <a href="{{ path('fos_user_profile_show') }}">{{ 'salam'|trans }}</a>
                         </li>
                     {% endif %}
                     <li>

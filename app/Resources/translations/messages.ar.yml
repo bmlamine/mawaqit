@@ -735,8 +735,7 @@ iqama: الإقامة
 azan: الأذان
 
 power-off-phones: أطفئوا الهاتف من فضلكم
-hi: %name% مرحبا
-salam: %name%' السلام عليكم
+salam: السلام عليكم
 active: مفعل؟
 delete_element_question: هل تريد فعلا القيام بعملية الحذف؟
 add: إضافة
