@@ -11,7 +11,7 @@ form:
     jumua_mandatory: You must fill jumua time
     calendar_not_valid: Some entries of the calendar are not valid
   registration:
-    wrong_password_message: The password must contain at least 8 characters, including a capital letter, a small letter and a number
+    wrong_password_message: The password dosn't repect our rules
   message:
     max_enabled_reached: |
       You have reached the maximum number of 8 activated messages,

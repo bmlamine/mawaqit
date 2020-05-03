@@ -268,7 +268,11 @@ registration:
     tou:
       label: J'accepte et je m'engage à respecter <a href="#" id="terms-of-use">les conditions générales d'utilisation</a>
   registration: Inscription
-  password_rule: 8 caractères minimum, dont 1 majuscule, 1 minuscule et 1 nombre
+  password_rule_1: Le mot de passe doit comporter au moins 12 caractères.
+  password_rule_2: Le mot de passe doit comporter une lettre majuscule.
+  password_rule_3: Le mot de passe doit comporter une lettre minusucle.
+  password_rule_4: Le mot de passe doit comporter un chiffre.
+  password_rule_5: Le mot de passe doit comporter un caractère spécial.
   please_enter_right_email: Veuillez entrer une adresse mail que vous consultez régulièrement
   check_spams: Veuillez aussi vérifier votre dossier spam.
 
