@@ -60,7 +60,7 @@
     <div class="currentTimeShort"></div>
     <div class="messageContent">
         <ul>
-            {% for message in mosque.enabledMessages(true) %}
+            {% for message in mosque.enabledMessages(true) if message.video is empty %}
                 <li data-position="{{ message.position }}">
                     {% if message.image %}
                         <img src="{{ vich_uploader_asset(message, 'file') }}"/>
