@@ -39,7 +39,7 @@ class ForcePasswordChangeSubscriber implements EventSubscriberInterface
     {
         return [
             SecurityEvents::INTERACTIVE_LOGIN => ['onLogin'],
-            FOSUserEvents::SECURITY_IMPLICIT_LOGIN => 'onLogin',
+            //FOSUserEvents::SECURITY_IMPLICIT_LOGIN => 'onLogin',
         ];
     }
 
