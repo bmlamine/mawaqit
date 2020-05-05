@@ -7,6 +7,10 @@
 {% endblock body %}
 
 {% block additional_javascripts %}
+    {% javascripts
+        '@AppBundle/Resources/public/js/password.js' %}
+        <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
     <script>
         function handleTou(touCheckbox) {
             var $validButton = $('#validate-btn');

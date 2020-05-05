@@ -7,6 +7,9 @@ services:
         autoconfigure: true
         public: false
 
+    AppBundle\EventSubscriber\:
+        resource: '../../src/AppBundle/EventSubscriber/*'
+
     AppBundle\Controller\:
         resource: '../../src/AppBundle/Controller'
         tags: ['controller.service_arguments']
@@ -41,6 +44,10 @@ services:
             - "@app.request_service"
         tags:
             - { name: 'doctrine.event_subscriber' }
+
+    AppBundle\EventSubscriber\ForcePasswordChangeSubscriber:
+        arguments:
+            $passwordPattern: "%password_pattern%"
 
     AppBundle\EventListener\MosqueCacheListener:
         tags:

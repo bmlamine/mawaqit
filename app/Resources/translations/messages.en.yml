@@ -252,6 +252,9 @@ registration:
   please_enter_right_email: Please enter an email address that you visit regularly
   check_spams: Please also check your spam box.
 
+password_change:
+  alert: For security reasons we ask you to change your password
+
 tou:
   label: I accept
 

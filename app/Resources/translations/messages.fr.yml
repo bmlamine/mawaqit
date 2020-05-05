@@ -276,6 +276,9 @@ registration:
   please_enter_right_email: Veuillez entrer une adresse mail que vous consultez régulièrement
   check_spams: Veuillez aussi vérifier votre dossier spam.
 
+password_change:
+  alert: Pour des raison de sécurité nous vous demandons de bien vouloir changer votre mot de passe
+
 tou:
   label: J'accepte
 

@@ -14,6 +14,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationType extends AbstractType
 {
+    /**
+     * @var string
+     */
+    private $passwordPattern;
+
+    public function __construct($passwordPattern)
+    {
+        $this->passwordPattern = $passwordPattern;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove("username");
@@ -41,7 +51,7 @@ class RegistrationType extends AbstractType
                     'label' => 'form.password',
                     'attr' => [
                         'autocomplete' => 'new-password',
-                        'pattern' => '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{12,}$',
+                        'pattern' => $this->passwordPattern,
                     ],
                 ]
             )

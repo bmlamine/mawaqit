@@ -37,6 +37,7 @@ assetic:
     cssrewrite: ~
   bundles:
     - AppBundle
+    - FOSUserBundle
 
 # Twig Configuration
 twig:
@@ -122,6 +123,7 @@ fos_user:
       type: AppBundle\Form\ProfileType
   change_password:
     form:
+      type: AppBundle\Form\ChangePasswordType
       validation_groups: [appChangePassword]
   resetting: ~
 
