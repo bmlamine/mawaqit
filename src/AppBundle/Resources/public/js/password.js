@@ -6,7 +6,7 @@ function ruleChangeStatus(elm) {
     i.addClass('fas fa-check-circle');
 }
 
-$("input[type='password']").bind('change keyup', function (e) {
+$("input[name*='plainPassword']").bind('change keyup', function (e) {
     let v = e.target.value;
     let p = $(".pwd-rules p");
     let i = $(".pwd-rules i");

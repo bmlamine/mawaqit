@@ -125,7 +125,9 @@ fos_user:
     form:
       type: AppBundle\Form\ChangePasswordType
       validation_groups: [appChangePassword]
-  resetting: ~
+  resetting:
+    form:
+      type: AppBundle\Form\ResettingType
 
 vich_uploader:
   db_driver: orm

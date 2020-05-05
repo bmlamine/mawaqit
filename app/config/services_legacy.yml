@@ -237,6 +237,13 @@ services:
     tags:
       - { name: form.type, alias: app_user_change_password }
 
+  app.form.resetting:
+    class: AppBundle\Form\ResettingType
+    arguments:
+      - "%password_pattern%"
+    tags:
+      - { name: form.type, alias: app_user_resetting }
+
   # Listeners
   app.event.vich_uploader_post_upload:
     class: AppBundle\EventListener\VichImageHandling
