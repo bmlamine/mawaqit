@@ -2,7 +2,6 @@
 
 namespace AppBundle\EventSubscriber;
 
-use FOS\UserBundle\FOSUserEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,7 +38,6 @@ class ForcePasswordChangeSubscriber implements EventSubscriberInterface
     {
         return [
             SecurityEvents::INTERACTIVE_LOGIN => ['onLogin'],
-            //FOSUserEvents::SECURITY_IMPLICIT_LOGIN => 'onLogin',
         ];
     }
 
@@ -47,7 +45,7 @@ class ForcePasswordChangeSubscriber implements EventSubscriberInterface
     {
         $password = $event->getRequest()->request->get("_password");
 
-        if (!preg_match("/{$this->passwordPattern}/", $password)) {
+        if (!empty($password) && !preg_match("/{$this->passwordPattern}/", $password)) {
             $this->dispatcher->addListener(KernelEvents::RESPONSE, array($this, 'onKernelResponse'));
         }
     }
