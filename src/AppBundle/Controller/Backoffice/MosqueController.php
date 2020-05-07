@@ -160,7 +160,13 @@ class MosqueController extends Controller
                     unset($json["messages"]);
 
                     // poplulate messages
-                    $serializer->denormalize($json, Mosque::class, 'json', ['object_to_populate' => $mosque]);
+                    $serializer->denormalize(
+                        $json,
+                        Mosque::class,
+                        'json',
+                        ['object_to_populate' => $mosque, 'disable_type_enforcement' => true]
+                    );
+
                     $mosque->setLocale($form->getData()['language']);
 
                     $serializer = new Serializer(
