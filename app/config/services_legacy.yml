@@ -57,7 +57,10 @@ services:
     class: AppBundle\Service\PrayerTime
     arguments:
       - "@logger"
+      - "@router"
+      - "@vich_uploader.templating.helper.uploader_helper"
       - "%kernel.cache_dir%"
+      - "%site%"
 
   app.mail_service:
     class: AppBundle\Service\MailService
