@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -32,7 +33,7 @@ class CalendarController extends Controller
     /**
      * @Route("/{id}/pdf", name="calendar_pdf")
      */
-    public function calendarPdfAction(Mosque $mosque, LoggerInterface $logger)
+    public function calendarPdfAction(Request $request,Mosque $mosque, LoggerInterface $logger)
     {
         if (!$this->isGranted("ROLE_ADMIN")) {
             if (!$mosque->isFullyValidated()) {
@@ -40,8 +41,8 @@ class CalendarController extends Controller
             }
         }
 
-        $md5 = md5($mosque->getConf()->getCalendar());
-        $fileName = $mosque->getSlug() . "-$md5.pdf";
+        $shortMd5 = substr(md5($mosque->getConf()->getCalendar()), 0, 12);
+        $fileName = $mosque->getSlug() . "-timetable-$shortMd5-{$request->getLocale()}.pdf";
         $cacheDir = $this->getParameter("kernel.root_dir") . "/../docker/data/calendar";
         $cachedFile = "$cacheDir/$fileName";
 
