@@ -26,6 +26,11 @@ services:
     tags:
       - { name: twig.extension }
 
+#  fos_user.security.controller:
+#    class: AppBundle\Controller\SecurityController
+#    arguments:
+#      - '@security.csrf.token_manager'
+
   ## App services
   app.google_api:
     abstract: true
