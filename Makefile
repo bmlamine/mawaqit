@@ -42,3 +42,4 @@ cc: ## Symfony cache clear
 db_prod_dev:
     scp -P 1983 mawaqit@${MAWAQIT_PROD_IP}:/var/www/mawaqit/mysql/mawaqit.sql.gz /media/ibrahim/DATA/Mawaqit/DB
     gunzip < /media/ibrahim/DATA/Mawaqit/DB/mawaqit.sql.gz | mysql -u root -pmawaqit -h 127.0.0.1 -P 10002 mawaqit
+    mysql -u root -pmawaqit -h 127.0.0.1 -P 10002 -e "update mawaqit.mosque set image1=null, image2=null, image3='5eb67e053cb8e351959196.png', status='VALIDATED'"

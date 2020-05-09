@@ -676,6 +676,8 @@ mosqueList:
     title: "صورة الشاشة مفقودة :("
     content: ما زلنا ننتظر صورة شاشة المسجد "%mosque%"
     button: فهمت
+  iframeCopyText: لعرض الويجات أدناه على موقعكم ، فقط قم بنسخ/لصق هذا الكود html
+  iframeAddTitle: عرض الويجات على موقعكم
   widgetForYourSite: ويجات على موقعكم
   alertRemoveMosque: |
     أمامك <b>%days%</b> يومًا لتقديم صورة شاشة مواقيت ملتقطة في المسجد ، بعد هذا الوقت سيتم تعطيل المسجد تلقائيًا.
@@ -839,3 +841,6 @@ searchOtherMosque: إبحث عن مسجد آخر
 help_the_mosque: ساعد المسجد
 by_bank_transfer: عبر التحويل البنكي
 by_credit_card: عبر بطاقة الائتمان
+
+horizontal: عرضي
+vertical: عمودي

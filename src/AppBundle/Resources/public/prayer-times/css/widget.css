@@ -3,6 +3,8 @@ body {
     overflow: hidden;
     background-size: cover;
     height: 100vh;
+    font-weight: bold;
+    font-family: 'koufi', Arial, Helvetica, sans-serif;
 }
 
 .widget {

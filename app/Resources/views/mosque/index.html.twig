@@ -148,7 +148,10 @@
 
                             {% if mosque.isMosque %}
                                 <div>
-                                    {{ 'mosqueList.widgetForYourSite'|trans }} <a class="iframe-button" data-url="{{ url('mosque_widget', {slug: mosque.slug}) }}">{{ 'show'|trans }}</a>
+                                    {{ 'mosqueList.widgetForYourSite'|trans }}
+                                    <a class="iframe-button" data-urlw="{{ url('mosque_widget', {slug: mosque.slug}) }}" data-urlm="{{ url('mosque_mobile', {slug: mosque.slug, showNotification:0, showSearchButton:0, showFooter:0, showFlashMessage:1 }) }}">
+                                        {{ 'show'|trans }}
+                                    </a>
                                 </div>
                             {% endif %}
                             {% if mosque.daysBeforeRemove is not null %}
@@ -261,7 +264,10 @@
                             <div class="mt-1 mb-1"><a class="hidden link" href="" target="_blank"></a></div>
                             {% if mosque.isMosque %}
                                 <div>
-                                    {{ 'mosqueList.widgetForYourSite'|trans }} <a class="iframe-button" data-url="{{ url('mosque_widget', {slug: mosque.slug}) }}">{{ 'show'|trans }}</a>
+                                    {{ 'mosqueList.widgetForYourSite'|trans }}
+                                    <a class="iframe-button" data-urlw="{{ url('mosque_widget', {slug: mosque.slug}) }}" data-urlm="{{ url('mosque_mobile', {slug: mosque.slug, showNotification:0, showSearchButton:0, showFooter:0, showFlashMessage:1 }) }}">
+                                        {{ 'show'|trans }}
+                                    </a>
                                 </div>
                             {% endif %}
                         {% else %}

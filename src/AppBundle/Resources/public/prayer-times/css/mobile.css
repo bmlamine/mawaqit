@@ -40,11 +40,11 @@ body {
 }
 
 .currentTime {
-    font-size: 350%;
+    font-size: 300%;
 }
 
 .gregorianDate, .hijriDate {
-    font-size: 150%
+    font-size: 120%
 }
 
 .top-content {
@@ -124,9 +124,8 @@ small {
 }
 
 .next-prayer {
-    font-size: 120%;
+    font-size: 150%;
     color: #ec7047;
-    margin-bottom: 1rem;
 }
 
 .next-prayer .countdown {
@@ -166,13 +165,13 @@ small {
 
 .version {
     position: absolute;
-    bottom: 10px;
+    bottom: 15px;
     right: 10px;
 }
 
 .id {
     position: absolute;
-    bottom: 10px;
+    bottom: 15px;
     left: 10px;
 }
 
@@ -223,8 +222,8 @@ small {
 }
 
 .full-moon {
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     margin: -5px 0 0 10px;
 }
 
@@ -335,4 +334,5 @@ small {
 .textSlide {
     height: 4vh;
     font-size: 2vh;
+    margin-top: 1rem;
 }
